@@ -1,0 +1,4 @@
+# Redirection pour Single Page Application (SPA)
+# Toutes les routes non trouvées sont redirigées vers index.html
+# avec un status 200 pour permettre à Angular de gérer le routing côté client
+/*    /index.html   200

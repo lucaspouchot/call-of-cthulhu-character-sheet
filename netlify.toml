@@ -6,7 +6,7 @@ publish = "dist/cthulhu-character-app/browser"
 
 [build.environment]
 # Version de Node.js recommandée
-NODE_VERSION = "22.x"
+NODE_VERSION = "22"
 
 # Configuration pour Single Page Application (SPA)
 # Redirige toutes les routes vers index.html pour permettre le routing Angular

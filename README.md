@@ -77,7 +77,7 @@ Le projet inclut :
 
 2. **Configuration de build :**
    - Build command: `npm run build` (ou `npm run build:netlify`)
-   - Publish directory: `dist/cthulhu-character-app`
+   - Publish directory: `dist/cthulhu-character-app/browser`
    - Node version: `18` (configuré automatiquement via netlify.toml)
 
 3. **Nom du site :**
@@ -94,7 +94,7 @@ npm install -g netlify-cli
 npm run build:netlify
 
 # Déploiement
-netlify deploy --prod --dir=dist/cthulhu-character-app --site=call-of-cthulhu
+netlify deploy --prod --dir=dist/cthulhu-character-app/browser --site=call-of-cthulhu
 ```
 
 ### Fonctionnalités incluses

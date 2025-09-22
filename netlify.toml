@@ -1,8 +1,8 @@
 [build]
 # Commande de build pour Angular
 command = "npm run build"
-# Dossier contenant les fichiers buildés (par défaut pour Angular)
-publish = "dist/cthulhu-character-app"
+# Dossier contenant les fichiers buildés (Angular 17+ structure)
+publish = "dist/cthulhu-character-app/browser"
 
 [build.environment]
 # Version de Node.js recommandée

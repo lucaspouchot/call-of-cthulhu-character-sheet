@@ -1,0 +1,242 @@
+<div *ngIf="character" class="min-h-screen bg-parchment p-4">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Header with character name and controls -->
+    <div class="character-sheet mb-6 p-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="gothic-header text-3xl">{{ character.name }}</h1>
+          <p class="text-gray-600">{{ getOccupationName(character.occupation) }} - {{ 'character.sheet.age' | dynamicTranslate }} {{ character.age }}</p>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button (click)="showDiceHistory = !showDiceHistory" 
+                  class="skill-check-button">
+            🎲 {{ 'character.sheet.dice.history' | dynamicTranslate }}
+          </button>
+          <button (click)="goBack()" 
+                  class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+            ← {{ 'character.sheet.back' | dynamicTranslate }}
+          </button>
+          <app-language-switcher></app-language-switcher>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 tablet-lg:grid-cols-3 gap-6">
+      
+      <!-- Left Column: Characteristics & Combat -->
+      <div class="space-y-6">
+        
+        <!-- Characteristics -->
+        <div class="character-sheet p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="gothic-header text-xl">{{ 'character.sheet.characteristics' | dynamicTranslate }}</h2>
+            <button (click)="toggleEditMode('attributes')" 
+                    class="text-sm text-blue-600 hover:text-blue-800">
+              {{ editMode.attributes ? ('character.sheet.save' | dynamicTranslate) : ('character.sheet.edit' | dynamicTranslate) }}
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let attr of getAttributeNames()" 
+                 class="border rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50"
+                 (click)="rollCharacteristicCheck(attr, getAttributeValue(attr))">
+              <div class="text-xs text-gray-600 capitalize mb-1">{{ attr }}</div>
+              <div class="text-xl font-bold">{{ getAttributeValue(attr) }}</div>
+              <div class="text-xs text-gray-500">
+                {{ 'character.sheet.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeHalfValue(attr) }} | {{ 'character.sheet.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeFifthValue(attr) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health & Sanity -->
+        <div class="character-sheet p-6">
+          <h2 class="gothic-header text-xl mb-4">{{ 'character.sheet.condition' | dynamicTranslate }}</h2>
+          
+          <!-- Hit Points -->
+          <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-medium">{{ 'character.sheet.hitPoints' | dynamicTranslate }}</span>
+              <div class="flex items-center gap-2">
+                <button (click)="adjustHitPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
+                <span>{{ character.hitPoints.current }} / {{ character.hitPoints.maximum }}</span>
+                <button (click)="adjustHitPoints(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
+              </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-red-600 h-3 rounded-full transition-all duration-300" 
+                   [style.width.%]="getHealthPercentage()"></div>
+            </div>
+          </div>
+
+          <!-- Sanity -->
+          <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-medium">{{ 'character.sanity' | dynamicTranslate }}</span>
+              <div class="flex items-center gap-2">
+                <button (click)="adjustSanity(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
+                <span class="cursor-pointer" (click)="rollSanityCheck()">{{ character.sanity.current }} / {{ character.sanity.maximum }}</span>
+                <button (click)="adjustSanity(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
+              </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-cthulhu-red h-3 rounded-full transition-all duration-300" 
+                   [style.width.%]="getSanityPercentage()"></div>
+            </div>
+          </div>
+
+          <!-- Magic Points -->
+          <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-medium">{{ 'character.sheet.magicPoints' | dynamicTranslate }}</span>
+              <div class="flex items-center gap-2">
+                <button (click)="adjustMagicPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
+                <span>{{ character.magicPoints.current }} / {{ character.magicPoints.maximum }}</span>
+                <button (click)="adjustMagicPoints(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
+              </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-purple-600 h-3 rounded-full transition-all duration-300" 
+                   [style.width.%]="getMagicPointsPercentage()"></div>
+            </div>
+          </div>
+
+          <!-- Luck -->
+          <div>
+            <div class="flex justify-between items-center">
+              <span class="font-medium">{{ 'character.sheet.luck' | dynamicTranslate }}</span>
+              <div class="flex items-center gap-2">
+                <button (click)="adjustLuck(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
+                <span class="cursor-pointer" (click)="rollLuck()">{{ character.luck.current }}</span>
+                <button (click)="adjustLuck(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Movement -->
+        <div class="character-sheet p-6">
+          <h2 class="gothic-header text-xl mb-4">{{ 'character.sheet.movement' | dynamicTranslate }}</h2>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div>{{ 'character.sheet.normal' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.normal }}</div>
+            <div>{{ 'character.sheet.running' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.running }}</div>
+            <div>{{ 'character.sheet.climbing' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.climbing }}</div>
+            <div>{{ 'character.sheet.swimming' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.swimming }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle Column: Skills -->
+      <div class="character-sheet p-6">
+        <h2 class="gothic-header text-xl mb-4">{{ 'character.skills' | dynamicTranslate }}</h2>
+        
+        <div class="space-y-2 max-h-96 tablet-lg:max-h-screen overflow-y-auto">
+          <div *ngFor="let skill of character.skills" 
+               class="flex justify-between items-center p-2 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+               (click)="rollSkillCheck(skill)">
+            <span class="text-sm">{{ getSkillTranslation(skill) }}</span>
+            <span class="font-mono text-sm">{{ skill.totalValue }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Personal Details -->
+      <div class="space-y-6">
+        
+        <!-- Basic Info -->
+        <div class="character-sheet p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="gothic-header text-xl">{{ 'character.sheet.personalDetails' | dynamicTranslate }}</h2>
+            <button (click)="toggleEditMode('personal')" 
+                    class="text-sm text-blue-600 hover:text-blue-800">
+              {{ editMode.personal ? ('character.sheet.save' | dynamicTranslate) : ('character.sheet.edit' | dynamicTranslate) }}
+            </button>
+          </div>
+          
+          <div class="space-y-3 text-sm">
+            <div><strong>{{ 'character.sheet.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.player }}</div>
+            <div><strong>{{ 'character.sheet.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getSexTranslation(character.sex) }}</div>
+            <div><strong>{{ 'character.sheet.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.residence }}</div>
+            <div><strong>{{ 'character.sheet.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.birthplace }}</div>
+          </div>
+        </div>
+
+        <!-- Background -->
+        <div class="character-sheet p-6">
+          <h3 class="gothic-header text-lg mb-3">{{ 'character.sheet.backstory' | dynamicTranslate }}</h3>
+          
+          <div class="space-y-3 text-sm">
+            <div *ngIf="character.backstory">
+              <strong>{{ 'character.sheet.backstory' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.backstory }}</p>
+            </div>
+            
+            <div *ngIf="character.traits">
+              <strong>{{ 'character.sheet.traits' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.traits }}</p>
+            </div>
+            
+            <div *ngIf="character.ideologyBeliefs">
+              <strong>{{ 'character.sheet.ideologyBeliefs' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.ideologyBeliefs }}</p>
+            </div>
+            
+            <div *ngIf="character.significantPeople">
+              <strong>{{ 'character.sheet.significantPeople' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.significantPeople }}</p>
+            </div>
+            
+            <div *ngIf="character.meaningfulLocations">
+              <strong>{{ 'character.sheet.meaningfulLocations' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.meaningfulLocations }}</p>
+            </div>
+            
+            <div *ngIf="character.treasuredPossessions">
+              <strong>{{ 'character.sheet.treasuredPossessions' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <p class="mt-1 text-gray-700">{{ character.treasuredPossessions }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment -->
+        <div class="character-sheet p-6">
+          <h3 class="gothic-header text-lg mb-3">{{ 'character.sheet.equipment' | dynamicTranslate }}</h3>
+          <div class="text-sm space-y-1">
+            <div *ngFor="let item of character.equipment" class="text-gray-700">• {{ item }}</div>
+            <div *ngIf="character.equipment.length === 0" class="text-gray-500 italic">{{ 'character.sheet.noEquipment' | dynamicTranslate }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dice History Modal -->
+    <div *ngIf="showDiceHistory" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" 
+         (click)="showDiceHistory = false">
+      <div class="character-sheet m-4 p-6 max-w-md max-h-96 overflow-y-auto" (click)="$event.stopPropagation()">
+        <h3 class="gothic-header text-lg mb-4">{{ 'character.sheet.dice.rolls' | dynamicTranslate }}</h3>
+        <div class="space-y-2">
+          <div *ngFor="let roll of rollHistory" class="border-b border-gray-200 pb-2">
+            <div class="text-sm font-medium">{{ roll.description }}</div>
+            <div class="text-xs text-gray-600">
+              {{ 'character.sheet.rolled' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ roll.result }}
+              <span *ngIf="roll.target"> {{ 'character.sheet.vs' | dynamicTranslate }} {{ roll.target }}%</span>
+              <span *ngIf="roll.criticalSuccess" class="text-green-600 font-bold"> - {{ 'character.sheet.critical' | dynamicTranslate }}</span>
+              <span *ngIf="roll.success && !roll.criticalSuccess" class="text-green-600"> - {{ 'character.sheet.success' | dynamicTranslate }}</span>
+              <span *ngIf="!roll.success && !roll.fumble" class="text-red-600"> - {{ 'character.sheet.failure' | dynamicTranslate }}</span>
+              <span *ngIf="roll.fumble" class="text-red-800 font-bold"> - {{ 'character.sheet.fumble' | dynamicTranslate }}</span>
+            </div>
+          </div>
+          <div *ngIf="rollHistory.length === 0" class="text-gray-500 italic text-sm">{{ 'character.sheet.no.rolls' | dynamicTranslate }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!character" class="min-h-screen bg-parchment p-4 flex items-center justify-center">
+  <div class="character-sheet p-6 text-center">
+    <h2 class="gothic-header text-2xl mb-4">{{ 'character.sheet.notFound' | dynamicTranslate }}</h2>
+    <button (click)="goBack()" class="skill-check-button">{{ 'character.sheet.return' | dynamicTranslate }}</button>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-parchment p-4">
+  <div class="max-w-6xl mx-auto">
+    
+    <!-- Header -->
+    <div class="character-sheet mb-6 p-6 text-center relative">
+      <!-- Language Switcher aligned with title -->
+      <div class="absolute top-6 right-4 flex items-start">
+        <app-language-switcher></app-language-switcher>
+      </div>
+      
+      <h1 class="gothic-header text-4xl mb-4">{{ 'game.title' | dynamicTranslate }}</h1>
+      <h2 class="text-2xl text-cthulhu-dark mb-4">{{ 'character.management.title' | dynamicTranslate }}</h2>
+      <p class="text-gray-600 mb-6">{{ 'character.management.subtitle' | dynamicTranslate }}</p>
+      
+      <button (click)="createNewCharacter()" 
+              class="skill-check-button text-lg px-8 py-3">
+        {{ 'character.create.button' | dynamicTranslate }}
+      </button>
+    </div>
+
+    <!-- Character Grid -->
+    <div *ngIf="characters.length > 0" class="grid grid-cols-1 tablet:grid-cols-2 tablet-lg:grid-cols-3 gap-6">
+      <div *ngFor="let character of characters" 
+           class="character-sheet p-6 cursor-pointer hover:shadow-xl transition-shadow"
+           (click)="viewCharacter(character.id)">
+        
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="text-xl font-bold text-cthulhu-dark">{{ character.name }}</h3>
+            <p class="text-gray-600">{{ character.occupation }}</p>
+          </div>
+          <button (click)="deleteCharacter(character.id, $event)" 
+                  class="text-red-600 hover:text-red-800 text-xl">
+            ×
+          </button>
+        </div>
+
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span>{{ 'character.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+            <span>{{ character.age }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>{{ 'character.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+            <span>{{ character.player }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>{{ 'character.sanity' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+            <span class="font-mono">{{ character.sanity.current }}/{{ character.sanity.maximum }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>{{ 'character.hitpoints' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+            <span class="font-mono">{{ character.hitPoints.current }}/{{ character.hitPoints.maximum }}</span>
+          </div>
+        </div>
+
+        <!-- Quick stats bar -->
+        <div class="mt-4 space-y-2">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="w-12">{{ 'character.health' | dynamicTranslate }}</span>
+            <div class="flex-1 bg-gray-200 rounded-full h-2">
+              <div class="bg-red-600 h-2 rounded-full" 
+                   [style.width.%]="(character.hitPoints.current / character.hitPoints.maximum) * 100"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="w-12">{{ 'character.sanity' | dynamicTranslate }}</span>
+            <div class="flex-1 bg-gray-200 rounded-full h-2">
+              <div class="bg-cthulhu-red h-2 rounded-full" 
+                   [style.width.%]="(character.sanity.current / character.sanity.maximum) * 100"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-xs text-gray-500">
+          <span>{{ 'character.created' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span> {{ character.createdAt | date:'short' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="characters.length === 0" class="character-sheet p-12 text-center">
+      <div class="text-6xl mb-4">👤</div>
+      <h3 class="text-xl font-semibold text-cthulhu-dark mb-2">{{ 'character.empty.title' | dynamicTranslate }}</h3>
+      <p class="text-gray-600 mb-6">{{ 'character.empty.subtitle' | dynamicTranslate }}</p>
+      <button (click)="createNewCharacter()" 
+              class="skill-check-button">
+        {{ 'character.create.first' | dynamicTranslate }}
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-12 text-center text-gray-500 text-sm">
+      <p>{{ 'lovecraft.quote' | dynamicTranslate }}</p>
+      <p class="mt-2 italic">{{ 'lovecraft.attribution' | dynamicTranslate }}</p>
+    </div>
+  </div>
+</div>

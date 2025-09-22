@@ -1,0 +1,42 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Call of Cthulhu themed custom styles */
+@layer base {
+  body {
+    background-color: #f4f1e8;
+    color: #1a1a1a;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+}
+
+@layer components {
+  .character-sheet {
+    background-color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+  }
+
+  .skill-check-button {
+    background-color: #2d4a22;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s;
+  }
+
+  .skill-check-button:hover {
+    background-color: #1f3317;
+  }
+
+  .gothic-header {
+    color: #1a1a1a;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #9ca3af;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,13 @@
+/* Language switcher specific styles */
+select {
+  cursor: pointer;
+}
+
+select:focus {
+  box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.1);
+}
+
+option {
+  background: #f4f1e8;
+  color: #8b0000;
+}

@@ -1,0 +1,249 @@
+{
+  "game": {
+    "title": "Call of Cthulhu"
+  },
+  "language": "Language",
+  "ponctuation": {
+    "dot": ".",
+    "colon": ":"
+  },
+  "character": {
+    "management": {
+      "title": "Investigator Management",
+      "subtitle": "Create and manage your investigators for the cosmic horror that awaits..."
+    },
+    "create": {
+      "button": "📜 Create New Investigator",
+      "first": "Create First Investigator"
+    },
+    "empty": {
+      "title": "No Investigators Yet",
+      "subtitle": "Create your first investigator to begin exploring the unknown..."
+    },
+    "age": "Age",
+    "player": "Player",
+    "name": "Name",
+    "occupation": "Occupation",
+    "sanity": "Sanity",
+    "hitpoints": "Hit Points",
+    "health": "Health",
+    "created": "Created",
+    "statistics": "Statistics",
+    "skills": "Skills",
+    "equipment": "Equipment",
+    "notes": "Notes",
+    "actions": {
+      "save": "Save Character",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View"
+    },
+    "creation": {
+      "title": "Create New Investigator",
+      "step": "Step",
+      "of": "of",
+      "home": "Home",
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Create Investigator",
+      "default": "Character Creation",
+      "investigator": "Investigator Name",
+      "basic": "Basic Information",
+      "attributesTitle": "Characteristics",
+      "occupationStep": "Occupation & Skills",
+      "personalStep": "Personal Details",
+      "labels": {
+        "name": "Investigator Name",
+        "player": "Player Name",
+        "occupation": "Occupation",
+        "age": "Age",
+        "sex": "Sex",
+        "residence": "Residence",
+        "birthplace": "Birthplace"
+      },
+      "options": {
+        "select": "Select...",
+        "sex": {
+          "male": "Male",
+          "female": "Female",
+          "other": "Other",
+          "undefined": "Undefined"
+        },
+        "occupation": {
+          "select": "Select an occupation..."
+        }
+      },
+      "reroll": {
+        "all": "Re-roll All",
+        "single": "Re-roll"
+      },
+      "roll": "Roll 3d6 × 5 for each characteristic",
+      "attributes": {
+        "strength": "Strength",
+        "constitution": "Constitution",
+        "power": "Power",
+        "dexterity": "Dexterity",
+        "appearance": "Appearance",
+        "size": "Size",
+        "intelligence": "Intelligence",
+        "education": "Education",
+        "half": "Half",
+        "fifth": "Fifth"
+      },
+      "backstory": {
+        "label": "Backstory",
+        "placeholder": "Describe your investigator's background..."
+      },
+      "occupation": {
+        "details": {
+          "creditRating": "Credit Rating",
+          "skillPoints": "Skill Points",
+          "occupationSkills": "Occupation Skills"
+        },
+        "preset": {
+          "antiquarian": {
+            "name": "Antiquarian",
+            "description": "A dealer in or collector of antique or rare books, paintings, and objects of art."
+          },
+          "doctor": {
+            "name": "Doctor of Medicine",
+            "description": "A medical practitioner."
+          },
+          "privateInvestigator": {
+            "name": "Private Investigator",
+            "description": "A person who carries out investigations for private clients."
+          },
+          "journalist": {
+            "name": "Journalist",
+            "description": "A person who writes for newspapers, magazines, or news websites."
+          }
+        }
+      },
+      "personal": {
+        "title": "Personal Details",
+        "traits": {
+          "label": "Traits",
+          "placeholder": "Personality traits..."
+        },
+        "ideology": {
+          "label": "Ideology/Beliefs",
+          "placeholder": "What drives your investigator..."
+        },
+        "significantPeople": {
+          "label": "Significant People",
+          "placeholder": "Important people in their life..."
+        },
+        "meaningfulLocations": {
+          "label": "Meaningful Locations",
+          "placeholder": "Places of importance..."
+        },
+        "treasuredPossessions": {
+          "label": "Treasured Possessions",
+          "placeholder": "Cherished items..."
+        }
+      },
+      "skills": {
+        "charm": "Charm",
+        "fastTalk": "Fast Talk",
+        "intimidate": "Intimidate",
+        "persuade": "Persuade",
+        "animalHandling": "Animal Handling",
+        "psychology": "Psychology",
+        "psychoanalysis": "Psychoanalysis",
+        "climb": "Climb",
+        "dodge": "Dodge",
+        "fightingBrawl": "Fighting (Brawl)",
+        "firearmsHandgun": "Firearms (Handgun)",
+        "firearmsRifle": "Firearms (Rifle/Shotgun)",
+        "jump": "Jump",
+        "ride": "Ride",
+        "stealth": "Stealth",
+        "swim": "Swim",
+        "throw": "Throw",
+        "accounting": "Accounting",
+        "anthropology": "Anthropology",
+        "appraise": "Appraise",
+        "archaeology": "Archaeology",
+        "artCraft": "Art/Craft",
+        "computerUse": "Computer Use",
+        "creditRating": "Credit Rating",
+        "disguise": "Disguise",
+        "driveAuto": "Drive Auto",
+        "electricalRepair": "Electrical Repair",
+        "electronics": "Electronics",
+        "firstAid": "First Aid",
+        "history": "History",
+        "law": "Law",
+        "libraryUse": "Library Use",
+        "listen": "Listen",
+        "locksmith": "Locksmith",
+        "mechanicalRepair": "Mechanical Repair",
+        "medicine": "Medicine",
+        "naturalWorld": "Natural World",
+        "navigate": "Navigate",
+        "occult": "Occult",
+        "operateHeavyMachinery": "Operate Heavy Machinery",
+        "pilot": "Pilot",
+        "science": "Science",
+        "sleightOfHand": "Sleight of Hand",
+        "spotHidden": "Spot Hidden",
+        "survival": "Survival",
+        "track": "Track",
+        "languageOwn": "Language (Own)",
+        "languageOther": "Language (Other)"
+      }
+    },
+    "sheet": {
+      "dice": {
+        "history": "Dice History",
+        "rolls": "Recent Dice Rolls"
+      },
+      "back": "Back",
+      "delete": "Delete",
+      "backstory": "Backstory",
+      "return": "Return to Characters",
+      "characteristics": "Characteristics",
+      "condition": "Condition",
+      "movement": "Movement",
+      "personalDetails": "Personal Details",
+      "equipment": "Equipment",
+      "notFound": "Character Not Found",
+      "age": "Age",
+      "half": "Half",
+      "fifth": "Fifth",
+      "save": "Save",
+      "edit": "Edit",
+      "hitPoints": "Hit Points",
+      "magicPoints": "Magic Points",
+      "luck": "Luck",
+      "normal": "Normal",
+      "running": "Running",
+      "climbing": "Climbing",
+      "swimming": "Swimming",
+      "player": "Player",
+      "sex": "Sex",
+      "residence": "Residence",
+      "birthplace": "Birthplace",
+      "traits": "Traits",
+      "ideologyBeliefs": "Ideology/Beliefs",
+      "significantPeople": "Significant People",
+      "meaningfulLocations": "Meaningful Locations",
+      "treasuredPossessions": "Treasured Possessions",
+      "noEquipment": "No equipment listed",
+      "no": {
+        "rolls": "No dice rolls yet"
+      },
+      "rolled": "Rolled",
+      "vs": "vs",
+      "critical": "CRITICAL SUCCESS!",
+      "success": "Success",
+      "failure": "Failure",
+      "fumble": "FUMBLE!"
+    }
+  },
+  "lovecraft": {
+    "quote": "\"The oldest and strongest emotion of mankind is fear, and the oldest and strongest kind of fear is fear of the unknown.\"",
+    "attribution": "- H.P. Lovecraft"
+  }
+}

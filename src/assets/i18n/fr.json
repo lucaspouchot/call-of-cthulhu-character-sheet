@@ -1,0 +1,249 @@
+{
+  "game": {
+    "title": "L'Appel de Cthulhu"
+  },
+  "language": "Langue",
+  "ponctuation": {
+    "dot": ".",
+    "colon": " :"
+  },
+  "character": {
+    "management": {
+      "title": "Gestion des Investigateurs",
+      "subtitle": "Créez et gérez vos investigateurs pour l'horreur cosmique qui vous attend..."
+    },
+    "create": {
+      "button": "📜 Créer un Nouvel Investigateur",
+      "first": "Créer le Premier Investigateur"
+    },
+    "empty": {
+      "title": "Aucun Investigateur pour l'instant",
+      "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."
+    },
+    "age": "Âge",
+    "player": "Joueur",
+    "name": "Nom",
+    "occupation": "Profession",
+    "sanity": "Sanité",
+    "hitpoints": "Points de Vie",
+    "health": "Santé",
+    "created": "Créé",
+    "statistics": "Statistiques",
+    "skills": "Compétences",
+    "equipment": "Équipement",
+    "notes": "Notes",
+    "actions": {
+      "save": "Sauvegarder le Personnage",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "view": "Voir"
+    },
+    "creation": {
+      "title": "Créer un Nouvel Investigateur",
+      "step": "Étape",
+      "of": "sur",
+      "home": "Accueil",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "submit": "Créer l'Investigateur",
+      "default": "Création de Personnage",
+      "investigator": "Nom de l'Investigateur",
+      "basic": "Informations de Base",
+      "attributesTitle": "Attributs",
+      "occupationStep": "Profession et Compétences",
+      "personalStep": "Détails Personnels",
+      "labels": {
+        "name": "Nom de l'Investigateur",
+        "player": "Nom du Joueur",
+        "occupation": "Profession",
+        "age": "Âge",
+        "sex": "Sexe",
+        "residence": "Résidence",
+        "birthplace": "Lieu de Naissance"
+      },
+      "options": {
+        "select": "Sélectionner...",
+        "sex": {
+          "male": "Homme",
+          "female": "Femme",
+          "other": "Autre",
+          "undefined": "Non défini"
+        },
+        "occupation": {
+          "select": "Sélectionner une profession..."
+        }
+      },
+      "reroll": {
+        "all": "Relancer Tout",
+        "single": "Relancer"
+      },
+      "roll": "Lancez 3d6 × 5 pour chaque caractéristique",
+      "attributes": {
+        "strength": "Force",
+        "constitution": "Constitution",
+        "power": "Pouvoir",
+        "dexterity": "Dextérité",
+        "appearance": "Apparence",
+        "size": "Taille",
+        "intelligence": "Intelligence",
+        "education": "Éducation",
+        "half": "Moitié",
+        "fifth": "5ème"
+      },
+      "backstory": {
+        "label": "Histoire Personnelle",
+        "placeholder": "Décrivez le passé de votre investigateur..."
+      },
+      "occupation": {
+        "details": {
+          "creditRating": "Niveau de Crédit",
+          "skillPoints": "Points de Compétences",
+          "occupationSkills": "Compétences Professionnelles"
+        },
+        "preset": {
+          "antiquarian": {
+            "name": "Antiquaire",
+            "description": "Un marchand ou collectionneur de livres anciens ou rares, peintures et objets d'art."
+          },
+          "doctor": {
+            "name": "Médecin",
+            "description": "Un praticien médical."
+          },
+          "privateInvestigator": {
+            "name": "Détective Privé",
+            "description": "Une personne qui mène des enquêtes pour des clients privés."
+          },
+          "journalist": {
+            "name": "Journaliste",
+            "description": "Une personne qui écrit pour les journaux, magazines ou sites web d'actualités."
+          }
+        }
+      },
+      "personal": {
+        "title": "Détails Personnels",
+        "traits": {
+          "label": "Traits de Caractère",
+          "placeholder": "Traits de personnalité..."
+        },
+        "ideology": {
+          "label": "Idéologie/Croyances",
+          "placeholder": "Ce qui motive votre investigateur..."
+        },
+        "significantPeople": {
+          "label": "Personnes Importantes",
+          "placeholder": "Personnes importantes dans sa vie..."
+        },
+        "meaningfulLocations": {
+          "label": "Lieux Significatifs",
+          "placeholder": "Endroits d'importance..."
+        },
+        "treasuredPossessions": {
+          "label": "Possessions Précieuses",
+          "placeholder": "Objets chéris..."
+        }
+      },
+      "skills": {
+        "charm": "Charme",
+        "fastTalk": "Baratin",
+        "intimidate": "Intimidation",
+        "persuade": "Persuasion",
+        "animalHandling": "Dressage",
+        "psychology": "Psychologie",
+        "psychoanalysis": "Psychanalyse",
+        "climb": "Grimper",
+        "dodge": "Esquive",
+        "fightingBrawl": "Combat (Corps à corps)",
+        "firearmsHandgun": "Armes à feu (Arme de poing)",
+        "firearmsRifle": "Armes à feu (Fusil/Fusil de chasse)",
+        "jump": "Saut",
+        "ride": "Équitation",
+        "stealth": "Discrétion",
+        "swim": "Natation",
+        "throw": "Lancer",
+        "accounting": "Comptabilité",
+        "anthropology": "Anthropologie",
+        "appraise": "Estimation",
+        "archaeology": "Archéologie",
+        "artCraft": "Art/Artisanat",
+        "computerUse": "Informatique",
+        "creditRating": "Niveau de Crédit",
+        "disguise": "Déguisement",
+        "driveAuto": "Conduite",
+        "electricalRepair": "Réparation électrique",
+        "electronics": "Électronique",
+        "firstAid": "Premiers secours",
+        "history": "Histoire",
+        "law": "Droit",
+        "libraryUse": "Utilisation des bibliothèques",
+        "listen": "Écouter",
+        "locksmith": "Serrurerie",
+        "mechanicalRepair": "Réparation mécanique",
+        "medicine": "Médecine",
+        "naturalWorld": "Monde naturel",
+        "navigate": "Navigation",
+        "occult": "Occultisme",
+        "operateHeavyMachinery": "Conduite d'engins",
+        "pilot": "Pilotage",
+        "science": "Science",
+        "sleightOfHand": "Prestidigitation",
+        "spotHidden": "Trouver objet caché",
+        "survival": "Survie",
+        "track": "Pister",
+        "languageOwn": "Langue maternelle",
+        "languageOther": "Autre langue"
+      }
+    },
+    "sheet": {
+      "dice": {
+        "history": "Historique des Dés",
+        "rolls": "Lancers de Dés Récents"
+      },
+      "back": "Retour",
+      "delete": "Supprimer",
+      "backstory": "Histoire Personnelle",
+      "return": "Retour aux Personnages",
+      "characteristics": "Caractéristiques",
+      "condition": "État",
+      "movement": "Mouvement",
+      "personalDetails": "Détails Personnels",
+      "equipment": "Équipement",
+      "notFound": "Personnage Non Trouvé",
+      "age": "Âge",
+      "half": "Moitié",
+      "fifth": "Cinquième",
+      "save": "Sauvegarder",
+      "edit": "Modifier",
+      "hitPoints": "Points de Vie",
+      "magicPoints": "Points de Magie",
+      "luck": "Chance",
+      "normal": "Normal",
+      "running": "Course",
+      "climbing": "Escalade",
+      "swimming": "Natation",
+      "player": "Joueur",
+      "sex": "Sexe",
+      "residence": "Résidence",
+      "birthplace": "Lieu de Naissance",
+      "traits": "Traits de Caractère",
+      "ideologyBeliefs": "Idéologie/Croyances",
+      "significantPeople": "Personnes Importantes",
+      "meaningfulLocations": "Lieux Significatifs",
+      "treasuredPossessions": "Possessions Précieuses",
+      "noEquipment": "Aucun équipement répertorié",
+      "no": {
+        "rolls": "Aucun lancer de dé pour l'instant"
+      },
+      "rolled": "Résultat",
+      "vs": "contre",
+      "critical": "RÉUSSITE CRITIQUE !",
+      "success": "Réussite",
+      "failure": "Échec",
+      "fumble": "MALADRESSE !"
+    }
+  },
+  "lovecraft": {
+    "quote": "\"L'émotion la plus ancienne et la plus forte de l'humanité est la peur, et le type de peur le plus ancien et le plus fort est la peur de l'inconnu.\"",
+    "attribution": "- H.P. Lovecraft"
+  }
+}

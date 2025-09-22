@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">cthulhu-character-app</string>
+    <string name="title_activity_main">cthulhu-character-app</string>
+    <string name="package_name">character.cthulhu.pouchot.com</string>
+    <string name="custom_url_scheme">character.cthulhu.pouchot.com</string>
+</resources>

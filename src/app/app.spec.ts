@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [App, FormsModule],
     }).compileComponents();
   });
 
@@ -18,6 +19,6 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, cthulhu-character-sheet');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Call of Cthulhu');
   });
 });

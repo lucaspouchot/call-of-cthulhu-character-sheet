@@ -24,7 +24,7 @@
     "player": "Joueur",
     "name": "Nom",
     "occupation": "Profession",
-    "sanity": "Sanité",
+    "sanity": "Santé mentale",
     "hitpoints": "Points de Vie",
     "health": "Santé",
     "created": "Créé",
@@ -89,7 +89,34 @@
         "intelligence": "Intelligence",
         "education": "Éducation",
         "half": "Moitié",
-        "fifth": "5ème"
+        "fifth": "5ème",
+        "generation": {
+          "method": "Méthode de Génération",
+          "standard": "Standard",
+          "mixed": "Mixte"
+        },
+        "formulas": {
+          "title": "Configuration des Formules de Dés",
+          "formula": "Formule",
+          "count": "Nombre",
+          "add": "Ajouter Formule",
+          "descriptions": {
+            "standard": "Standard L'Appel de Cthulhu",
+            "consistent": "Valeurs hautes consistantes",
+            "high": "Minimum très élevé"
+          }
+        },
+        "assignment": {
+          "selected": "Attribut sélectionné",
+          "instruction": "Cliquez sur une valeur générée pour l'assigner à cet attribut",
+          "cancel": "Annuler Sélection"
+        },
+        "pool": {
+          "title": "Valeurs Générées",
+          "description": "Sélectionnez d'abord un attribut ci-dessous, puis cliquez sur une valeur pour l'assigner"
+        },
+        "clear": "Effacer Tout",
+        "clearSingle": "Effacer"
       },
       "backstory": {
         "label": "Histoire Personnelle",
@@ -211,7 +238,7 @@
       "notFound": "Personnage Non Trouvé",
       "age": "Âge",
       "half": "Moitié",
-      "fifth": "Cinquième",
+      "fifth": "5ème",
       "save": "Sauvegarder",
       "edit": "Modifier",
       "hitPoints": "Points de Vie",
@@ -239,7 +266,9 @@
       "critical": "RÉUSSITE CRITIQUE !",
       "success": "Réussite",
       "failure": "Échec",
-      "fumble": "MALADRESSE !"
+      "fumble": "MALADRESSE !",
+      "modifiers": "Modificateurs",
+      "base": "Base"
     }
   },
   "lovecraft": {

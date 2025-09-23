@@ -89,7 +89,34 @@
         "intelligence": "Intelligence",
         "education": "Education",
         "half": "Half",
-        "fifth": "Fifth"
+        "fifth": "Fifth",
+        "generation": {
+          "method": "Generation Method",
+          "standard": "Standard",
+          "mixed": "Mixed"
+        },
+        "formulas": {
+          "title": "Dice Formulas Configuration",
+          "formula": "Formula",
+          "count": "Count",
+          "add": "Add Formula",
+          "descriptions": {
+            "standard": "Standard Call of Cthulhu",
+            "consistent": "Consistent high values",
+            "high": "Very high minimum"
+          }
+        },
+        "assignment": {
+          "selected": "Selected attribute",
+          "instruction": "Click on a generated value to assign it to this attribute",
+          "cancel": "Cancel Selection"
+        },
+        "pool": {
+          "title": "Generated Values",
+          "description": "First select an attribute below, then click on a value to assign it"
+        },
+        "clear": "Clear All",
+        "clearSingle": "Clear"
       },
       "backstory": {
         "label": "Backstory",
@@ -239,7 +266,9 @@
       "critical": "CRITICAL SUCCESS!",
       "success": "Success",
       "failure": "Failure",
-      "fumble": "FUMBLE!"
+      "fumble": "FUMBLE!",
+      "modifiers": "Modifiers",
+      "base": "Base"
     }
   },
   "lovecraft": {

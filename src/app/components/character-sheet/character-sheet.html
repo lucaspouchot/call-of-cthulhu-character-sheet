@@ -6,7 +6,6 @@
       <div class="flex justify-between items-center">
         <div>
           <h1 class="gothic-header text-3xl">{{ character.name }}</h1>
-          <p class="text-gray-600">{{ getOccupationName(character.occupation) }} - {{ 'character.sheet.age' | dynamicTranslate }} {{ character.age }}</p>
         </div>
         <div class="flex gap-2 items-center">
           <button (click)="showDiceHistory = !showDiceHistory" 
@@ -37,7 +36,8 @@
             </button>
           </div>
           
-          <div class="grid grid-cols-2 gap-4">
+          <!-- View mode -->
+          <div class="grid grid-cols-2 gap-4" *ngIf="!editMode.attributes">
             <div *ngFor="let attr of getAttributeNames()" 
                  class="border rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50"
                  (click)="rollCharacteristicCheck(attr, getAttributeValue(attr))">
@@ -48,6 +48,37 @@
               </div>
             </div>
           </div>
+
+          <!-- Edit mode -->
+          <div class="grid grid-cols-2 gap-4" *ngIf="editMode.attributes">
+            <div *ngFor="let attr of getAttributeNames()" 
+                 class="border rounded-lg p-3 text-center">
+              <div class="text-xs text-gray-600 capitalize mb-2">{{ attr }}</div>
+              <input type="number" 
+                     [ngModel]="getAttributeValue(attr)"
+                     (ngModelChange)="setAttributeValue(attr, $event)"
+                     min="3" max="99"
+                     class="w-full text-xl font-bold text-center border rounded p-1 mb-2">
+              <div class="text-xs text-gray-500">
+                {{ 'character.sheet.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeHalfValue(attr) }} | {{ 'character.sheet.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeFifthValue(attr) }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Save/Cancel buttons for edit mode -->
+          <div class="flex gap-2 mt-4" *ngIf="editMode.attributes">
+            <button (click)="saveCharacter()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+              {{ 'character.sheet.save' | dynamicTranslate }}
+            </button>
+            <button (click)="cancelEdit('attributes')" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+              {{ 'character.actions.cancel' | dynamicTranslate }}
+            </button>
+          </div>
+
+          <!-- Recalculation notice -->
+          <div *ngIf="showRecalculationNotice" class="mt-2 p-2 bg-blue-100 text-blue-800 text-xs rounded border">
+            ✓ Valeurs dérivées recalculées automatiquement (Sanité, Points de Vie, Points de Magie, Mouvement)
+          </div>
         </div>
 
         <!-- Health & Sanity -->
@@ -57,13 +88,43 @@
           <!-- Hit Points -->
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
-              <span class="font-medium">{{ 'character.sheet.hitPoints' | dynamicTranslate }}</span>
               <div class="flex items-center gap-2">
+                <span class="font-medium">{{ 'character.sheet.hitPoints' | dynamicTranslate }}</span>
+                <button (click)="toggleModifierView('hitPoints')" class="text-xs text-gray-500 hover:text-gray-700">⚙️</button>
+              </div>
+              <div class="flex items-center gap-1">
                 <button (click)="adjustHitPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
-                <span>{{ character.hitPoints.current }} / {{ character.hitPoints.maximum }}</span>
+                <span class="min-w-[60px] text-center">{{ character.hitPoints.current }} / {{ getEffectiveMaximum('hitPoints') }}</span>
                 <button (click)="adjustHitPoints(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
               </div>
             </div>
+            
+            <!-- Modifiers for Hit Points -->
+            <div *ngIf="showModifiers.hitPoints" class="bg-gray-50 p-3 rounded mb-2">
+              <div class="text-sm mb-2">
+                <strong>{{ 'character.sheet.base' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.hitPoints.maximum }}
+                <span *ngIf="getModifiersSum('hitPoints') !== 0" 
+                      [class]="getModifiersSum('hitPoints') > 0 ? 'text-green-600' : 'text-red-600'">
+                  {{ getModifiersSum('hitPoints') > 0 ? '+' : '' }}{{ getModifiersSum('hitPoints') }}
+                </span>
+              </div>
+              
+              <!-- Existing modifiers -->
+              <div *ngFor="let modifier of character.hitPoints.modifiers" class="flex justify-between items-center text-xs mb-1">
+                <span>{{ modifier.name }}: <span [class]="modifier.value > 0 ? 'text-green-600' : 'text-red-600'">{{ modifier.value > 0 ? '+' : '' }}{{ modifier.value }}</span></span>
+                <button (click)="removeModifier('hitPoints', modifier.id)" class="text-red-500 hover:text-red-700">✕</button>
+              </div>
+              
+              <!-- Add new modifier -->
+              <div class="border-t pt-2 mt-2">
+                <div class="grid grid-cols-12 gap-1 text-xs">
+                  <input [(ngModel)]="newModifier.hitPoints.name" placeholder="Nom" class="col-span-6 p-1 border rounded">
+                  <input [(ngModel)]="newModifier.hitPoints.value" type="number" placeholder="±" class="col-span-3 p-1 border rounded">
+                  <button (click)="addModifier('hitPoints')" class="col-span-3 bg-blue-500 text-white rounded px-1">+</button>
+                </div>
+              </div>
+            </div>
+
             <div class="w-full bg-gray-200 rounded-full h-3">
               <div class="bg-red-600 h-3 rounded-full transition-all duration-300" 
                    [style.width.%]="getHealthPercentage()"></div>
@@ -73,13 +134,43 @@
           <!-- Sanity -->
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
-              <span class="font-medium">{{ 'character.sanity' | dynamicTranslate }}</span>
               <div class="flex items-center gap-2">
+                <span class="font-medium">{{ 'character.sanity' | dynamicTranslate }}</span>
+                <button (click)="toggleModifierView('sanity')" class="text-xs text-gray-500 hover:text-gray-700">⚙️</button>
+              </div>
+              <div class="flex items-center gap-1">
                 <button (click)="adjustSanity(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
-                <span class="cursor-pointer" (click)="rollSanityCheck()">{{ character.sanity.current }} / {{ character.sanity.maximum }}</span>
+                <span class="min-w-[60px] text-center cursor-pointer" (click)="rollSanityCheck()">{{ character.sanity.current }} / {{ getEffectiveMaximum('sanity') }}</span>
                 <button (click)="adjustSanity(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
               </div>
             </div>
+            
+            <!-- Modifiers for Sanity -->
+            <div *ngIf="showModifiers.sanity" class="bg-gray-50 p-3 rounded mb-2">
+              <div class="text-sm mb-2">
+                <strong>{{ 'character.sheet.base' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.sanity.maximum }}
+                <span *ngIf="getModifiersSum('sanity') !== 0" 
+                      [class]="getModifiersSum('sanity') > 0 ? 'text-green-600' : 'text-red-600'">
+                  {{ getModifiersSum('sanity') > 0 ? '+' : '' }}{{ getModifiersSum('sanity') }}
+                </span>
+              </div>
+              
+              <!-- Existing modifiers -->
+              <div *ngFor="let modifier of character.sanity.modifiers" class="flex justify-between items-center text-xs mb-1">
+                <span>{{ modifier.name }}: <span [class]="modifier.value > 0 ? 'text-green-600' : 'text-red-600'">{{ modifier.value > 0 ? '+' : '' }}{{ modifier.value }}</span></span>
+                <button (click)="removeModifier('sanity', modifier.id)" class="text-red-500 hover:text-red-700">✕</button>
+              </div>
+              
+              <!-- Add new modifier -->
+              <div class="border-t pt-2 mt-2">
+                <div class="grid grid-cols-12 gap-1 text-xs">
+                  <input [(ngModel)]="newModifier.sanity.name" placeholder="Nom" class="col-span-6 p-1 border rounded">
+                  <input [(ngModel)]="newModifier.sanity.value" type="number" placeholder="±" class="col-span-3 p-1 border rounded">
+                  <button (click)="addModifier('sanity')" class="col-span-3 bg-blue-500 text-white rounded px-1">+</button>
+                </div>
+              </div>
+            </div>
+
             <div class="w-full bg-gray-200 rounded-full h-3">
               <div class="bg-cthulhu-red h-3 rounded-full transition-all duration-300" 
                    [style.width.%]="getSanityPercentage()"></div>
@@ -89,13 +180,43 @@
           <!-- Magic Points -->
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
-              <span class="font-medium">{{ 'character.sheet.magicPoints' | dynamicTranslate }}</span>
               <div class="flex items-center gap-2">
+                <span class="font-medium">{{ 'character.sheet.magicPoints' | dynamicTranslate }}</span>
+                <button (click)="toggleModifierView('magicPoints')" class="text-xs text-gray-500 hover:text-gray-700">⚙️</button>
+              </div>
+              <div class="flex items-center gap-1">
                 <button (click)="adjustMagicPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
-                <span>{{ character.magicPoints.current }} / {{ character.magicPoints.maximum }}</span>
+                <span class="min-w-[60px] text-center">{{ character.magicPoints.current }} / {{ getEffectiveMaximum('magicPoints') }}</span>
                 <button (click)="adjustMagicPoints(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
               </div>
             </div>
+            
+            <!-- Modifiers for Magic Points -->
+            <div *ngIf="showModifiers.magicPoints" class="bg-gray-50 p-3 rounded mb-2">
+              <div class="text-sm mb-2">
+                <strong>{{ 'character.sheet.base' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.magicPoints.maximum }}
+                <span *ngIf="getModifiersSum('magicPoints') !== 0" 
+                      [class]="getModifiersSum('magicPoints') > 0 ? 'text-green-600' : 'text-red-600'">
+                  {{ getModifiersSum('magicPoints') > 0 ? '+' : '' }}{{ getModifiersSum('magicPoints') }}
+                </span>
+              </div>
+              
+              <!-- Existing modifiers -->
+              <div *ngFor="let modifier of character.magicPoints.modifiers" class="flex justify-between items-center text-xs mb-1">
+                <span>{{ modifier.name }}: <span [class]="modifier.value > 0 ? 'text-green-600' : 'text-red-600'">{{ modifier.value > 0 ? '+' : '' }}{{ modifier.value }}</span></span>
+                <button (click)="removeModifier('magicPoints', modifier.id)" class="text-red-500 hover:text-red-700">✕</button>
+              </div>
+              
+              <!-- Add new modifier -->
+              <div class="border-t pt-2 mt-2">
+                <div class="grid grid-cols-12 gap-1 text-xs">
+                  <input [(ngModel)]="newModifier.magicPoints.name" placeholder="Nom" class="col-span-6 p-1 border rounded">
+                  <input [(ngModel)]="newModifier.magicPoints.value" type="number" placeholder="±" class="col-span-3 p-1 border rounded">
+                  <button (click)="addModifier('magicPoints')" class="col-span-3 bg-blue-500 text-white rounded px-1">+</button>
+                </div>
+              </div>
+            </div>
+
             <div class="w-full bg-gray-200 rounded-full h-3">
               <div class="bg-purple-600 h-3 rounded-full transition-all duration-300" 
                    [style.width.%]="getMagicPointsPercentage()"></div>
@@ -105,11 +226,40 @@
           <!-- Luck -->
           <div>
             <div class="flex justify-between items-center">
-              <span class="font-medium">{{ 'character.sheet.luck' | dynamicTranslate }}</span>
               <div class="flex items-center gap-2">
+                <span class="font-medium">{{ 'character.sheet.luck' | dynamicTranslate }}</span>
+                <button (click)="toggleModifierView('luck')" class="text-xs text-gray-500 hover:text-gray-700">⚙️</button>
+              </div>
+              <div class="flex items-center gap-1">
                 <button (click)="adjustLuck(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
-                <span class="cursor-pointer" (click)="rollLuck()">{{ character.luck.current }}</span>
+                <span class="min-w-[60px] text-center cursor-pointer" (click)="rollLuck()">{{ character.luck.current }} / {{ getEffectiveMaximum('luck') }}</span>
                 <button (click)="adjustLuck(1)" class="w-6 h-6 bg-green-500 text-white rounded text-xs">+</button>
+              </div>
+            </div>
+            
+            <!-- Modifiers for Luck -->
+            <div *ngIf="showModifiers.luck" class="bg-gray-50 p-3 rounded mt-2">
+              <div class="text-sm mb-2">
+                <strong>{{ 'character.sheet.base' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.luck.starting }}
+                <span *ngIf="getModifiersSum('luck') !== 0" 
+                      [class]="getModifiersSum('luck') > 0 ? 'text-green-600' : 'text-red-600'">
+                  {{ getModifiersSum('luck') > 0 ? '+' : '' }}{{ getModifiersSum('luck') }}
+                </span>
+              </div>
+              
+              <!-- Existing modifiers -->
+              <div *ngFor="let modifier of character.luck.modifiers" class="flex justify-between items-center text-xs mb-1">
+                <span>{{ modifier.name }}: <span [class]="modifier.value > 0 ? 'text-green-600' : 'text-red-600'">{{ modifier.value > 0 ? '+' : '' }}{{ modifier.value }}</span></span>
+                <button (click)="removeModifier('luck', modifier.id)" class="text-red-500 hover:text-red-700">✕</button>
+              </div>
+              
+              <!-- Add new modifier -->
+              <div class="border-t pt-2 mt-2">
+                <div class="grid grid-cols-12 gap-1 text-xs">
+                  <input [(ngModel)]="newModifier.luck.name" placeholder="Nom" class="col-span-6 p-1 border rounded">
+                  <input [(ngModel)]="newModifier.luck.value" type="number" placeholder="±" class="col-span-3 p-1 border rounded">
+                  <button (click)="addModifier('luck')" class="col-span-3 bg-blue-500 text-white rounded px-1">+</button>
+                </div>
               </div>
             </div>
           </div>
@@ -154,11 +304,57 @@
             </button>
           </div>
           
-          <div class="space-y-3 text-sm">
+          <div class="space-y-3 text-sm" *ngIf="!editMode.personal">
             <div><strong>{{ 'character.sheet.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.player }}</div>
+            <div><strong>{{ 'character.sheet.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.age }}</div>
+            <div><strong>{{ 'character.occupation' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getOccupationName(character.occupation) }}</div>
             <div><strong>{{ 'character.sheet.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getSexTranslation(character.sex) }}</div>
             <div><strong>{{ 'character.sheet.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.residence }}</div>
             <div><strong>{{ 'character.sheet.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.birthplace }}</div>
+          </div>
+
+          <!-- Edit mode for personal details -->
+          <div class="space-y-3 text-sm" *ngIf="editMode.personal">
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.sheet.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <input [(ngModel)]="character.player" class="col-span-2 p-2 border rounded">
+            </div>
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.sheet.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <input [(ngModel)]="character.age" (ngModelChange)="onAgeChange()" type="number" min="15" max="90" class="col-span-2 p-2 border rounded">
+            </div>
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.occupation' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <select [(ngModel)]="character.occupation" class="col-span-2 p-2 border rounded">
+                <option value="">{{ 'character.creation.options.occupation.select' | dynamicTranslate }}</option>
+                <option *ngFor="let occ of occupations" [value]="occ.id">{{ getOccupationName(occ.id) }}</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.sheet.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <select [(ngModel)]="character.sex" class="col-span-2 p-2 border rounded">
+                <option [value]="sexValues.Male">{{ getSexTranslation(sexValues.Male) }}</option>
+                <option [value]="sexValues.Female">{{ getSexTranslation(sexValues.Female) }}</option>
+                <option [value]="sexValues.Other">{{ getSexTranslation(sexValues.Other) }}</option>
+                <option [value]="sexValues.Undefined">{{ getSexTranslation(sexValues.Undefined) }}</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.sheet.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <input [(ngModel)]="character.residence" class="col-span-2 p-2 border rounded">
+            </div>
+            <div class="grid grid-cols-3 gap-2 items-center">
+              <strong>{{ 'character.sheet.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <input [(ngModel)]="character.birthplace" class="col-span-2 p-2 border rounded">
+            </div>
+            <div class="flex gap-2 mt-4">
+              <button (click)="saveCharacter()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                {{ 'character.sheet.save' | dynamicTranslate }}
+              </button>
+              <button (click)="cancelEdit('personal')" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                {{ 'character.actions.cancel' | dynamicTranslate }}
+              </button>
+            </div>
           </div>
         </div>
 

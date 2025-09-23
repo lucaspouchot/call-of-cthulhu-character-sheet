@@ -30,6 +30,14 @@ export interface SanityLoss {
   details?: string;
 }
 
+export interface TemporaryModifier {
+  id: string;
+  name: string;
+  value: number; // positive for bonus, negative for malus
+  description?: string;
+  createdAt: Date;
+}
+
 export enum Sex {
   Male = 'male',
   Female = 'female',
@@ -63,6 +71,7 @@ export interface CharacterSheet {
     maximum: number;
     current: number;
     majorWound: boolean;
+    modifiers: TemporaryModifier[];
   };
 
   sanity: {
@@ -70,16 +79,19 @@ export interface CharacterSheet {
     current: number;
     startingValue: number;
     losses: SanityLoss[];
+    modifiers: TemporaryModifier[];
   };
 
   luck: {
     starting: number;
     current: number;
+    modifiers: TemporaryModifier[];
   };
 
   magicPoints: {
     maximum: number;
     current: number;
+    modifiers: TemporaryModifier[];
   };
 
   // Movement

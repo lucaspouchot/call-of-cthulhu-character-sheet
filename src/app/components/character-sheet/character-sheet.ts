@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterService } from '../../services/character.service';
 import { DiceRollingService } from '../../services/dice-rolling.service';
-import { TranslationService } from '../../services/translation.service';
-import { CharacterSheet as CharacterModel, Sex, Skill } from '../../models/character.model';
+import { EntityTranslationService } from '../../services/entity-translation.service';
+import { CharacterSheet as CharacterModel, Sex, Skill, TemporaryModifier } from '../../models/character.model';
 import { DiceRoll } from '../../models/dice.model';
+import { OCCUPATIONS } from '../../models/skills.model';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 import { DynamicTranslatePipe } from '../../pipes/dynamic-translate.pipe';
 
@@ -21,6 +22,12 @@ export class CharacterSheetComponent implements OnInit {
   rollHistory: DiceRoll[] = [];
   showDiceHistory = false;
 
+  // Make Sex enum available in template
+  sexValues = Sex;
+
+  // Make occupations available in template
+  occupations = OCCUPATIONS;
+
   // Editing modes
   editMode = {
     basicInfo: false,
@@ -30,12 +37,33 @@ export class CharacterSheetComponent implements OnInit {
     personal: false
   };
 
+  // Modifier management
+  showModifiers = {
+    hitPoints: false,
+    sanity: false,
+    magicPoints: false,
+    luck: false
+  };
+
+  newModifier = {
+    hitPoints: { name: '', value: 0, description: '' },
+    sanity: { name: '', value: 0, description: '' },
+    magicPoints: { name: '', value: 0, description: '' },
+    luck: { name: '', value: 0, description: '' }
+  };
+
+  // Store original values for cancel functionality
+  originalCharacter: CharacterModel | null = null;
+
+  // Show recalculation notification
+  showRecalculationNotice = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private characterService: CharacterService,
     private diceService: DiceRollingService,
-    private translationService: TranslationService
+    private entityTranslationService: EntityTranslationService
   ) { }
 
   ngOnInit() {
@@ -58,31 +86,150 @@ export class CharacterSheetComponent implements OnInit {
   }
 
   toggleEditMode(section: keyof typeof this.editMode) {
-    this.editMode[section] = !this.editMode[section];
+    if (this.editMode[section]) {
+      this.saveCharacter();
+    } else {
+      // Store original values before editing
+      this.originalCharacter = this.character ? JSON.parse(JSON.stringify(this.character)) : null;
+      this.editMode[section] = true;
+    }
+  }
+
+  cancelEdit(section: keyof typeof this.editMode) {
+    if (this.originalCharacter && this.character) {
+      // Restore original values
+      this.character = JSON.parse(JSON.stringify(this.originalCharacter));
+    }
+    this.editMode[section] = false;
+    this.originalCharacter = null;
+  }
+
+  setAttributeValue(attrName: string, value: number) {
+    if (!this.character) return;
+    const attr = (this.character as any)[attrName];
+    if (attr) {
+      attr.value = value;
+      attr.halfValue = Math.floor(value / 2);
+      attr.fifthValue = Math.floor(value / 5);
+
+      // Recalculate derived attributes immediately
+      this.recalculateDerivedAttributes();
+
+      // Show notification briefly
+      this.showRecalculationNotice = true;
+      setTimeout(() => {
+        this.showRecalculationNotice = false;
+      }, 2000);
+    }
+  }
+
+  recalculateDerivedAttributes() {
+    if (!this.character) return;
+
+    // Calculate Hit Points (CON + SIZ) / 10
+    const newHitPointsMax = Math.floor((this.character.constitution.value + this.character.size.value) / 10);
+    const oldEffectiveHitPointsMax = this.getEffectiveMaximum('hitPoints');
+    const currentHitPointsRatio = oldEffectiveHitPointsMax > 0 ? this.character.hitPoints.current / oldEffectiveHitPointsMax : 0;
+    this.character.hitPoints.maximum = newHitPointsMax;
+    // Maintain the same ratio based on effective maximum (with modifiers)
+    const newEffectiveHitPointsMax = this.getEffectiveMaximum('hitPoints');
+    this.character.hitPoints.current = Math.min(
+      Math.floor(newEffectiveHitPointsMax * currentHitPointsRatio),
+      newEffectiveHitPointsMax
+    );
+
+    // Calculate Sanity (POW)
+    const newSanityMax = this.character.power.value;
+    const oldEffectiveSanityMax = this.getEffectiveMaximum('sanity');
+    const currentSanityRatio = oldEffectiveSanityMax > 0 ? this.character.sanity.current / oldEffectiveSanityMax : 0;
+    this.character.sanity.maximum = newSanityMax;
+    // Maintain the same ratio based on effective maximum (with modifiers)
+    const newEffectiveSanityMax = this.getEffectiveMaximum('sanity');
+    this.character.sanity.current = Math.min(
+      Math.floor(newEffectiveSanityMax * currentSanityRatio),
+      newEffectiveSanityMax
+    );
+
+    // Calculate Magic Points (POW / 5)
+    const newMagicPointsMax = Math.floor(this.character.power.value / 5);
+    const oldEffectiveMagicPointsMax = this.getEffectiveMaximum('magicPoints');
+    const currentMagicPointsRatio = oldEffectiveMagicPointsMax > 0 ? this.character.magicPoints.current / oldEffectiveMagicPointsMax : 0;
+    this.character.magicPoints.maximum = newMagicPointsMax;
+    // Maintain the same ratio based on effective maximum (with modifiers)
+    const newEffectiveMagicPointsMax = this.getEffectiveMaximum('magicPoints');
+    this.character.magicPoints.current = Math.min(
+      Math.floor(newEffectiveMagicPointsMax * currentMagicPointsRatio),
+      newEffectiveMagicPointsMax
+    );
+
+    // Calculate Movement based on age and attributes
+    const move = this.character.age < 40 ? 8 :
+      this.character.age < 50 ? 7 :
+        this.character.age < 60 ? 6 : 5;
+
+    this.character.movement = {
+      normal: move,
+      running: move * 5,
+      climbing: move / 2,
+      swimming: move / 2
+    };
+
+    // Update skills that depend on attributes
+    this.updateDerivedSkills();
+  }
+
+  updateDerivedSkills() {
+    if (!this.character) return;
+
+    this.character.skills = this.character.skills.map(skill => {
+      let updatedSkill = { ...skill };
+
+      // Update dodge skill (half DEX)
+      if (skill.id === 'dodge') {
+        updatedSkill.baseValue = this.character!.dexterity.halfValue;
+        updatedSkill.totalValue = updatedSkill.baseValue + updatedSkill.personalValue + updatedSkill.occupationValue;
+      }
+
+      // Update Language (Own) skill (EDU)
+      if (skill.id === 'languageOwn') {
+        updatedSkill.baseValue = this.character!.education.value;
+        updatedSkill.totalValue = updatedSkill.baseValue + updatedSkill.personalValue + updatedSkill.occupationValue;
+      }
+
+      return updatedSkill;
+    });
   }
 
   getSkillTranslation(skill: Skill): string {
-    const translationKey = `character.creation.skills.${skill.id}`;
-    return this.translationService.getTranslation(translationKey) || skill.id;
+    return this.entityTranslationService.getSkillTranslation(skill);
   }
 
   getSexTranslation(sex: Sex): string {
-    const translationKey = `character.creation.options.sex.${sex}`;
-    return this.translationService.getTranslation(translationKey) || sex;
+    return this.entityTranslationService.getSexTranslation(sex);
   }
 
   getOccupationName(occupationId: string): string {
-    const translationKey = `character.creation.occupation.preset.${occupationId}.name`;
-    return this.translationService.getTranslation(translationKey) || occupationId;
+    return this.entityTranslationService.getOccupationName(occupationId);
   }
 
   saveCharacter() {
     if (this.character) {
+      // Use the service's method to calculate derived attributes properly
+      const derivedUpdates = this.characterService.calculateDerivedAttributes(this.character);
+      Object.assign(this.character, derivedUpdates);
+
       this.characterService.updateCharacter(this.character.id, this.character);
       // Turn off all edit modes
       Object.keys(this.editMode).forEach(key => {
         this.editMode[key as keyof typeof this.editMode] = false;
       });
+    }
+  }
+
+  // Method to handle age changes (called when age is modified in personal details)
+  onAgeChange() {
+    if (this.character) {
+      this.recalculateDerivedAttributes();
     }
   }
 
@@ -133,51 +280,107 @@ export class CharacterSheetComponent implements OnInit {
 
   adjustSanity(amount: number) {
     if (this.character) {
+      const effectiveMax = this.getEffectiveMaximum('sanity');
       this.character.sanity.current = Math.max(0,
-        Math.min(this.character.sanity.maximum, this.character.sanity.current + amount)
+        Math.min(effectiveMax, this.character.sanity.current + amount)
       );
-      this.saveCharacter();
+      this.saveCharacterState();
     }
   }
 
   adjustHitPoints(amount: number) {
     if (this.character) {
+      const effectiveMax = this.getEffectiveMaximum('hitPoints');
       this.character.hitPoints.current = Math.max(0,
-        Math.min(this.character.hitPoints.maximum, this.character.hitPoints.current + amount)
+        Math.min(effectiveMax, this.character.hitPoints.current + amount)
       );
-      this.saveCharacter();
+      this.saveCharacterState();
     }
   }
 
   adjustMagicPoints(amount: number) {
     if (this.character) {
+      const effectiveMax = this.getEffectiveMaximum('magicPoints');
       this.character.magicPoints.current = Math.max(0,
-        Math.min(this.character.magicPoints.maximum, this.character.magicPoints.current + amount)
+        Math.min(effectiveMax, this.character.magicPoints.current + amount)
       );
-      this.saveCharacter();
+      this.saveCharacterState();
     }
   }
 
   adjustLuck(amount: number) {
     if (this.character) {
-      this.character.luck.current = Math.max(0, this.character.luck.current + amount);
-      this.saveCharacter();
+      const effectiveMax = this.getEffectiveMaximum('luck');
+      this.character.luck.current = Math.max(0,
+        Math.min(effectiveMax, this.character.luck.current + amount)
+      );
+      this.saveCharacterState();
+    }
+  }
+
+  // Save character state without recalculating derived attributes
+  saveCharacterState() {
+    if (this.character) {
+      this.characterService.updateCharacter(this.character.id, this.character);
     }
   }
 
   getHealthPercentage(): number {
     if (!this.character) return 0;
-    return (this.character.hitPoints.current / this.character.hitPoints.maximum) * 100;
+    const effectiveMax = this.getEffectiveMaximum('hitPoints');
+    return effectiveMax > 0 ? (this.character.hitPoints.current / effectiveMax) * 100 : 0;
   }
 
   getSanityPercentage(): number {
     if (!this.character) return 0;
-    return (this.character.sanity.current / this.character.sanity.maximum) * 100;
+    const effectiveMax = this.getEffectiveMaximum('sanity');
+    return effectiveMax > 0 ? (this.character.sanity.current / effectiveMax) * 100 : 0;
   }
 
   getMagicPointsPercentage(): number {
     if (!this.character) return 0;
-    return (this.character.magicPoints.current / this.character.magicPoints.maximum) * 100;
+    const effectiveMax = this.getEffectiveMaximum('magicPoints');
+    return effectiveMax > 0 ? (this.character.magicPoints.current / effectiveMax) * 100 : 0;
+  }
+
+  // Methods for managing temporary modifiers
+  getEffectiveMaximum(type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints'): number {
+    if (!this.character) return 0;
+    return this.characterService.getEffectiveMaximum(this.character, type);
+  }
+
+  toggleModifierView(type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints') {
+    this.showModifiers[type] = !this.showModifiers[type];
+  }
+
+  addModifier(type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints') {
+    if (!this.character || !this.newModifier[type].name.trim()) return;
+
+    this.characterService.addModifier(this.character.id, type, {
+      name: this.newModifier[type].name.trim(),
+      value: this.newModifier[type].value,
+      description: this.newModifier[type].description.trim()
+    });
+
+    // Reset form
+    this.newModifier[type] = { name: '', value: 0, description: '' };
+
+    // Reload character to get updated modifiers
+    this.loadCharacter(this.character.id);
+  }
+
+  removeModifier(type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints', modifierId: string) {
+    if (!this.character) return;
+
+    this.characterService.removeModifier(this.character.id, type, modifierId);
+
+    // Reload character to get updated modifiers
+    this.loadCharacter(this.character.id);
+  }
+
+  getModifiersSum(type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints'): number {
+    if (!this.character) return 0;
+    return (this.character[type].modifiers || []).reduce((sum, mod) => sum + mod.value, 0);
   }
 
   deleteCharacter() {

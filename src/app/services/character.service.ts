@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CharacterSheet, Attribute, Sex } from '../models/character.model';
+import { CharacterSheet, Attribute, Sex, TemporaryModifier } from '../models/character.model';
 import { DEFAULT_SKILLS } from '../models/skills.model';
 
 @Injectable({
@@ -23,12 +23,25 @@ export class CharacterService {
           ...char,
           createdAt: new Date(char.createdAt),
           updatedAt: new Date(char.updatedAt),
+          hitPoints: {
+            ...char.hitPoints,
+            modifiers: char.hitPoints.modifiers || []
+          },
           sanity: {
             ...char.sanity,
             losses: char.sanity.losses.map((loss: any) => ({
               ...loss,
               date: new Date(loss.date)
-            }))
+            })),
+            modifiers: char.sanity.modifiers || []
+          },
+          luck: {
+            ...char.luck,
+            modifiers: char.luck.modifiers || []
+          },
+          magicPoints: {
+            ...char.magicPoints,
+            modifiers: char.magicPoints.modifiers || []
           }
         }));
         this.charactersSubject.next(characters);
@@ -83,24 +96,28 @@ export class CharacterService {
       hitPoints: {
         maximum: 10,
         current: 10,
-        majorWound: false
+        majorWound: false,
+        modifiers: []
       },
 
       sanity: {
         maximum: 99,
         current: 99,
         startingValue: 99,
-        losses: []
+        losses: [],
+        modifiers: []
       },
 
       luck: {
         starting: 50,
-        current: 50
+        current: 50,
+        modifiers: []
       },
 
       magicPoints: {
         maximum: 10,
-        current: 10
+        current: 10,
+        modifiers: []
       },
 
       movement: {
@@ -199,16 +216,19 @@ export class CharacterService {
       hitPoints: {
         maximum: hitPoints,
         current: Math.min(character.hitPoints.current, hitPoints),
-        majorWound: character.hitPoints.majorWound
+        majorWound: character.hitPoints.majorWound,
+        modifiers: character.hitPoints.modifiers || []
       },
       sanity: {
         ...character.sanity,
         maximum: sanityMax,
-        current: Math.min(character.sanity.current, sanityMax)
+        current: Math.min(character.sanity.current, sanityMax),
+        modifiers: character.sanity.modifiers || []
       },
       magicPoints: {
         maximum: magicPoints,
-        current: Math.min(character.magicPoints.current, magicPoints)
+        current: Math.min(character.magicPoints.current, magicPoints),
+        modifiers: character.magicPoints.modifiers || []
       },
       movement: {
         normal: move,
@@ -218,5 +238,53 @@ export class CharacterService {
       },
       skills: updatedSkills
     };
+  }
+
+  // Methods for managing temporary modifiers
+  addModifier(characterId: string, type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints', modifier: Omit<TemporaryModifier, 'id' | 'createdAt'>): void {
+    const character = this.getCharacterById(characterId);
+    if (!character) return;
+
+    const newModifier: TemporaryModifier = {
+      ...modifier,
+      id: this.generateId(),
+      createdAt: new Date()
+    };
+
+    const updatedCharacter = { ...character };
+    updatedCharacter[type].modifiers = [...updatedCharacter[type].modifiers, newModifier];
+
+    this.updateCharacter(characterId, updatedCharacter);
+  }
+
+  removeModifier(characterId: string, type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints', modifierId: string): void {
+    const character = this.getCharacterById(characterId);
+    if (!character) return;
+
+    const updatedCharacter = { ...character };
+    updatedCharacter[type].modifiers = updatedCharacter[type].modifiers.filter(mod => mod.id !== modifierId);
+
+    this.updateCharacter(characterId, updatedCharacter);
+  }
+
+  getEffectiveMaximum(character: CharacterSheet, type: 'hitPoints' | 'sanity' | 'luck' | 'magicPoints'): number {
+    let baseValue: number;
+    switch (type) {
+      case 'hitPoints':
+        baseValue = character.hitPoints.maximum;
+        break;
+      case 'sanity':
+        baseValue = character.sanity.maximum;
+        break;
+      case 'luck':
+        baseValue = character.luck.starting;
+        break;
+      case 'magicPoints':
+        baseValue = character.magicPoints.maximum;
+        break;
+    }
+
+    const modifiersSum = (character[type].modifiers || []).reduce((sum, mod) => sum + mod.value, 0);
+    return Math.max(0, baseValue + modifiersSum);
   }
 }

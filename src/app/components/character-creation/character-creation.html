@@ -83,29 +83,126 @@
       <div *ngIf="currentStep() === 2" class="character-sheet p-6">
         <h2 class="gothic-header text-2xl mb-6">{{ 'character.creation.attributesTitle' | dynamicTranslate }}</h2>
         
-        <div class="flex justify-between items-center mb-4">
-          <p class="text-gray-600">{{ 'character.creation.roll' | dynamicTranslate }}</p>
-          <button type="button" (click)="generateAllAttributes()" 
-                  class="skill-check-button">
-            {{ 'character.creation.reroll.all' | dynamicTranslate }}
+        <!-- Custom Dice Formula Configuration -->
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h3 class="font-semibold mb-3">{{ 'character.creation.attributes.formulas.title' | dynamicTranslate }}</h3>
+          
+          <div class="space-y-3">
+            <div *ngFor="let roll of customRolls; let i = index" 
+                 class="flex items-center gap-3 p-3 bg-white rounded border">
+              <div class="flex-1">
+                <label class="block text-xs text-gray-600 mb-1">{{ 'character.creation.attributes.formulas.formula' | dynamicTranslate }}</label>
+                <select [(ngModel)]="roll.formula" 
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange)="updateCustomRoll(i, 'formula', $event)"
+                        class="w-full p-2 border rounded text-sm">
+                  <option *ngFor="let formula of diceFormulas" [value]="formula.formula">
+                    {{ formula.label }} - {{ formula.descriptionKey | dynamicTranslate }}
+                  </option>
+                </select>
+              </div>
+              
+              <div class="w-20">
+                <label class="block text-xs text-gray-600 mb-1">{{ 'character.creation.attributes.formulas.count' | dynamicTranslate }}</label>
+                <input type="number" 
+                       [(ngModel)]="roll.count" 
+                       [ngModelOptions]="{standalone: true}"
+                       (ngModelChange)="updateCustomRoll(i, 'count', $event)"
+                       min="1" max="20"
+                       class="w-full p-2 border rounded text-sm text-center">
+              </div>
+              
+              <button type="button" (click)="removeCustomRoll(i)" 
+                      *ngIf="customRolls.length > 1"
+                      class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">
+                ✕
+              </button>
+            </div>
+            
+            <button type="button" (click)="addCustomRoll()" 
+                    class="px-3 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+              {{ 'character.creation.attributes.formulas.add' | dynamicTranslate }}
+            </button>
+          </div>
+          
+          <div class="mt-4 flex flex-wrap gap-2">
+            <button type="button" (click)="generateAllAttributes()" 
+                    class="skill-check-button">
+              {{ 'character.creation.reroll.all' | dynamicTranslate }}
+            </button>
+            <button type="button" (click)="clearAllAttributes()" 
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+              {{ 'character.creation.attributes.clear' | dynamicTranslate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Generated Values Pool -->
+        <div *ngIf="generatedValues.length > 0" class="mb-6 p-4 bg-blue-50 rounded-lg">
+          <h3 class="font-semibold mb-3">{{ 'character.creation.attributes.pool.title' | dynamicTranslate }}</h3>
+          <p class="text-sm text-gray-600 mb-3">{{ 'character.creation.attributes.pool.description' | dynamicTranslate }}</p>
+          <div class="flex flex-wrap gap-2">
+            <span *ngFor="let value of generatedValues; let i = index" 
+                  class="px-3 py-2 bg-blue-200 rounded cursor-pointer hover:bg-blue-300 border"
+                  [class.bg-gray-300]="value.used"
+                  [class.cursor-not-allowed]="value.used"
+                  [class.ring-2]="!value.used"
+                  [class.ring-blue-500]="!value.used"
+                  (click)="!value.used && openAttributeAssignment(value.value, i)">
+              <div class="font-bold text-lg">{{ value.value }}</div>
+              <div class="text-xs text-gray-600">{{ value.formula }}</div>
+            </span>
+          </div>
+        </div>
+
+        <!-- Attribute Selection Instruction -->
+        <div *ngIf="selectedAttributeForAssignment" class="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded">
+          <p class="text-sm">
+            <strong>{{ 'character.creation.attributes.assignment.selected' | dynamicTranslate }}:</strong> 
+            {{ ('character.creation.attributes.' + selectedAttributeForAssignment) | dynamicTranslate }}
+          </p>
+          <p class="text-xs text-gray-600 mt-1">{{ 'character.creation.attributes.assignment.instruction' | dynamicTranslate }}</p>
+          <button type="button" (click)="selectedAttributeForAssignment = null" 
+                  class="mt-2 px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-600">
+            {{ 'character.creation.attributes.assignment.cancel' | dynamicTranslate }}
           </button>
         </div>
         
+        <!-- Attributes Grid -->
         <div class="grid grid-cols-2 tablet:grid-cols-4 gap-4">
           <div *ngFor="let attr of attributeNames" 
-               class="border border-gray-300 rounded-lg p-4 text-center">
+               class="border border-gray-300 rounded-lg p-4 text-center cursor-pointer"
+               [class.ring-2]="selectedAttributeForAssignment === attr"
+               [class.ring-yellow-500]="selectedAttributeForAssignment === attr"
+               [class.bg-yellow-50]="selectedAttributeForAssignment === attr"
+               (click)="selectAttributeForAssignment(attr)">
             <h3 class="font-semibold text-sm mb-2 capitalize">{{ ('character.creation.attributes.' + attr) | dynamicTranslate }}</h3>
-            <div class="text-2xl font-bold text-cthulhu-dark mb-2">
-              {{ attributes[attr].value }}
+            
+            <!-- Attribute Value Input -->
+            <div class="mb-2">
+              <input type="number" 
+                     [(ngModel)]="attributes[attr].value"
+                     [ngModelOptions]="{standalone: true}"
+                     (ngModelChange)="updateAttribute(attr)"
+                     min="3" max="108"
+                     class="w-full text-2xl font-bold text-center border rounded p-1 text-cthulhu-dark">
             </div>
+            
             <div class="text-xs text-gray-600 space-y-1">
               <div>{{ 'character.creation.attributes.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ attributes[attr].halfValue }}</div>
               <div>{{ 'character.creation.attributes.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ attributes[attr].fifthValue }}</div>
             </div>
-            <button type="button" (click)="generateAttribute(attr)" 
-                    class="mt-2 px-2 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded">
-              {{ 'character.creation.reroll.single' | dynamicTranslate }}
-            </button>
+            
+            <div class="mt-2 space-x-1">
+              <button type="button" (click)="generateSingleAttribute(attr); $event.stopPropagation()" 
+                      class="px-2 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded">
+                {{ 'character.creation.reroll.single' | dynamicTranslate }}
+              </button>
+              <button type="button" (click)="clearAttribute(attr); $event.stopPropagation()" 
+                      class="px-2 py-1 text-xs bg-red-200 hover:bg-red-300 rounded">
+                {{ 'character.creation.attributes.clearSingle' | dynamicTranslate }}
+              </button>
+            </div>
           </div>
         </div>
       </div>

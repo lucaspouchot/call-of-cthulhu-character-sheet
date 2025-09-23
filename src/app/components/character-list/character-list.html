@@ -27,7 +27,7 @@
         <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="text-xl font-bold text-cthulhu-dark">{{ character.name }}</h3>
-            <p class="text-gray-600">{{ character.occupation }}</p>
+            <p class="text-gray-600">{{ getOccupationName(character.occupation) }}</p>
           </div>
           <button (click)="deleteCharacter(character.id, $event)" 
                   class="text-red-600 hover:text-red-800 text-xl">
@@ -44,30 +44,22 @@
             <span>{{ 'character.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
             <span>{{ character.player }}</span>
           </div>
-          <div class="flex justify-between">
-            <span>{{ 'character.sanity' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
-            <span class="font-mono">{{ character.sanity.current }}/{{ character.sanity.maximum }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span>{{ 'character.hitpoints' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
-            <span class="font-mono">{{ character.hitPoints.current }}/{{ character.hitPoints.maximum }}</span>
-          </div>
         </div>
 
         <!-- Quick stats bar -->
         <div class="mt-4 space-y-2">
           <div class="flex items-center gap-2 text-xs">
-            <span class="w-12">{{ 'character.health' | dynamicTranslate }}</span>
+            <span class="w-24">{{ 'character.hitpoints' | dynamicTranslate }}</span>
             <div class="flex-1 bg-gray-200 rounded-full h-2">
-              <div class="bg-red-600 h-2 rounded-full" 
-                   [style.width.%]="(character.hitPoints.current / character.hitPoints.maximum) * 100"></div>
+              <div class="bg-red-600 h-2 rounded-full w" 
+                   [style.width.%]="(character.hitPoints.current / getEffectiveMaximum(character, 'hitPoints')) * 100"></div>
             </div>
           </div>
           <div class="flex items-center gap-2 text-xs">
-            <span class="w-12">{{ 'character.sanity' | dynamicTranslate }}</span>
+            <span class="w-24">{{ 'character.sanity' | dynamicTranslate }}</span>
             <div class="flex-1 bg-gray-200 rounded-full h-2">
               <div class="bg-cthulhu-red h-2 rounded-full" 
-                   [style.width.%]="(character.sanity.current / character.sanity.maximum) * 100"></div>
+                   [style.width.%]="(character.sanity.current / getEffectiveMaximum(character, 'sanity')) * 100"></div>
             </div>
           </div>
         </div>

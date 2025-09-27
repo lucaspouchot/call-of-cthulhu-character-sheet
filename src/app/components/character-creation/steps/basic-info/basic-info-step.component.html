@@ -39,7 +39,7 @@
       <select [(ngModel)]="localCharacterSheet.sex"
               (ngModelChange)="onInputChange('sex', $event)"
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <option value="">{{ 'character.creation.basic.sexOptions.select' | dynamicTranslate }}</option>
+        <option value="undefined" disabled>{{ 'character.creation.basic.sexOptions.select' | dynamicTranslate }}</option>
         <option value="male">{{ 'character.creation.basic.sexOptions.male' | dynamicTranslate }}</option>
         <option value="female">{{ 'character.creation.basic.sexOptions.female' | dynamicTranslate }}</option>
         <option value="other">{{ 'character.creation.basic.sexOptions.other' | dynamicTranslate }}</option>

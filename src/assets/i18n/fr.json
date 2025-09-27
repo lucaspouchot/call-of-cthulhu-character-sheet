@@ -42,6 +42,7 @@
       "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."
     },
     "occupation": "Occupation",
+    "skills": "Compétences",
     "basicInfo": {
       "name": "Nom",
       "player": "Joueur",
@@ -230,6 +231,8 @@
       "skills": {
         "title": "Compétences",
         "description": "Distribuez les points de compétences entre les compétences professionnelles et d'intérêt personnel.",
+        "points": "Points de Compétences",
+        "summary": "Résumé des Points de Compétences",
         "occupational": {
           "title": "Points de Compétences Professionnelles",
           "description": "Points à dépenser sur vos compétences d'occupation",
@@ -239,6 +242,7 @@
         "personal": {
           "title": "Points de Compétences Personnelles",
           "description": "Points à dépenser sur n'importe quelles compétences",
+          "skills": "Compétences Personnelles",
           "short": "Pers"
         },
         "remaining": "restants",
@@ -255,25 +259,36 @@
       "personal": {
         "title": "Détails Personnels",
         "description": "Ajoutez des traits de personnalité et des détails de background pour donner vie à votre investigateur.",
+        "note": "Note : Ces détails sont purement narratifs et n'affectent pas les mécaniques de jeu.",
+        "backstory": {
+          "label": "Histoire",
+          "placeholder": "Brève histoire de votre investigateur...",
+          "maxlength": "Maximum 500 caractères"
+        },
         "traits": {
           "label": "Traits",
-          "placeholder": "Traits de personnalité..."
+          "placeholder": "Traits de personnalité...",
+          "maxlength": "Maximum 200 caractères"
         },
         "ideology": {
           "label": "Idéologie/Croyances",
-          "placeholder": "Ce qui motive votre investigateur..."
+          "placeholder": "Ce qui motive votre investigateur...",
+          "maxlength": "Maximum 200 caractères"
         },
         "significantPeople": {
           "label": "Personnes Importantes",
-          "placeholder": "Personnes importantes dans sa vie..."
+          "placeholder": "Personnes importantes dans sa vie...",
+          "maxlength": "Maximum 200 caractères"
         },
         "meaningfulLocations": {
           "label": "Lieux Significatifs",
-          "placeholder": "Lieux d'importance..."
+          "placeholder": "Lieux d'importance...",
+          "maxlength": "Maximum 200 caractères"
         },
         "treasuredPossessions": {
           "label": "Possessions Précieuses",
-          "placeholder": "Objets chéris..."
+          "placeholder": "Objets chéris...",
+          "maxlength": "Maximum 200 caractères"
         }
       }
     },

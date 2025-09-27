@@ -98,6 +98,10 @@ export interface CharacterSheetCreate {
     educationReduction: number;
     educationBonus: number;
     selectedLuckValue: number;
+    // Education improvement rolls for persistence
+    educationRolls?: { roll: number, success: boolean, bonus: number }[];
+    // Luck rolls for persistence
+    luckRolls?: number[];
   };
 
   // Skills (assigned during creation)

@@ -25,6 +25,7 @@ export class PersonalDetailsStepComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeForm();
     this.setupFormSubscription();
+    this.validateStep();
   }
 
   ngOnDestroy(): void {

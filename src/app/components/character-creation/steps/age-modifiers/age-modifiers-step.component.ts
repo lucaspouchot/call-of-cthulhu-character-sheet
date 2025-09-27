@@ -36,7 +36,14 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Initialize previousAge to detect changes
     this.previousAge = this.characterSheet.age;
+
+    // Restore existing age modifiers from character sheet if they exist
+    this.restoreExistingAgeModifiers();
+
+    // Calculate age modifiers (will preserve restored values)
     this.calculateAgeModifiers();
+
+    this.validateStep();
   }
 
   ngOnDestroy(): void {
@@ -44,13 +51,48 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private restoreExistingAgeModifiers(): void {
+    if (this.characterSheet.ageModifiers) {
+      const savedModifiers = this.characterSheet.ageModifiers;
+
+      // Restore basic modifiers
+      this.ageModifiers.strengthReduction = savedModifiers.strengthReduction;
+      this.ageModifiers.constitutionReduction = savedModifiers.constitutionReduction;
+      this.ageModifiers.dexterityReduction = savedModifiers.dexterityReduction;
+      this.ageModifiers.sizeReduction = savedModifiers.sizeReduction;
+      this.ageModifiers.appearanceReduction = savedModifiers.appearanceReduction;
+      this.ageModifiers.educationReduction = savedModifiers.educationReduction;
+      this.ageModifiers.selectedLuckValue = savedModifiers.selectedLuckValue;
+
+      // Restore education rolls if they exist
+      if (savedModifiers.educationRolls) {
+        this.ageModifiers.educationRolls = [...savedModifiers.educationRolls];
+      }
+
+      // Restore luck rolls if they exist
+      if (savedModifiers.luckRolls) {
+        this.ageModifiers.luckRolls = [...savedModifiers.luckRolls];
+      }
+    }
+  }
+
   private calculateAgeModifiers(): void {
     if (this.characterSheet.age) {
       const currentEducation = this.characterSheet.education?.value || 50;
       const previousAgeModifiers = { ...this.ageModifiers };
 
-      // Calculate new age modifiers but preserve existing rolls
-      this.ageModifiers = this.ageModifierService.calculateAgeModifiers(this.characterSheet.age, currentEducation);
+      // Calculate new age modifiers
+      const newModifiers = this.ageModifierService.calculateAgeModifiers(this.characterSheet.age, currentEducation);
+
+      // If we have saved modifiers, restore penalty distributions for older characters
+      if (this.characterSheet.ageModifiers && this.characterSheet.age >= 40) {
+        const savedModifiers = this.characterSheet.ageModifiers;
+        newModifiers.strengthReduction = savedModifiers.strengthReduction;
+        newModifiers.constitutionReduction = savedModifiers.constitutionReduction;
+        newModifiers.dexterityReduction = savedModifiers.dexterityReduction;
+      }
+
+      this.ageModifiers = newModifiers;
       this.remainingPenaltyPoints = this.ageModifierService.getRemainingPenaltyPoints(this.characterSheet.age, this.ageModifiers);
 
       // Preserve existing luck rolls and education rolls when possible
@@ -67,34 +109,43 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
   }
 
   private preserveExistingRolls(previousModifiers: AgeModifiers): void {
+    // First try to restore from saved data in characterSheet
+    const savedModifiers = this.characterSheet.ageModifiers;
+
     // Preserve luck rolls if they exist and the luck roll count requirement hasn't changed
     const wasYoung = this.previousAge ? this.isAgeYoung(this.previousAge) : false;
     const isCurrentlyYoung = this.characterSheet.age ? (this.characterSheet.age >= 15 && this.characterSheet.age <= 19) : false;
 
-    if (previousModifiers.luckRolls && previousModifiers.luckRolls.length > 0) {
+    // Use saved rolls from characterSheet if available, otherwise use previous modifiers
+    const existingLuckRolls = savedModifiers?.luckRolls || previousModifiers.luckRolls;
+    const existingSelectedLuck = savedModifiers?.selectedLuckValue || previousModifiers.selectedLuckValue;
+
+    if (existingLuckRolls && existingLuckRolls.length > 0) {
       if (wasYoung === isCurrentlyYoung) {
         // Same luck roll requirement (1 or 2 rolls), keep existing rolls
-        this.ageModifiers.luckRolls = [...previousModifiers.luckRolls];
-        this.ageModifiers.selectedLuckValue = previousModifiers.selectedLuckValue;
+        this.ageModifiers.luckRolls = [...existingLuckRolls];
+        this.ageModifiers.selectedLuckValue = existingSelectedLuck;
       } else if (wasYoung && !isCurrentlyYoung) {
         // Changed from young (2 rolls) to adult/older (1 roll), keep selected value as single roll
-        this.ageModifiers.luckRolls = [previousModifiers.selectedLuckValue || previousModifiers.luckRolls[0]];
+        this.ageModifiers.luckRolls = [existingSelectedLuck || existingLuckRolls[0]];
         this.ageModifiers.selectedLuckValue = this.ageModifiers.luckRolls[0];
       }
       // If changed from adult to young, we'll need new rolls (handled in initializeRollsIfNeeded)
     }
 
     // Preserve education rolls if they exist and the education roll count hasn't changed
-    if (previousModifiers.educationRolls && previousModifiers.educationRolls.length > 0) {
+    const existingEducationRolls = savedModifiers?.educationRolls || previousModifiers.educationRolls;
+
+    if (existingEducationRolls && existingEducationRolls.length > 0) {
       const previousEducationRollCount = this.previousAge ? this.getEducationRollCount(this.previousAge) : 0;
       const currentEducationRollCount = this.getEducationRollCount(this.characterSheet.age || 25);
 
       if (previousEducationRollCount === currentEducationRollCount) {
         // Same number of education rolls required, keep existing rolls
-        this.ageModifiers.educationRolls = [...previousModifiers.educationRolls];
+        this.ageModifiers.educationRolls = [...existingEducationRolls];
       } else if (previousEducationRollCount > currentEducationRollCount) {
         // Fewer rolls needed now, keep only the first N rolls
-        this.ageModifiers.educationRolls = previousModifiers.educationRolls.slice(0, currentEducationRollCount);
+        this.ageModifiers.educationRolls = existingEducationRolls.slice(0, currentEducationRollCount);
       }
       // If more rolls needed now, we'll generate additional ones in initializeRollsIfNeeded
     }
@@ -263,6 +314,37 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
     return this.ageModifierService.getTotalEducationBonus(this.ageModifiers);
   }
 
+  updateEducationRoll(index: number, field: 'roll' | 'bonus', event: any): void {
+    if (!this.ageModifiers.educationRolls || !this.ageModifiers.educationRolls[index]) return;
+
+    const roll = this.ageModifiers.educationRolls[index];
+    const newValue = parseInt(event.target.value, 10);
+
+    if (isNaN(newValue)) return;
+
+    if (field === 'roll') {
+      // Validate D100 range
+      if (newValue < 1 || newValue > 100) return;
+      roll.roll = newValue;
+
+      // Recalculate success based on current education value
+      const currentEducation = this.characterSheet.education?.value || 50;
+      roll.success = newValue > currentEducation;
+
+      // Reset bonus if failed
+      if (!roll.success) {
+        roll.bonus = 0;
+      }
+    } else if (field === 'bonus') {
+      // Validate D10 range and only allow if successful
+      if (newValue < 1 || newValue > 10 || !roll.success) return;
+      roll.bonus = newValue;
+    }
+
+    this.updateCharacterSheetAgeModifiers();
+    this.validateStep();
+  }
+
   getMaxPenaltyForAttribute(attribute: 'strength' | 'constitution' | 'dexterity'): number {
     if (!this.characterSheet.age) return 0;
     const totalPenalty = this.ageModifierService.getTotalAttributePenalty(this.characterSheet.age);
@@ -342,7 +424,10 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
       appearanceReduction: this.ageModifiers.appearanceReduction,
       educationReduction: this.ageModifiers.educationReduction,
       educationBonus: this.getTotalEducationBonus(),
-      selectedLuckValue: this.ageModifiers.selectedLuckValue
+      selectedLuckValue: this.ageModifiers.selectedLuckValue,
+      // Save individual rolls for persistence
+      educationRolls: this.ageModifiers.educationRolls ? [...this.ageModifiers.educationRolls] : undefined,
+      luckRolls: this.ageModifiers.luckRolls ? [...this.ageModifiers.luckRolls] : undefined
     };
 
     // Update luck value if selected

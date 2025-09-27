@@ -12,7 +12,7 @@
         formControlName="occupation"
         (change)="onOccupationChange($any($event.target).value)"
         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-        <option value="">{{ 'character.creation.occupation.placeholder' | dynamicTranslate }}</option>
+        <option value="" disabled>{{ 'character.creation.occupation.placeholder' | dynamicTranslate }}</option>
         <option *ngFor="let occ of availableOccupations" [value]="occ.id">
           {{ ('occupations.' + occ.id) | dynamicTranslate }}
         </option>

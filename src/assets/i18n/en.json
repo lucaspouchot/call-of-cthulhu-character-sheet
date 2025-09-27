@@ -42,6 +42,7 @@
       "subtitle": "Create your first investigator to begin exploring the unknown..."
     },
     "occupation": "Occupation",
+    "skills": "Skills",
     "basicInfo": {
       "name": "Name",
       "player": "Player",
@@ -230,6 +231,8 @@
       "skills": {
         "title": "Skills",
         "description": "Distribute skill points between occupational and personal interest skills.",
+        "points": "Skill Points",
+        "summary": "Skill Points Summary",
         "occupational": {
           "title": "Occupational Skill Points",
           "description": "Points to spend on your occupation skills",
@@ -239,6 +242,7 @@
         "personal": {
           "title": "Personal Interest Skill Points",
           "description": "Points to spend on any skills",
+          "skills": "Personal Interest Skills",
           "short": "Pers"
         },
         "remaining": "remaining",
@@ -255,25 +259,36 @@
       "personal": {
         "title": "Personal Details",
         "description": "Add personality traits and background details to bring your investigator to life.",
+        "note": "Note: These details are purely narrative and do not affect game mechanics.",
+        "backstory": {
+          "label": "Backstory",
+          "placeholder": "Brief backstory of your investigator...",
+          "maxlength": "Maximum 500 characters"
+        },
         "traits": {
           "label": "Traits",
-          "placeholder": "Personality traits..."
+          "placeholder": "Personality traits...",
+          "maxlength": "Maximum 200 characters"
         },
         "ideology": {
           "label": "Ideology/Beliefs",
-          "placeholder": "What drives your investigator..."
+          "placeholder": "What drives your investigator...",
+          "maxlength": "Maximum 200 characters"
         },
         "significantPeople": {
           "label": "Significant People",
-          "placeholder": "Important people in their life..."
+          "placeholder": "Important people in their life...",
+          "maxlength": "Maximum 200 characters"
         },
         "meaningfulLocations": {
           "label": "Meaningful Locations",
-          "placeholder": "Places of importance..."
+          "placeholder": "Places of importance...",
+          "maxlength": "Maximum 200 characters"
         },
         "treasuredPossessions": {
           "label": "Treasured Possessions",
-          "placeholder": "Cherished items..."
+          "placeholder": "Cherished items...",
+          "maxlength": "Maximum 200 characters"
         }
       }
     },

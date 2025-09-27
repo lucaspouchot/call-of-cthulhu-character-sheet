@@ -7,7 +7,7 @@
     <!-- Backstory -->
     <div>
       <label for="backstory" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.backstory' | dynamicTranslate }}
+        {{ 'character.creation.personal.backstory.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="backstory"
@@ -31,7 +31,7 @@
     <!-- Traits and Mannerisms -->
     <div>
       <label for="traits" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.traits' | dynamicTranslate }}
+        {{ 'character.creation.personal.traits.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="traits"
@@ -54,20 +54,20 @@
 
     <!-- Ideology/Beliefs -->
     <div>
-      <label for="ideologyBeliefs" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.ideologyBeliefs' | dynamicTranslate }}
+      <label for="ideology" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.ideology.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="ideologyBeliefs"
         formControlName="ideologyBeliefs"
         rows="2"
-        [placeholder]="'character.creation.personal.ideologyBeliefs.placeholder' | dynamicTranslate"
+        [placeholder]="'character.creation.personal.ideology.placeholder' | dynamicTranslate"
         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
       </textarea>
       <div class="flex justify-between mt-1">
         <div *ngIf="personalDetailsForm.get('ideologyBeliefs')?.invalid && personalDetailsForm.get('ideologyBeliefs')?.touched" 
              class="text-sm text-red-600">
-          {{ 'character.creation.personal.ideologyBeliefs.maxlength' | dynamicTranslate }}
+          {{ 'character.creation.personal.ideology.maxlength' | dynamicTranslate }}
         </div>
         <div class="text-xs" 
              [class]="isFieldOverLimit('ideologyBeliefs') ? 'text-red-600' : isFieldNearLimit('ideologyBeliefs') ? 'text-yellow-600' : 'text-gray-500'">
@@ -79,7 +79,7 @@
     <!-- Significant People -->
     <div>
       <label for="significantPeople" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.significantPeople' | dynamicTranslate }}
+        {{ 'character.creation.personal.significantPeople.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="significantPeople"
@@ -103,7 +103,7 @@
     <!-- Meaningful Locations -->
     <div>
       <label for="meaningfulLocations" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.meaningfulLocations' | dynamicTranslate }}
+        {{ 'character.creation.personal.meaningfulLocations.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="meaningfulLocations"
@@ -127,7 +127,7 @@
     <!-- Treasured Possessions -->
     <div>
       <label for="treasuredPossessions" class="block text-sm font-medium text-gray-700 mb-2">
-        {{ 'character.creation.personal.treasuredPossessions' | dynamicTranslate }}
+        {{ 'character.creation.personal.treasuredPossessions.label' | dynamicTranslate }}
       </label>
       <textarea 
         id="treasuredPossessions"

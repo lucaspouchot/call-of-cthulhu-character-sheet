@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CharacterService } from '../../services/character.service';
-import { CharacterSheetCreate, StepValidation } from '../../models/character.model';
+import { CharacterSheetCreate, Sex, StepValidation } from '../../models/character.model';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 import { DynamicTranslatePipe } from '../../pipes/dynamic-translate.pipe';
 import {
@@ -48,8 +48,8 @@ export class CharacterCreation {
       case 2: return 'character.creation.occupation.title';
       case 3: return 'character.creation.attributes.title';
       case 4: return 'character.creation.ageModifiers.title';
-      case 5: return 'character.creation.skills.title';
-      case 6: return 'character.creation.personal.title';
+      case 5: return 'character.creation.personal.title';
+      case 6: return 'character.creation.skills.title';
       default: return 'character.creation.default';
     }
   });
@@ -72,6 +72,7 @@ export class CharacterCreation {
       age: 25,
       residence: '',
       birthplace: '',
+      sex: Sex.Undefined,
 
       // Characteristics
       attributeRolls: {

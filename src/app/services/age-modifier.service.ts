@@ -91,7 +91,9 @@ export class AgeModifierService {
    * Get total education bonus from successful rolls
    */
   getTotalEducationBonus(modifiers: AgeModifiers): number {
-    return modifiers.educationRolls.reduce((total, roll) => total + roll.bonus, 0);
+    return modifiers.educationRolls
+      .filter(roll => roll.success)
+      .reduce((total, roll) => total + roll.bonus, 0);
   }
 
   /**

@@ -7,6 +7,27 @@
     "dot": ".",
     "colon": ":"
   },
+  "ui": {
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "next": "Next",
+      "previous": "Previous",
+      "submit": "Submit",
+      "add": "Add",
+      "remove": "Remove",
+      "clear": "Clear",
+      "select": "Select...",
+      "done": "Done"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalid": "Invalid value"
+    }
+  },
   "character": {
     "management": {
       "title": "Investigator Management",
@@ -20,76 +41,110 @@
       "title": "No Investigators Yet",
       "subtitle": "Create your first investigator to begin exploring the unknown..."
     },
-    "age": "Age",
-    "player": "Player",
-    "name": "Name",
-    "occupation": "Occupation",
-    "sanity": "Sanity",
-    "hitpoints": "Hit Points",
-    "health": "Health",
-    "created": "Created",
-    "statistics": "Statistics",
-    "skills": "Skills",
-    "equipment": "Equipment",
-    "notes": "Notes",
-    "actions": {
-      "save": "Save Character",
-      "cancel": "Cancel",
-      "edit": "Edit",
-      "delete": "Delete",
-      "view": "View"
+    "basicInfo": {
+      "name": "Name",
+      "player": "Player",
+      "age": "Age",
+      "sex": "Sex",
+      "residence": "Residence",
+      "birthplace": "Birthplace"
+    },
+    "sex": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "undefined": "Undefined"
+    },
+    "attributes": {
+      "strength": "Strength",
+      "constitution": "Constitution",
+      "power": "Power",
+      "dexterity": "Dexterity",
+      "appearance": "Appearance",
+      "size": "Size",
+      "intelligence": "Intelligence",
+      "education": "Education",
+      "luck": "Luck",
+      "half": "Half",
+      "fifth": "Fifth"
+    },
+    "health": {
+      "hitPoints": "Hit Points",
+      "magicPoints": "Magic Points",
+      "sanity": "Sanity",
+      "health": "Health"
+    },
+    "movement": {
+      "normal": "Normal",
+      "running": "Running",
+      "climbing": "Climbing",
+      "swimming": "Swimming"
     },
     "creation": {
       "title": "Create New Investigator",
       "step": "Step",
       "of": "of",
       "home": "Home",
-      "next": "Next",
-      "previous": "Previous",
-      "submit": "Create Investigator",
       "default": "Character Creation",
-      "investigator": "Investigator Name",
-      "basic": "Basic Information",
-      "attributesTitle": "Characteristics",
-      "occupationStep": "Occupation & Skills",
-      "personalStep": "Personal Details",
-      "labels": {
+      "create": "Create Investigator",
+      "basic": {
+        "title": "Basic Information",
         "name": "Investigator Name",
         "player": "Player Name",
-        "occupation": "Occupation",
         "age": "Age",
         "sex": "Sex",
         "residence": "Residence",
-        "birthplace": "Birthplace"
-      },
-      "options": {
-        "select": "Select...",
-        "sex": {
+        "birthplace": "Birthplace",
+        "validation": {
+          "age": "Age must be between 15 and 90 years",
+          "name": "Name is required",
+          "player": "Player name is required"
+        },
+        "sexOptions": {
+          "select": "Select sex...",
           "male": "Male",
           "female": "Female",
-          "other": "Other",
-          "undefined": "Undefined"
-        },
-        "occupation": {
-          "select": "Select an occupation..."
+          "other": "Other"
         }
       },
-      "reroll": {
-        "all": "Re-roll All",
-        "single": "Re-roll"
+      "occupation": {
+        "title": "Occupation & Skills",
+        "description": "Select your investigator's occupation which determines their occupational skills and starting skill points.",
+        "select": "Select an occupation...",
+        "placeholder": "Choose your occupation...",
+        "required": "Please select an occupation",
+        "suggestedContacts": "Suggested Contacts",
+        "skillPoints": "Occupation Skill Points",
+        "personalPoints": "Personal Interest Points",
+        "occupationSkills": "Occupation Skills",
+        "skills": "Occupational Skills"
       },
-      "roll": "Roll 3d6 × 5 for each characteristic",
       "attributes": {
-        "strength": "Strength",
-        "constitution": "Constitution",
-        "power": "Power",
-        "dexterity": "Dexterity",
-        "appearance": "Appearance",
-        "size": "Size",
-        "intelligence": "Intelligence",
-        "education": "Education",
-        "half": "Half",
-        "fifth": "Fifth",
+        "title": "Characteristics",
+        "description": "Generate your investigator's characteristics using dice rolls or assign fixed values.",
+        "occupationRelated": "Important for your occupation",
+        "occupationHint": "These characteristics are used in your occupation's skill point calculations",
+        "generationMethod": "Generation Method",
+        "quickFireMethod": "Quick Fire Method (Easy)",
+        "rollingMethod": "Rolling Method (Advanced)",
+        "quickFireMethodTitle": "Quick Fire Method",
+        "quickFireDescription": "Assign these fixed values to your characteristics: 80, 70, 60, 60, 50, 50, 50, 40",
+        "rollingMethodTitle": "Rolling Method",
+        "rollingDescription": "Assigned the dice rolls to the desired characteristics",
+        "availableValues": "Available Values",
+        "availableRolls": "Available Rolls",
+        "selectValue": "Select value",
+        "assign": "Assign",
+        "generateRolls": "Generate Dice Rolls",
+        "wideRangeCharacteristics": "Wide Range Characteristics",
+        "higherRangeCharacteristics": "Higher Range Characteristics",
+        "diceConfig": "Dice Configuration",
+        "rollAll": "Roll All Characteristics",
+        "roll": "Roll 3d6 × 5 for each characteristic",
+        "reroll": "Re-roll",
+        "occupationReminder": "Occupation Reminder",
+        "importantAttributes": "Important attributes for your occupation",
+        "occupationExplanation": "These attributes determine the number of occupational skill points you can allocate.",
         "generation": {
           "method": "Generation Method",
           "standard": "Standard",
@@ -118,37 +173,63 @@
         "clear": "Clear All",
         "clearSingle": "Clear"
       },
-      "backstory": {
-        "label": "Backstory",
-        "placeholder": "Describe your investigator's background..."
-      },
-      "occupation": {
-        "details": {
-          "creditRating": "Credit Rating",
-          "skillPoints": "Skill Points",
-          "occupationSkills": "Occupation Skills"
+      "ageModifiers": {
+        "title": "Age Modifiers",
+        "description": "Apply age-based modifications to your investigator's characteristics.",
+        "ageRange": "Age must be between 15 and 90 years",
+        "luck": {
+          "title": "Luck",
+          "description": "Luck is generated separately with 3d6×5 and affects various game mechanics",
+          "rollOnce": "Roll 3d6×5 for Luck",
+          "rollTwice": "Roll twice, choose best (ages 15-19)",
+          "roll": "Roll Luck"
         },
-        "preset": {
-          "antiquarian": {
-            "name": "Antiquarian",
-            "description": "A dealer in or collector of antique or rare books, paintings, and objects of art."
-          },
-          "doctor": {
-            "name": "Doctor of Medicine",
-            "description": "A medical practitioner."
-          },
-          "privateInvestigator": {
-            "name": "Private Investigator",
-            "description": "A person who carries out investigations for private clients."
-          },
-          "journalist": {
-            "name": "Journalist",
-            "description": "A person who writes for newspapers, magazines, or news websites."
-          }
+        "young": {
+          "title": "Young Character (15-19 years)",
+          "strength": "Strength Reduction",
+          "luck": "Luck Bonus: Roll twice and choose the best",
+          "selectLuck": "Choose your Luck value"
+        },
+        "adult": {
+          "title": "Young Adult (20-39 years)",
+          "education": "One Education improvement check"
+        },
+        "older": {
+          "title": "Older Character (40+ years)",
+          "appearance": "Appearance Penalty",
+          "distribute": "Distribute physical attribute penalties",
+          "points": "points",
+          "remaining": "Remaining points"
+        }
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Distribute skill points between occupational and personal interest skills.",
+        "occupational": {
+          "title": "Occupational Skill Points",
+          "description": "Points to spend on your occupation skills",
+          "skills": "Occupational Skills",
+          "short": "Occ"
+        },
+        "personal": {
+          "title": "Personal Interest Skill Points",
+          "description": "Points to spend on any skills",
+          "short": "Pers"
+        },
+        "remaining": "remaining",
+        "assignment": {
+          "title": "Skill Points Assignment"
+        },
+        "other": {
+          "title": "Other Skills"
+        },
+        "validation": {
+          "overspent": "You have overspent your available points"
         }
       },
       "personal": {
         "title": "Personal Details",
+        "description": "Add personality traits and background details to bring your investigator to life.",
         "traits": {
           "label": "Traits",
           "placeholder": "Personality traits..."
@@ -169,56 +250,6 @@
           "label": "Treasured Possessions",
           "placeholder": "Cherished items..."
         }
-      },
-      "skills": {
-        "charm": "Charm",
-        "fastTalk": "Fast Talk",
-        "intimidate": "Intimidate",
-        "persuade": "Persuade",
-        "animalHandling": "Animal Handling",
-        "psychology": "Psychology",
-        "psychoanalysis": "Psychoanalysis",
-        "climb": "Climb",
-        "dodge": "Dodge",
-        "fightingBrawl": "Fighting (Brawl)",
-        "firearmsHandgun": "Firearms (Handgun)",
-        "firearmsRifle": "Firearms (Rifle/Shotgun)",
-        "jump": "Jump",
-        "ride": "Ride",
-        "stealth": "Stealth",
-        "swim": "Swim",
-        "throw": "Throw",
-        "accounting": "Accounting",
-        "anthropology": "Anthropology",
-        "appraise": "Appraise",
-        "archaeology": "Archaeology",
-        "artCraft": "Art/Craft",
-        "computerUse": "Computer Use",
-        "creditRating": "Credit Rating",
-        "disguise": "Disguise",
-        "driveAuto": "Drive Auto",
-        "electricalRepair": "Electrical Repair",
-        "electronics": "Electronics",
-        "firstAid": "First Aid",
-        "history": "History",
-        "law": "Law",
-        "libraryUse": "Library Use",
-        "listen": "Listen",
-        "locksmith": "Locksmith",
-        "mechanicalRepair": "Mechanical Repair",
-        "medicine": "Medicine",
-        "naturalWorld": "Natural World",
-        "navigate": "Navigate",
-        "occult": "Occult",
-        "operateHeavyMachinery": "Operate Heavy Machinery",
-        "pilot": "Pilot",
-        "science": "Science",
-        "sleightOfHand": "Sleight of Hand",
-        "spotHidden": "Spot Hidden",
-        "survival": "Survival",
-        "track": "Track",
-        "languageOwn": "Language (Own)",
-        "languageOther": "Language (Other)"
       }
     },
     "sheet": {
@@ -232,43 +263,153 @@
       "return": "Return to Characters",
       "characteristics": "Characteristics",
       "condition": "Condition",
-      "movement": "Movement",
       "personalDetails": "Personal Details",
       "equipment": "Equipment",
       "notFound": "Character Not Found",
-      "age": "Age",
-      "half": "Half",
-      "fifth": "Fifth",
       "save": "Save",
       "edit": "Edit",
-      "hitPoints": "Hit Points",
-      "magicPoints": "Magic Points",
-      "luck": "Luck",
-      "normal": "Normal",
-      "running": "Running",
-      "climbing": "Climbing",
-      "swimming": "Swimming",
-      "player": "Player",
-      "sex": "Sex",
-      "residence": "Residence",
-      "birthplace": "Birthplace",
-      "traits": "Traits",
-      "ideologyBeliefs": "Ideology/Beliefs",
-      "significantPeople": "Significant People",
-      "meaningfulLocations": "Meaningful Locations",
-      "treasuredPossessions": "Treasured Possessions",
-      "noEquipment": "No equipment listed",
       "no": {
-        "rolls": "No dice rolls yet"
+        "rolls": "No dice rolls yet",
+        "equipment": "No equipment listed"
       },
       "rolled": "Rolled",
       "vs": "vs",
-      "critical": "CRITICAL SUCCESS!",
+      "critical": "CRITICAL!",
+      "extreme": "EXTREME!",
+      "hard": "HARD",
+      "regular": "REGULAR",
       "success": "Success",
       "failure": "Failure",
       "fumble": "FUMBLE!",
       "modifiers": "Modifiers",
-      "base": "Base"
+      "base": "Base",
+      "skillPoints": "Skill Points",
+      "remaining": "remaining",
+      "permanent": "Permanent",
+      "finance": {
+        "title": "Fortune",
+        "spendingLevel": "Spending Level",
+        "cash": "Cash",
+        "assets": "Assets",
+        "history": "History",
+        "addEntry": "Add Entry",
+        "description": "Description",
+        "amount": "Amount",
+        "type": "Type",
+        "expense": "Expense",
+        "income": "Income",
+        "date": "Date",
+        "remove": "Remove",
+        "noHistory": "No financial history",
+        "done": "Done",
+        "target": "Apply to",
+        "capital": "Capital",
+        "hideHistory": "Hide history",
+        "showHistory": "Show history"
+      }
+    }
+  },
+  "occupations": {
+    "antiquarian": "Antiquarian",
+    "antiquarian.description": "You deal in rare books, maps, folios, and manuscripts. You know where to find the finest examples and the best clients. Your knowledge of history and old documents is extensive.",
+    "doctor": "Doctor",
+    "doctor.description": "You are a medical practitioner, trained in the diagnosis and treatment of disease and injury. You have extensive knowledge of human anatomy, psychology, and the healing arts.",
+    "privateInvestigator": "Private Investigator",
+    "privateInvestigator.description": "You investigate matters for private clients, from missing persons to insurance fraud. You know how to find information, follow leads, and stay out of trouble.",
+    "journalist": "Journalist",
+    "journalist.description": "You gather, write, and report news and current events for newspapers, magazines, or other media. You have contacts throughout society and know how to find a story."
+  },
+  "skills": {
+    "validation": {
+      "occupation": {
+        "overspent": "You have overspent your occupational skill points"
+      },
+      "personal": {
+        "overspent": "You have overspent your personal interest skill points"
+      },
+      "occupation.required": "Please select an occupation",
+      "age.required": "Age is required and must be between 15 and 90",
+      "luck.required": "Luck value is required"
+    },
+    "charm": "Charm",
+    "fastTalk": "Fast Talk",
+    "intimidate": "Intimidate",
+    "persuade": "Persuade",
+    "animalHandling": "Animal Handling",
+    "psychology": "Psychology",
+    "psychoanalysis": "Psychoanalysis",
+    "climb": "Climb",
+    "dodge": "Dodge",
+    "fightingBrawl": "Fighting (Brawl)",
+    "firearmsHandgun": "Firearms (Handgun)",
+    "firearmsRifle": "Firearms (Rifle/Shotgun)",
+    "jump": "Jump",
+    "ride": "Ride",
+    "stealth": "Stealth",
+    "swim": "Swim",
+    "throw": "Throw",
+    "accounting": "Accounting",
+    "anthropology": "Anthropology",
+    "appraise": "Appraise",
+    "archaeology": "Archaeology",
+    "artCraft": "Art/Craft",
+    "computerUse": "Computer Use",
+    "creditRating": "Credit Rating",
+    "disguise": "Disguise",
+    "driveAuto": "Drive Auto",
+    "electricalRepair": "Electrical Repair",
+    "electronics": "Electronics",
+    "firstAid": "First Aid",
+    "history": "History",
+    "law": "Law",
+    "libraryUse": "Library Use",
+    "listen": "Listen",
+    "locksmith": "Locksmith",
+    "mechanicalRepair": "Mechanical Repair",
+    "medicine": "Medicine",
+    "naturalWorld": "Natural World",
+    "navigate": "Navigate",
+    "occult": "Occult",
+    "operateHeavyMachinery": "Operate Heavy Machinery",
+    "pilot": "Pilot",
+    "science": "Science",
+    "sleightOfHand": "Sleight of Hand",
+    "spotHidden": "Spot Hidden",
+    "survival": "Survival",
+    "track": "Track",
+    "languageOwn": "Language (Own)",
+    "languageOther": "Language (Other)"
+  },
+  "creditRating": {
+    "levels": {
+      "penniless": {
+        "name": "Penniless",
+        "description": "Cannot even afford the level of 'poor'. Living on the street."
+      },
+      "poor": {
+        "name": "Poor",
+        "description": "Bare minimum of roof and one meager meal each day. Cheapest rental housing."
+      },
+      "average": {
+        "name": "Average",
+        "description": "Reasonable comfort, three meals a day. Average home or apartment."
+      },
+      "wealthy": {
+        "name": "Wealthy",
+        "description": "Luxury and comfort. Substantial residence, possibly with domestic help."
+      },
+      "rich": {
+        "name": "Rich",
+        "description": "Great luxury and comfort. Plush residence with abundant domestic help."
+      },
+      "superRich": {
+        "name": "Super Rich",
+        "description": "Money is no object. Among the richest in the world."
+      },
+      "unknown": {
+        "name": "Unknown",
+        "description": ""
+      }
     }
   },
   "lovecraft": {

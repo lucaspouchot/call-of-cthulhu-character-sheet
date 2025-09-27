@@ -1,0 +1,1 @@
+export { BasicInfoStepComponent } from './basic-info-step.component';

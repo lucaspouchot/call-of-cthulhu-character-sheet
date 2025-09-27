@@ -1,0 +1,1 @@
+export { PersonalDetailsStepComponent } from './personal-details-step.component';

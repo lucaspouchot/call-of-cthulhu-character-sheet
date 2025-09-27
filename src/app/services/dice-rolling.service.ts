@@ -23,7 +23,10 @@ export class DiceRollingService {
       result: roll,
       success: check.success,
       criticalSuccess: check.criticalSuccess,
-      criticalFailure: check.criticalFailure,
+      extremeSuccess: check.extremeSuccess,
+      hardSuccess: check.hardSuccess,
+      regularSuccess: check.regularSuccess,
+      failure: check.failure,
       fumble: check.fumble,
       timestamp: new Date(),
       description: `${skillName} check (${target}%)`
@@ -45,7 +48,10 @@ export class DiceRollingService {
       result: roll,
       success: check.success,
       criticalSuccess: check.criticalSuccess,
-      criticalFailure: check.criticalFailure,
+      extremeSuccess: check.extremeSuccess,
+      hardSuccess: check.hardSuccess,
+      regularSuccess: check.regularSuccess,
+      failure: check.failure,
       fumble: check.fumble,
       timestamp: new Date(),
       description: `${characteristicName} check (${target}%)`

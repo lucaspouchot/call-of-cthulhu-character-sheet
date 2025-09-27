@@ -11,6 +11,7 @@ export interface Skill {
   occupationValue: number;
   totalValue: number;
   description?: string;
+  modifiers?: TemporaryModifier[];
 }
 
 export interface Weapon {
@@ -43,6 +44,68 @@ export enum Sex {
   Female = 'female',
   Other = 'other',
   Undefined = 'undefined'
+}
+
+export interface SkillPointAllocation {
+  occupationPointsTotal: number;
+  occupationPointsSpent: number;
+  personalPointsTotal: number;
+  personalPointsSpent: number;
+  creditRating: number;
+}
+
+export interface CharacterSheetCreate {
+  // Basic Information (required for creation)
+  name?: string;
+  player?: string;
+  age?: number;
+  sex?: Sex;
+  residence?: string;
+  birthplace?: string;
+
+  // Occupation (selected during creation)
+  occupation?: string;
+
+  // Attributes (generated/assigned during creation)
+  strength?: Attribute;
+  constitution?: Attribute;
+  power?: Attribute;
+  dexterity?: Attribute;
+  appearance?: Attribute;
+  size?: Attribute;
+  intelligence?: Attribute;
+  education?: Attribute;
+
+  // Characteristics generation method (quickfire or rolling)
+  generationMethod?: 'rolling' | 'quickfire';
+
+  // Luck (rolled during creation)
+  luckValue?: number;
+
+  // Skills (assigned during creation)
+  skillAssignments?: {
+    [skillId: string]: {
+      occupation: number;
+      personal: number;
+    };
+  };
+
+  // Credit Rating (set during occupation/skills step)
+  creditRating?: number;
+
+  // Personal Details (optional during creation) 
+  backstory?: string;
+  traits?: string;
+  ideologyBeliefs?: string;
+  significantPeople?: string;
+  meaningfulLocations?: string;
+  treasuredPossessions?: string;
+}
+
+export interface StepValidation {
+  stepNumber?: number; // Optional - let parent component manage step numbers
+  isValid: boolean;
+  errors: string[];
 }
 
 export interface CharacterSheet {
@@ -104,6 +167,7 @@ export interface CharacterSheet {
 
   // Skills
   skills: Skill[];
+  skillPoints: SkillPointAllocation;
 
   // Combat
   weapons: Weapon[];
@@ -115,6 +179,23 @@ export interface CharacterSheet {
 
   // Equipment & Personal Details
   equipment: string[];
+
+  // Finance
+  finance: {
+    creditRating: number;
+    spendingLevel: number;
+    cash: number;
+    assets: number;
+    expenseHistory: {
+      id: string;
+      description: string;
+      amount: number;
+      type: 'expense' | 'income';
+      target: 'cash' | 'assets';
+      date: Date;
+    }[];
+  };
+
   backstory: string;
   traits: string;
   ideologyBeliefs: string;

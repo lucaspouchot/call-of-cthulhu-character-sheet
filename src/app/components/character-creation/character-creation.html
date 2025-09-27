@@ -1,324 +1,112 @@
 <div class="min-h-screen bg-parchment p-4">
   <div class="max-w-4xl mx-auto">
-    
     <!-- Header -->
-    <div class="character-sheet mb-6 p-6 relative">
-      <!-- Language Switcher aligned with title -->
-      <div class="absolute top-6 right-4 flex items-start">
-        <app-language-switcher></app-language-switcher>
-      </div>
-      
-      <!-- Home button in top left -->
-      <div class="absolute top-6 left-4 flex items-start">
-        <button (click)="goHome()" 
-                class="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm">
-          ← {{ 'character.creation.home' | dynamicTranslate }}
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex items-center space-x-4">
+        <button (click)="goHome()" class="text-blue-600 hover:text-blue-800 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
         </button>
+        <h1 class="text-3xl font-bold text-gray-900">{{ 'character.creation.title' | dynamicTranslate }}</h1>
       </div>
-      
-      <h1 class="gothic-header text-3xl">{{ 'character.creation.title' | dynamicTranslate }}</h1>
-      <div class="flex justify-between items-center mt-4">
-        <div class="text-lg font-semibold">{{ stepTitle() | dynamicTranslate }}</div>
-        <div class="text-sm text-gray-600">{{ 'character.creation.step' | dynamicTranslate }} {{ currentStep() }} {{ 'character.creation.of' | dynamicTranslate }} {{ totalSteps }}</div>
+      <app-language-switcher></app-language-switcher>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-700">{{ stepTitle() | dynamicTranslate }}</span>
+        <span class="text-sm text-gray-500">{{ currentStep() }}/{{ totalSteps }}</span>
       </div>
-      
-      <!-- Progress Bar -->
-      <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-        <div class="bg-cthulhu-green h-2 rounded-full transition-all duration-300" 
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" 
              [style.width.%]="(currentStep() / totalSteps) * 100"></div>
       </div>
     </div>
 
-    <form [formGroup]="characterForm" (ngSubmit)="createCharacter()">
-      
-      <!-- Step 1: Basic Information -->
-      <div *ngIf="currentStep() === 1" class="character-sheet p-6">
-        <h2 class="gothic-header text-2xl mb-6">{{ 'character.creation.basic' | dynamicTranslate }}</h2>
-        
-        <div class="grid grid-cols-1 tablet:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.name' | dynamicTranslate }} *</label>
-            <input type="text" formControlName="name" 
-                   class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.player' | dynamicTranslate }} *</label>
-            <input type="text" formControlName="player" 
-                   class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.age' | dynamicTranslate }} *</label>
-            <input type="number" formControlName="age" min="15" max="89"
-                   class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.sex' | dynamicTranslate }} *</label>
-            <select formControlName="sex" 
-                    class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-              <option value="">{{ 'character.creation.options.select' | dynamicTranslate }}</option>
-              <option value="male">{{ 'character.creation.options.sex.male' | dynamicTranslate }}</option>
-              <option value="female">{{ 'character.creation.options.sex.female' | dynamicTranslate }}</option>
-              <option value="other">{{ 'character.creation.options.sex.other' | dynamicTranslate }}</option>
-            </select>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.residence' | dynamicTranslate }}</label>
-            <input type="text" formControlName="residence" 
-                   class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.birthplace' | dynamicTranslate }}</label>
-            <input type="text" formControlName="birthplace" 
-                   class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-          </div>
-        </div>
-      </div>
+    <!-- Form Container -->
+      <form [formGroup]="characterForm">
 
-      <!-- Step 2: Attributes -->
-      <div *ngIf="currentStep() === 2" class="character-sheet p-6">
-        <h2 class="gothic-header text-2xl mb-6">{{ 'character.creation.attributesTitle' | dynamicTranslate }}</h2>
-        
-        <!-- Custom Dice Formula Configuration -->
-        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h3 class="font-semibold mb-3">{{ 'character.creation.attributes.formulas.title' | dynamicTranslate }}</h3>
-          
-          <div class="space-y-3">
-            <div *ngFor="let roll of customRolls; let i = index" 
-                 class="flex items-center gap-3 p-3 bg-white rounded border">
-              <div class="flex-1">
-                <label class="block text-xs text-gray-600 mb-1">{{ 'character.creation.attributes.formulas.formula' | dynamicTranslate }}</label>
-                <select [(ngModel)]="roll.formula" 
-                        [ngModelOptions]="{standalone: true}"
-                        (ngModelChange)="updateCustomRoll(i, 'formula', $event)"
-                        class="w-full p-2 border rounded text-sm">
-                  <option *ngFor="let formula of diceFormulas" [value]="formula.formula">
-                    {{ formula.label }} - {{ formula.descriptionKey | dynamicTranslate }}
-                  </option>
-                </select>
-              </div>
-              
-              <div class="w-20">
-                <label class="block text-xs text-gray-600 mb-1">{{ 'character.creation.attributes.formulas.count' | dynamicTranslate }}</label>
-                <input type="number" 
-                       [(ngModel)]="roll.count" 
-                       [ngModelOptions]="{standalone: true}"
-                       (ngModelChange)="updateCustomRoll(i, 'count', $event)"
-                       min="1" max="20"
-                       class="w-full p-2 border rounded text-sm text-center">
-              </div>
-              
-              <button type="button" (click)="removeCustomRoll(i)" 
-                      *ngIf="customRolls.length > 1"
-                      class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">
-                ✕
-              </button>
-            </div>
-            
-            <button type="button" (click)="addCustomRoll()" 
-                    class="px-3 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
-              {{ 'character.creation.attributes.formulas.add' | dynamicTranslate }}
-            </button>
-          </div>
-          
-          <div class="mt-4 flex flex-wrap gap-2">
-            <button type="button" (click)="generateAllAttributes()" 
-                    class="skill-check-button">
-              {{ 'character.creation.reroll.all' | dynamicTranslate }}
-            </button>
-            <button type="button" (click)="clearAllAttributes()" 
-                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-              {{ 'character.creation.attributes.clear' | dynamicTranslate }}
-            </button>
-          </div>
+        <!-- Step 1: Basic Information -->
+        <div *ngIf="currentStep() === 1">
+          <app-basic-info-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-basic-info-step>
         </div>
 
-        <!-- Generated Values Pool -->
-        <div *ngIf="generatedValues.length > 0" class="mb-6 p-4 bg-blue-50 rounded-lg">
-          <h3 class="font-semibold mb-3">{{ 'character.creation.attributes.pool.title' | dynamicTranslate }}</h3>
-          <p class="text-sm text-gray-600 mb-3">{{ 'character.creation.attributes.pool.description' | dynamicTranslate }}</p>
-          <div class="flex flex-wrap gap-2">
-            <span *ngFor="let value of generatedValues; let i = index" 
-                  class="px-3 py-2 bg-blue-200 rounded cursor-pointer hover:bg-blue-300 border"
-                  [class.bg-gray-300]="value.used"
-                  [class.cursor-not-allowed]="value.used"
-                  [class.ring-2]="!value.used"
-                  [class.ring-blue-500]="!value.used"
-                  (click)="!value.used && openAttributeAssignment(value.value, i)">
-              <div class="font-bold text-lg">{{ value.value }}</div>
-              <div class="text-xs text-gray-600">{{ value.formula }}</div>
-            </span>
-          </div>
+        <!-- Step 2: Occupation -->
+        <div *ngIf="currentStep() === 2">
+          <app-occupation-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-occupation-step>
         </div>
 
-        <!-- Attribute Selection Instruction -->
-        <div *ngIf="selectedAttributeForAssignment" class="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded">
-          <p class="text-sm">
-            <strong>{{ 'character.creation.attributes.assignment.selected' | dynamicTranslate }}:</strong> 
-            {{ ('character.creation.attributes.' + selectedAttributeForAssignment) | dynamicTranslate }}
-          </p>
-          <p class="text-xs text-gray-600 mt-1">{{ 'character.creation.attributes.assignment.instruction' | dynamicTranslate }}</p>
-          <button type="button" (click)="selectedAttributeForAssignment = null" 
-                  class="mt-2 px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-600">
-            {{ 'character.creation.attributes.assignment.cancel' | dynamicTranslate }}
-          </button>
+        <!-- Step 3: Characteristics -->
+        <div *ngIf="currentStep() === 3">
+          <app-characteristics-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-characteristics-step>
         </div>
-        
-        <!-- Attributes Grid -->
-        <div class="grid grid-cols-2 tablet:grid-cols-4 gap-4">
-          <div *ngFor="let attr of attributeNames" 
-               class="border border-gray-300 rounded-lg p-4 text-center cursor-pointer"
-               [class.ring-2]="selectedAttributeForAssignment === attr"
-               [class.ring-yellow-500]="selectedAttributeForAssignment === attr"
-               [class.bg-yellow-50]="selectedAttributeForAssignment === attr"
-               (click)="selectAttributeForAssignment(attr)">
-            <h3 class="font-semibold text-sm mb-2 capitalize">{{ ('character.creation.attributes.' + attr) | dynamicTranslate }}</h3>
-            
-            <!-- Attribute Value Input -->
-            <div class="mb-2">
-              <input type="number" 
-                     [(ngModel)]="attributes[attr].value"
-                     [ngModelOptions]="{standalone: true}"
-                     (ngModelChange)="updateAttribute(attr)"
-                     min="3" max="108"
-                     class="w-full text-2xl font-bold text-center border rounded p-1 text-cthulhu-dark">
-            </div>
-            
-            <div class="text-xs text-gray-600 space-y-1">
-              <div>{{ 'character.creation.attributes.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ attributes[attr].halfValue }}</div>
-              <div>{{ 'character.creation.attributes.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ attributes[attr].fifthValue }}</div>
-            </div>
-            
-            <div class="mt-2 space-x-1">
-              <button type="button" (click)="generateSingleAttribute(attr); $event.stopPropagation()" 
-                      class="px-2 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded">
-                {{ 'character.creation.reroll.single' | dynamicTranslate }}
-              </button>
-              <button type="button" (click)="clearAttribute(attr); $event.stopPropagation()" 
-                      class="px-2 py-1 text-xs bg-red-200 hover:bg-red-300 rounded">
-                {{ 'character.creation.attributes.clearSingle' | dynamicTranslate }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Step 3: Occupation -->
-      <div *ngIf="currentStep() === 3" class="character-sheet p-6">
-        <h2 class="gothic-header text-2xl mb-6">{{ 'character.creation.occupationStep' | dynamicTranslate }}</h2>
-        
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.labels.occupation' | dynamicTranslate }} *</label>
-          <select formControlName="occupation" (change)="onOccupationChange()"
-                  class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent">
-            <option value="">{{ 'character.creation.options.occupation.select' | dynamicTranslate }}</option>
-            <option *ngFor="let occ of occupations" [value]="occ.id">{{ getOccupationName(occ.id) }}</option>
-          </select>
+        <!-- Step 4: Age Modifiers & Luck (merged step) -->
+        <div *ngIf="currentStep() === 4">
+          <app-age-modifiers-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-age-modifiers-step>
         </div>
-        
-        <div *ngIf="selectedOccupation" class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="font-semibold mb-2">{{ getOccupationName(selectedOccupation.id) }}</h3>
-          <p class="text-gray-700 mb-4">{{ getOccupationDescription(selectedOccupation.id) }}</p>
-          
-          <div class="grid grid-cols-1 tablet:grid-cols-2 gap-4">
-            <div>
-              <h4 class="font-medium mb-2">{{ 'character.creation.occupation.details.creditRating' | dynamicTranslate }}</h4>
-              <p class="text-sm">{{ selectedOccupation.creditRating.min }}% - {{ selectedOccupation.creditRating.max }}%</p>
-            </div>
-            
-            <div>
-              <h4 class="font-medium mb-2">{{ 'character.creation.occupation.details.skillPoints' | dynamicTranslate }}</h4>
-              <p class="text-sm">{{ selectedOccupation.skillPoints }}</p>
-            </div>
-            
-            <div class="tablet:col-span-2">
-              <h4 class="font-medium mb-2">{{ 'character.creation.occupation.details.occupationSkills' | dynamicTranslate }}</h4>
-              <div class="flex flex-wrap gap-2">
-                <span *ngFor="let skillId of selectedOccupation.occupationSkills" 
-                      class="px-2 py-1 bg-cthulhu-green text-white text-xs rounded">
-                  {{ getSkillTranslation(skillId) }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Step 4: Personal Details -->
-      <div *ngIf="currentStep() === 4" class="character-sheet p-6">
-        <h2 class="gothic-header text-2xl mb-6">{{ 'character.creation.personal.title' | dynamicTranslate }}</h2>
-        
-        <div class="space-y-6">
-          <div>
-            <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.backstory.label' | dynamicTranslate }}</label>
-            <textarea formControlName="backstory" rows="3" 
-                      class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                      [placeholder]="'character.creation.backstory.placeholder' | dynamicTranslate"></textarea>
-          </div>
-          
-          <div class="grid grid-cols-1 tablet:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.personal.traits.label' | dynamicTranslate }}</label>
-              <textarea formControlName="traits" rows="2" 
-                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                        [placeholder]="'character.creation.personal.traits.placeholder' | dynamicTranslate"></textarea>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.personal.ideology.label' | dynamicTranslate }}</label>
-              <textarea formControlName="ideologyBeliefs" rows="2" 
-                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                        [placeholder]="'character.creation.personal.ideology.placeholder' | dynamicTranslate"></textarea>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.personal.significantPeople.label' | dynamicTranslate }}</label>
-              <textarea formControlName="significantPeople" rows="2" 
-                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                        [placeholder]="'character.creation.personal.significantPeople.placeholder' | dynamicTranslate"></textarea>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.personal.meaningfulLocations.label' | dynamicTranslate }}</label>
-              <textarea formControlName="meaningfulLocations" rows="2" 
-                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                        [placeholder]="'character.creation.personal.meaningfulLocations.placeholder' | dynamicTranslate"></textarea>
-            </div>
-            
-            <div class="tablet:col-span-2">
-              <label class="block text-sm font-medium text-cthulhu-dark mb-2">{{ 'character.creation.personal.treasuredPossessions.label' | dynamicTranslate }}</label>
-              <textarea formControlName="treasuredPossessions" rows="2" 
-                        class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cthulhu-green focus:border-transparent"
-                        [placeholder]="'character.creation.personal.treasuredPossessions.placeholder' | dynamicTranslate"></textarea>
-            </div>
-          </div>
+        <!-- Step 5: Personal Details -->
+        <div *ngIf="currentStep() === 5">
+          <app-personal-details-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-personal-details-step>
         </div>
-      </div>
+
+        <!-- Step 6: Skills -->
+        <div *ngIf="currentStep() === 6">
+          <app-skills-step 
+            [characterSheet]="characterSheet"
+            (characterSheetChange)="onCharacterSheetChange($event)"
+            (stepValidation)="onStepValidation($event)">
+          </app-skills-step>
+        </div>
+
+      </form>
 
       <!-- Navigation Buttons -->
-      <div class="flex justify-between mt-6">
-        <button *ngIf="currentStep() > 1" type="button" (click)="previousStep()" 
-                class="px-6 py-3 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors">
-          {{ 'character.creation.previous' | dynamicTranslate }}
-        </button>
-        
-        <div class="ml-auto">
-          <button *ngIf="currentStep() < totalSteps" type="button" (click)="nextStep()" 
-                  class="skill-check-button">
-            {{ 'character.creation.next' | dynamicTranslate }}
+      <div class="flex justify-between flex-row-reverse mt-6">
+        <div class="flex space-x-2">
+          <button type="button" (click)="nextStep()" 
+                  *ngIf="currentStep() < totalSteps"
+                  [disabled]="!canProceedToNextStep()"
+                  class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ 'ui.actions.next' | dynamicTranslate }}
           </button>
-          
-          <button *ngIf="currentStep() === totalSteps" type="submit" 
-                  [disabled]="!characterForm.valid"
-                  class="skill-check-button disabled:opacity-50 disabled:cursor-not-allowed">
-            {{ 'character.creation.submit' | dynamicTranslate }}
+
+          <button type="button" (click)="createCharacter()" 
+                  *ngIf="currentStep() === totalSteps"
+                  [disabled]="!characterForm.valid || !canProceedToNextStep()"
+                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            {{ 'character.creation.create' | dynamicTranslate }}
           </button>
         </div>
+        
+        <button type="button" (click)="previousStep()" 
+                *ngIf="currentStep() > 1"
+                class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ 'ui.actions.previous' | dynamicTranslate }}
+        </button>
       </div>
-    </form>
   </div>
 </div>

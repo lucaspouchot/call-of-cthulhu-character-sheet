@@ -7,6 +7,27 @@
     "dot": ".",
     "colon": " :"
   },
+  "ui": {
+    "actions": {
+      "save": "Sauvegarder",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "view": "Voir",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "submit": "Soumettre",
+      "add": "Ajouter",
+      "remove": "Retirer",
+      "clear": "Effacer",
+      "select": "Sélectionner...",
+      "done": "Terminé"
+    },
+    "validation": {
+      "required": "Ce champ est requis",
+      "invalid": "Valeur invalide"
+    }
+  },
   "character": {
     "management": {
       "title": "Gestion des Investigateurs",
@@ -17,79 +38,113 @@
       "first": "Créer le Premier Investigateur"
     },
     "empty": {
-      "title": "Aucun Investigateur pour l'instant",
+      "title": "Aucun Investigateur",
       "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."
     },
-    "age": "Âge",
-    "player": "Joueur",
-    "name": "Nom",
-    "occupation": "Profession",
-    "sanity": "Santé mentale",
-    "hitpoints": "Points de Vie",
-    "health": "Santé",
-    "created": "Créé",
-    "statistics": "Statistiques",
-    "skills": "Compétences",
-    "equipment": "Équipement",
-    "notes": "Notes",
-    "actions": {
-      "save": "Sauvegarder le Personnage",
-      "cancel": "Annuler",
-      "edit": "Modifier",
-      "delete": "Supprimer",
-      "view": "Voir"
+    "basicInfo": {
+      "name": "Nom",
+      "player": "Joueur",
+      "age": "Âge",
+      "sex": "Sexe",
+      "residence": "Résidence",
+      "birthplace": "Lieu de naissance"
+    },
+    "sex": {
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre",
+      "undefined": "Non défini"
+    },
+    "attributes": {
+      "strength": "Force",
+      "constitution": "Constitution",
+      "power": "Pouvoir",
+      "dexterity": "Dextérité",
+      "appearance": "Apparence",
+      "size": "Taille",
+      "intelligence": "Intelligence",
+      "education": "Éducation",
+      "luck": "Chance",
+      "half": "Moitié",
+      "fifth": "Cinquième"
+    },
+    "health": {
+      "hitPoints": "Points de Vie",
+      "magicPoints": "Points de Magie",
+      "sanity": "Sanité Mentale",
+      "health": "Santé"
+    },
+    "movement": {
+      "normal": "Normal",
+      "running": "Course",
+      "climbing": "Escalade",
+      "swimming": "Natation"
     },
     "creation": {
       "title": "Créer un Nouvel Investigateur",
       "step": "Étape",
       "of": "sur",
       "home": "Accueil",
-      "next": "Suivant",
-      "previous": "Précédent",
-      "submit": "Créer l'Investigateur",
       "default": "Création de Personnage",
-      "investigator": "Nom de l'Investigateur",
-      "basic": "Informations de Base",
-      "attributesTitle": "Attributs",
-      "occupationStep": "Profession et Compétences",
-      "personalStep": "Détails Personnels",
-      "labels": {
+      "create": "Créer l'Investigateur",
+      "basic": {
+        "title": "Informations de Base",
         "name": "Nom de l'Investigateur",
         "player": "Nom du Joueur",
-        "occupation": "Profession",
         "age": "Âge",
         "sex": "Sexe",
         "residence": "Résidence",
-        "birthplace": "Lieu de Naissance"
-      },
-      "options": {
-        "select": "Sélectionner...",
-        "sex": {
+        "birthplace": "Lieu de naissance",
+        "validation": {
+          "age": "L'âge doit être entre 15 et 90 ans",
+          "name": "Le nom est requis",
+          "player": "Le nom du joueur est requis"
+        },
+        "sexOptions": {
+          "select": "Sélectionner le sexe...",
           "male": "Homme",
           "female": "Femme",
-          "other": "Autre",
-          "undefined": "Non défini"
-        },
-        "occupation": {
-          "select": "Sélectionner une profession..."
+          "other": "Autre"
         }
       },
-      "reroll": {
-        "all": "Relancer Tout",
-        "single": "Relancer"
+      "occupation": {
+        "title": "Occupation et Compétences",
+        "description": "Sélectionnez l'occupation de votre investigateur qui détermine ses compétences professionnelles et ses points de compétences de départ.",
+        "select": "Sélectionnez une occupation...",
+        "placeholder": "Choisissez votre occupation...",
+        "required": "Veuillez sélectionner une occupation",
+        "suggestedContacts": "Contacts Suggérés",
+        "skillPoints": "Points de Compétences Professionnelles",
+        "personalPoints": "Points d'Intérêt Personnel",
+        "occupationSkills": "Compétences Professionnelles",
+        "skills": "Compétences Professionnelles"
       },
-      "roll": "Lancez 3d6 × 5 pour chaque caractéristique",
       "attributes": {
-        "strength": "Force",
-        "constitution": "Constitution",
-        "power": "Pouvoir",
-        "dexterity": "Dextérité",
-        "appearance": "Apparence",
-        "size": "Taille",
-        "intelligence": "Intelligence",
-        "education": "Éducation",
-        "half": "Moitié",
-        "fifth": "5ème",
+        "title": "Caractéristiques",
+        "description": "Générez les caractéristiques de votre investigateur en utilisant des jets de dés ou assignez des valeurs fixes.",
+        "occupationRelated": "Important pour votre métier",
+        "occupationHint": "Ces caractéristiques sont utilisées dans les calculs de points de compétences de votre métier",
+        "generationMethod": "Méthode de Génération",
+        "quickFireMethod": "Méthode Rapide (Facile)",
+        "rollingMethod": "Méthode par Jets (Avancée)",
+        "quickFireMethodTitle": "Méthode Rapide",
+        "quickFireDescription": "Assignez ces valeurs fixes à vos caractéristiques : 80, 70, 60, 60, 50, 50, 50, 40",
+        "rollingMethodTitle": "Méthode par Jets",
+        "rollingDescription": "Attribué les lancers de dés aux caractéristiques souhaitées",
+        "availableValues": "Valeurs Disponibles",
+        "availableRolls": "Jets Disponibles",
+        "selectValue": "Sélectionner une valeur",
+        "assign": "Assigner",
+        "generateRolls": "Générer les Jets de Dés",
+        "wideRangeCharacteristics": "Caractéristiques à Large Éventail",
+        "higherRangeCharacteristics": "Caractéristiques à Éventail Élevé",
+        "diceConfig": "Configuration des Dés",
+        "rollAll": "Lancer Toutes les Caractéristiques",
+        "roll": "Lancez 3d6 × 5 pour chaque caractéristique",
+        "reroll": "Relancer",
+        "occupationReminder": "Rappel de Profession",
+        "importantAttributes": "Attributs importants pour votre profession",
+        "occupationExplanation": "Ces attributs déterminent le nombre de points de compétences professionnelles que vous pourrez attribuer.",
         "generation": {
           "method": "Méthode de Génération",
           "standard": "Standard",
@@ -99,58 +154,84 @@
           "title": "Configuration des Formules de Dés",
           "formula": "Formule",
           "count": "Nombre",
-          "add": "Ajouter Formule",
+          "add": "Ajouter une Formule",
           "descriptions": {
-            "standard": "Standard L'Appel de Cthulhu",
-            "consistent": "Valeurs hautes consistantes",
+            "standard": "L'Appel de Cthulhu standard",
+            "consistent": "Valeurs hautes cohérentes",
             "high": "Minimum très élevé"
           }
         },
         "assignment": {
           "selected": "Attribut sélectionné",
           "instruction": "Cliquez sur une valeur générée pour l'assigner à cet attribut",
-          "cancel": "Annuler Sélection"
+          "cancel": "Annuler la Sélection"
         },
         "pool": {
           "title": "Valeurs Générées",
           "description": "Sélectionnez d'abord un attribut ci-dessous, puis cliquez sur une valeur pour l'assigner"
         },
-        "clear": "Effacer Tout",
+        "clear": "Tout Effacer",
         "clearSingle": "Effacer"
       },
-      "backstory": {
-        "label": "Histoire Personnelle",
-        "placeholder": "Décrivez le passé de votre investigateur..."
-      },
-      "occupation": {
-        "details": {
-          "creditRating": "Niveau de Crédit",
-          "skillPoints": "Points de Compétences",
-          "occupationSkills": "Compétences Professionnelles"
+      "ageModifiers": {
+        "title": "Modificateurs d'Âge",
+        "description": "Appliquez les modifications basées sur l'âge aux caractéristiques de votre investigateur.",
+        "ageRange": "L'âge doit être entre 15 et 90 ans",
+        "luck": {
+          "title": "Chance",
+          "description": "La chance est générée séparément avec 3d6×5 et affecte diverses mécaniques de jeu",
+          "rollOnce": "Lancer 3d6×5 pour la Chance",
+          "rollTwice": "Lancer deux fois, choisir le meilleur (âges 15-19)",
+          "roll": "Lancer la Chance"
         },
-        "preset": {
-          "antiquarian": {
-            "name": "Antiquaire",
-            "description": "Un marchand ou collectionneur de livres anciens ou rares, peintures et objets d'art."
-          },
-          "doctor": {
-            "name": "Médecin",
-            "description": "Un praticien médical."
-          },
-          "privateInvestigator": {
-            "name": "Détective Privé",
-            "description": "Une personne qui mène des enquêtes pour des clients privés."
-          },
-          "journalist": {
-            "name": "Journaliste",
-            "description": "Une personne qui écrit pour les journaux, magazines ou sites web d'actualités."
-          }
+        "young": {
+          "title": "Personnage Jeune (15-19 ans)",
+          "strength": "Réduction de Force",
+          "luck": "Bonus de Chance : Lancez deux fois et choisissez le meilleur",
+          "selectLuck": "Choisissez votre valeur de Chance"
+        },
+        "adult": {
+          "title": "Jeune Adulte (20-39 ans)",
+          "education": "Un test d'amélioration d'Éducation"
+        },
+        "older": {
+          "title": "Personnage Âgé (40+ ans)",
+          "appearance": "Pénalité d'Apparence",
+          "distribute": "Distribuez les pénalités d'attributs physiques",
+          "points": "points",
+          "remaining": "Points restants"
+        }
+      },
+      "skills": {
+        "title": "Compétences",
+        "description": "Distribuez les points de compétences entre les compétences professionnelles et d'intérêt personnel.",
+        "occupational": {
+          "title": "Points de Compétences Professionnelles",
+          "description": "Points à dépenser sur vos compétences d'occupation",
+          "skills": "Compétences Professionnelles",
+          "short": "Prof"
+        },
+        "personal": {
+          "title": "Points de Compétences Personnelles",
+          "description": "Points à dépenser sur n'importe quelles compétences",
+          "short": "Pers"
+        },
+        "remaining": "restants",
+        "assignment": {
+          "title": "Attribution des Points de Compétences"
+        },
+        "other": {
+          "title": "Autres Compétences"
+        },
+        "validation": {
+          "overspent": "Vous avez dépassé vos points disponibles"
         }
       },
       "personal": {
         "title": "Détails Personnels",
+        "description": "Ajoutez des traits de personnalité et des détails de background pour donner vie à votre investigateur.",
         "traits": {
-          "label": "Traits de Caractère",
+          "label": "Traits",
           "placeholder": "Traits de personnalité..."
         },
         "ideology": {
@@ -163,116 +244,176 @@
         },
         "meaningfulLocations": {
           "label": "Lieux Significatifs",
-          "placeholder": "Endroits d'importance..."
+          "placeholder": "Lieux d'importance..."
         },
         "treasuredPossessions": {
           "label": "Possessions Précieuses",
           "placeholder": "Objets chéris..."
         }
-      },
-      "skills": {
-        "charm": "Charme",
-        "fastTalk": "Baratin",
-        "intimidate": "Intimidation",
-        "persuade": "Persuasion",
-        "animalHandling": "Dressage",
-        "psychology": "Psychologie",
-        "psychoanalysis": "Psychanalyse",
-        "climb": "Grimper",
-        "dodge": "Esquive",
-        "fightingBrawl": "Combat (Corps à corps)",
-        "firearmsHandgun": "Armes à feu (Arme de poing)",
-        "firearmsRifle": "Armes à feu (Fusil/Fusil de chasse)",
-        "jump": "Saut",
-        "ride": "Équitation",
-        "stealth": "Discrétion",
-        "swim": "Natation",
-        "throw": "Lancer",
-        "accounting": "Comptabilité",
-        "anthropology": "Anthropologie",
-        "appraise": "Estimation",
-        "archaeology": "Archéologie",
-        "artCraft": "Art/Artisanat",
-        "computerUse": "Informatique",
-        "creditRating": "Niveau de Crédit",
-        "disguise": "Déguisement",
-        "driveAuto": "Conduite",
-        "electricalRepair": "Réparation électrique",
-        "electronics": "Électronique",
-        "firstAid": "Premiers secours",
-        "history": "Histoire",
-        "law": "Droit",
-        "libraryUse": "Utilisation des bibliothèques",
-        "listen": "Écouter",
-        "locksmith": "Serrurerie",
-        "mechanicalRepair": "Réparation mécanique",
-        "medicine": "Médecine",
-        "naturalWorld": "Monde naturel",
-        "navigate": "Navigation",
-        "occult": "Occultisme",
-        "operateHeavyMachinery": "Conduite d'engins",
-        "pilot": "Pilotage",
-        "science": "Science",
-        "sleightOfHand": "Prestidigitation",
-        "spotHidden": "Trouver objet caché",
-        "survival": "Survie",
-        "track": "Pister",
-        "languageOwn": "Langue maternelle",
-        "languageOther": "Autre langue"
       }
     },
     "sheet": {
       "dice": {
         "history": "Historique des Dés",
-        "rolls": "Lancers de Dés Récents"
+        "rolls": "Jets de Dés Récents"
       },
       "back": "Retour",
       "delete": "Supprimer",
-      "backstory": "Histoire Personnelle",
+      "backstory": "Histoire",
       "return": "Retour aux Personnages",
       "characteristics": "Caractéristiques",
       "condition": "État",
-      "movement": "Mouvement",
       "personalDetails": "Détails Personnels",
       "equipment": "Équipement",
       "notFound": "Personnage Non Trouvé",
-      "age": "Âge",
-      "half": "Moitié",
-      "fifth": "5ème",
       "save": "Sauvegarder",
       "edit": "Modifier",
-      "hitPoints": "Points de Vie",
-      "magicPoints": "Points de Magie",
-      "luck": "Chance",
-      "normal": "Normal",
-      "running": "Course",
-      "climbing": "Escalade",
-      "swimming": "Natation",
-      "player": "Joueur",
-      "sex": "Sexe",
-      "residence": "Résidence",
-      "birthplace": "Lieu de Naissance",
-      "traits": "Traits de Caractère",
-      "ideologyBeliefs": "Idéologie/Croyances",
-      "significantPeople": "Personnes Importantes",
-      "meaningfulLocations": "Lieux Significatifs",
-      "treasuredPossessions": "Possessions Précieuses",
-      "noEquipment": "Aucun équipement répertorié",
       "no": {
-        "rolls": "Aucun lancer de dé pour l'instant"
+        "rolls": "Aucun jet de dé pour le moment",
+        "equipment": "Aucun équipement listé"
       },
-      "rolled": "Résultat",
+      "rolled": "Lancé",
       "vs": "contre",
-      "critical": "RÉUSSITE CRITIQUE !",
-      "success": "Réussite",
+      "critical": "CRITIQUE !",
+      "extreme": "EXTRÊME !",
+      "hard": "DIFFICILE",
+      "regular": "RÉGULIER",
+      "success": "Succès",
       "failure": "Échec",
       "fumble": "MALADRESSE !",
       "modifiers": "Modificateurs",
-      "base": "Base"
+      "base": "Base",
+      "skillPoints": "Points de Compétences",
+      "remaining": "restants",
+      "permanent": "Permanent",
+      "finance": {
+        "title": "Fortune",
+        "spendingLevel": "Niveau de Dépenses",
+        "cash": "Liquide",
+        "assets": "Biens",
+        "history": "Historique",
+        "addEntry": "Ajouter une Entrée",
+        "description": "Description",
+        "amount": "Montant",
+        "type": "Type",
+        "expense": "Dépense",
+        "income": "Revenu",
+        "date": "Date",
+        "remove": "Retirer",
+        "noHistory": "Aucun historique financier",
+        "done": "Terminé",
+        "target": "Appliquer à",
+        "capital": "Capital",
+        "hideHistory": "Masquer l'historique",
+        "showHistory": "Afficher l'historique"
+      }
+    }
+  },
+  "occupations": {
+    "antiquarian": "Antiquaire",
+    "antiquarian.description": "Vous commercez des livres rares, des cartes, des folios et des manuscrits. Vous savez où trouver les meilleurs exemplaires et les meilleurs clients. Vos connaissances en histoire et en documents anciens sont étendues.",
+    "doctor": "Docteur",
+    "doctor.description": "Vous êtes un praticien médical, formé au diagnostic et au traitement des maladies et des blessures. Vous avez une connaissance approfondie de l'anatomie humaine, de la psychologie et des arts de guérison.",
+    "privateInvestigator": "Détective privé",
+    "privateInvestigator.description": "Vous enquêtez sur des affaires pour des clients privés, des personnes disparues à la fraude d'assurance. Vous savez comment trouver des informations, suivre des pistes et éviter les ennuis.",
+    "journalist": "Journaliste",
+    "journalist.description": "Vous collectez, rédigez et rapportez des nouvelles et des événements d'actualité pour les journaux, magazines ou autres médias. Vous avez des contacts dans toute la société et savez comment trouver une histoire."
+  },
+  "skills": {
+    "validation": {
+      "occupation": {
+        "overspent": "Vous avez dépassé vos points de compétences professionnelles"
+      },
+      "personal": {
+        "overspent": "Vous avez dépassé vos points de compétences personnelles"
+      },
+      "occupation.required": "Veuillez sélectionner une occupation",
+      "age.required": "L'âge est requis et doit être entre 15 et 90",
+      "luck.required": "La valeur de chance est requise"
+    },
+    "charm": "Charme",
+    "fastTalk": "Baratin",
+    "intimidate": "Intimidation",
+    "persuade": "Persuasion",
+    "animalHandling": "Dressage",
+    "psychology": "Psychologie",
+    "psychoanalysis": "Psychanalyse",
+    "climb": "Escalade",
+    "dodge": "Esquive",
+    "fightingBrawl": "Combat (Corps à corps)",
+    "firearmsHandgun": "Armes à feu (Pistolet)",
+    "firearmsRifle": "Armes à feu (Fusil/Fusil à pompe)",
+    "jump": "Saut",
+    "ride": "Équitation",
+    "stealth": "Discrétion",
+    "swim": "Natation",
+    "throw": "Lancer",
+    "accounting": "Comptabilité",
+    "anthropology": "Anthropologie",
+    "appraise": "Estimation",
+    "archaeology": "Archéologie",
+    "artCraft": "Art/Artisanat",
+    "computerUse": "Informatique",
+    "creditRating": "Crédit",
+    "disguise": "Déguisement",
+    "driveAuto": "Conduite",
+    "electricalRepair": "Réparation électrique",
+    "electronics": "Électronique",
+    "firstAid": "Premiers soins",
+    "history": "Histoire",
+    "law": "Droit",
+    "libraryUse": "Utilisation de bibliothèque",
+    "listen": "Écouter",
+    "locksmith": "Serrurerie",
+    "mechanicalRepair": "Réparation mécanique",
+    "medicine": "Médecine",
+    "naturalWorld": "Monde naturel",
+    "navigate": "Navigation",
+    "occult": "Occultisme",
+    "operateHeavyMachinery": "Utilisation de machines lourdes",
+    "pilot": "Pilotage",
+    "science": "Science",
+    "sleightOfHand": "Prestidigitation",
+    "spotHidden": "Trouver objet caché",
+    "survival": "Survie",
+    "track": "Pister",
+    "languageOwn": "Langue (maternelle)",
+    "languageOther": "Langue (autre)"
+  },
+  "creditRating": {
+    "levels": {
+      "penniless": {
+        "name": "Sans le sou",
+        "description": "Ne peut même pas se permettre le niveau 'pauvre'. Vit dans la rue."
+      },
+      "poor": {
+        "name": "Pauvre",
+        "description": "Minimum vital d'un toit et d'un repas maigre par jour. Logement locatif bon marché."
+      },
+      "average": {
+        "name": "Moyen",
+        "description": "Confort raisonnable, trois repas par jour. Maison ou appartement moyen."
+      },
+      "wealthy": {
+        "name": "Aisé",
+        "description": "Luxe et confort. Résidence substantielle, possiblement avec aide domestique."
+      },
+      "rich": {
+        "name": "Riche",
+        "description": "Grand luxe et confort. Résidence somptueuse avec aide domestique abondante."
+      },
+      "superRich": {
+        "name": "Super Riche",
+        "description": "L'argent n'est pas un problème. Parmi les plus riches du monde."
+      },
+      "unknown": {
+        "name": "Inconnu",
+        "description": ""
+      }
     }
   },
   "lovecraft": {
-    "quote": "\"L'émotion la plus ancienne et la plus forte de l'humanité est la peur, et le type de peur le plus ancien et le plus fort est la peur de l'inconnu.\"",
+    "quote": "\"La plus ancienne et la plus forte émotion de l'humanité est la peur, et la plus ancienne et la plus forte des peurs est la peur de l'inconnu.\"",
     "attribution": "- H.P. Lovecraft"
   }
 }

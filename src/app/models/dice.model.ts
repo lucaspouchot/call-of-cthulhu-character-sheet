@@ -5,7 +5,10 @@ export interface DiceRoll {
   result: number;
   success?: boolean;
   criticalSuccess?: boolean;
-  criticalFailure?: boolean;
+  extremeSuccess?: boolean;
+  hardSuccess?: boolean;
+  regularSuccess?: boolean;
+  failure?: boolean;
   fumble?: boolean;
   timestamp: Date;
   description?: string;
@@ -46,14 +49,28 @@ export class DiceService {
   static checkSuccess(roll: number, target: number): {
     success: boolean;
     criticalSuccess: boolean;
-    criticalFailure: boolean;
+    extremeSuccess: boolean;
+    hardSuccess: boolean;
+    regularSuccess: boolean;
+    failure: boolean;
     fumble: boolean;
   } {
+    const fumble = roll >= 96;
+    const failure = roll > target;
+    const regularSuccess = roll <= target && roll > Math.floor(target / 2);
+    const hardSuccess = roll <= Math.floor(target / 2) && roll > Math.floor(target / 5);
+    const extremeSuccess = roll <= Math.floor(target / 5) && roll > 1;
+    const criticalSuccess = roll === 1;
     const success = roll <= target;
-    const criticalSuccess = roll <= Math.max(target / 5, 1);
-    const criticalFailure = roll >= 96;
-    const fumble = roll === 100;
 
-    return { success, criticalSuccess, criticalFailure, fumble };
+    return {
+      success,
+      criticalSuccess,
+      extremeSuccess,
+      hardSuccess,
+      regularSuccess,
+      failure,
+      fumble
+    };
   }
 }

@@ -1,0 +1,1 @@
+export { CharacteristicsStepComponent } from './characteristics-step.component';

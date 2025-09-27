@@ -1,0 +1,75 @@
+/* Occupation Step Component Styles */
+
+.occupation-card {
+  transition: all 0.2s;
+}
+
+.occupation-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Skill Chip Styles */
+.skill-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1f2937;
+  background-color: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.skill-chip:hover {
+  background-color: #fde68a;
+  border-color: #f59e0b;
+  transform: translateY(-1px);
+}
+
+/* Formula Chip Styles */
+.formula-chip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #e0f2fe;
+  border: 1px solid #0284c7;
+  border-radius: 6px;
+  margin: 0 2px;
+}
+
+.formula-chip-small {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e40af;
+  background-color: #e0f2fe;
+  border: 1px solid #0284c7;
+  border-radius: 4px;
+}
+
+.occupation-selected {
+  border: 2px solid #3b82f6;
+  background-color: #eff6ff;
+}
+
+.occupation-description {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-top: 0.5rem;
+}
+
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

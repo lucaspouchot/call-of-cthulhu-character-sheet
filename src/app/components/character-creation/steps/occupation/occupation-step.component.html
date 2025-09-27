@@ -1,0 +1,70 @@
+<div class="character-sheet p-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ 'character.creation.occupation.title' | dynamicTranslate }}</h2>
+  <p class="text-gray-600 mb-6">{{ 'character.creation.occupation.description' | dynamicTranslate }}</p>
+
+  <form [formGroup]="occupationForm" class="space-y-4">
+    <div>
+      <label for="occupation" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.occupation.select' | dynamicTranslate }}
+      </label>
+      <select 
+        id="occupation"
+        formControlName="occupation"
+        (change)="onOccupationChange($any($event.target).value)"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <option value="">{{ 'character.creation.occupation.placeholder' | dynamicTranslate }}</option>
+        <option *ngFor="let occ of availableOccupations" [value]="occ.id">
+          {{ ('occupations.' + occ.id) | dynamicTranslate }}
+        </option>
+      </select>
+      
+      <div *ngIf="occupationForm.get('occupation')?.invalid && occupationForm.get('occupation')?.touched" 
+           class="mt-1 text-sm text-red-600">
+        {{ 'character.creation.occupation.required' | dynamicTranslate }}
+      </div>
+    </div>
+
+    <div *ngIf="occupationForm.get('occupation')?.value" class="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
+      <h3 class="text-lg font-medium text-gray-900 mb-2">
+        {{ ('occupations.' + occupationForm.get('occupation')?.value) | dynamicTranslate }}
+      </h3>
+      <div class="text-gray-700">
+        <p class="mb-4 text-gray-600">{{ ('occupations.' + occupationForm.get('occupation')?.value + '.description') | dynamicTranslate }}</p>
+        <div *ngIf="getSelectedOccupation() as selectedOcc" class="mt-4 space-y-4">
+          <div>
+            <p class="text-sm font-semibold text-gray-800 mb-1">{{ 'character.attributes.creditRating' | dynamicTranslate }}:</p>
+            <p class="text-gray-700 font-medium">{{ selectedOcc.creditRating.min }}-{{ selectedOcc.creditRating.max }}</p>
+          </div>
+          
+          <div>
+            <p class="text-sm font-semibold text-gray-800 mb-2">{{ 'character.creation.occupation.skillPoints' | dynamicTranslate }}:</p>
+            <div class="mb-1 flex flex-wrap items-center gap-1">
+              <span *ngFor="let part of getSkillPointsFormulaChips()" class="inline-flex items-center">
+                <span *ngIf="part.type === 'chip'" class="formula-chip">
+                  {{ ('character.attributes.' + part.content.split('|')[0]) | dynamicTranslate }} × {{ part.content.split('|')[1] }}
+                </span>
+                <span *ngIf="part.type === 'text'" class="text-gray-700 font-medium">{{ part.content }}</span>
+              </span>
+            </div>
+            <div *ngIf="getPersonalPointsChip() as personalChip" class="text-xs text-gray-600 flex items-center gap-1">
+              <span>{{ 'character.creation.occupation.personalPoints' | dynamicTranslate }}:</span>
+              <span class="formula-chip-small">
+                {{ ('character.attributes.' + personalChip.attribute) | dynamicTranslate }} × {{ personalChip.multiplier }}
+              </span>
+            </div>
+          </div>
+          
+          <div>
+            <p class="text-sm font-semibold text-gray-800 mb-2">{{ 'character.creation.occupation.occupationSkills' | dynamicTranslate }}:</p>
+            <div class="flex flex-wrap gap-2">
+              <span *ngFor="let skill of getOccupationSkills()" 
+                    class="skill-chip">
+                {{ ('skills.' + skill) | dynamicTranslate }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,103 @@
+<div class="character-sheet p-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ 'character.creation.skillsStep' | dynamicTranslate }}</h2>
+  <p class="text-gray-600 mb-6">{{ 'character.creation.skillsDescription' | dynamicTranslate }}</p>
+
+  <form [formGroup]="skillsForm" class="space-y-8">
+    
+    <!-- Occupation Skills Section -->
+    <div class="bg-blue-50 rounded-lg p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium text-blue-900">
+          {{ 'character.creation.skills.occupation' | dynamicTranslate }}
+        </h3>
+        <div class="text-sm" [class]="isOccupationOverspent() ? 'text-red-600' : 'text-blue-700'">
+          {{ occupationPointsSpent }} / {{ occupationPoints }} 
+          {{ 'character.creation.skills.points' | dynamicTranslate }}
+          <span *ngIf="!isOccupationOverspent()" class="ml-2 text-green-600">
+            ({{ getRemainingOccupationPoints() }} {{ 'character.creation.skills.remaining' | dynamicTranslate }})
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let skill of occupationSkills" class="space-y-1">
+          <label [for]="'occupation_' + skill" class="block text-sm font-medium text-gray-700">
+            {{ 'skills.' + skill | dynamicTranslate }}
+          </label>
+          <input 
+            [id]="'occupation_' + skill"
+            type="number"
+            [formControlName]="'occupation_' + skill"
+            min="0"
+            max="100"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+
+      <div *ngIf="isOccupationOverspent()" class="mt-4 p-3 bg-red-100 border border-red-400 rounded-md">
+        <p class="text-sm text-red-700">
+          {{ 'character.creation.skills.occupation.overspent' | dynamicTranslate }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Personal Interest Skills Section -->
+    <div class="bg-green-50 rounded-lg p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium text-green-900">
+          {{ 'character.creation.skills.personal' | dynamicTranslate }}
+        </h3>
+        <div class="text-sm" [class]="isPersonalOverspent() ? 'text-red-600' : 'text-green-700'">
+          {{ personalPointsSpent }} / {{ personalPoints }} 
+          {{ 'character.creation.skills.points' | dynamicTranslate }}
+          <span *ngIf="!isPersonalOverspent()" class="ml-2 text-green-600">
+            ({{ getRemainingPersonalPoints() }} {{ 'character.creation.skills.remaining' | dynamicTranslate }})
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let skill of personalSkills" class="space-y-1">
+          <label [for]="'personal_' + skill" class="block text-sm font-medium text-gray-700">
+            {{ 'skills.' + skill | dynamicTranslate }}
+          </label>
+          <input 
+            [id]="'personal_' + skill"
+            type="number"
+            [formControlName]="'personal_' + skill"
+            min="0"
+            max="100"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500">
+        </div>
+      </div>
+
+      <div *ngIf="isPersonalOverspent()" class="mt-4 p-3 bg-red-100 border border-red-400 rounded-md">
+        <p class="text-sm text-red-700">
+          {{ 'character.creation.skills.personal.overspent' | dynamicTranslate }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="bg-gray-50 rounded-lg p-4">
+      <h4 class="text-md font-medium text-gray-900 mb-2">
+        {{ 'character.creation.skills.summary' | dynamicTranslate }}
+      </h4>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="font-medium">{{ 'character.creation.skills.occupation' | dynamicTranslate }}:</span>
+          <span [class]="isOccupationOverspent() ? 'text-red-600' : 'text-green-600'">
+            {{ occupationPointsSpent }} / {{ occupationPoints }}
+          </span>
+        </div>
+        <div>
+          <span class="font-medium">{{ 'character.creation.skills.personal' | dynamicTranslate }}:</span>
+          <span [class]="isPersonalOverspent() ? 'text-red-600' : 'text-green-600'">
+            {{ personalPointsSpent }} / {{ personalPoints }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

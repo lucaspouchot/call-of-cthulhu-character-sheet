@@ -1,0 +1,168 @@
+<div class="character-sheet p-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ 'character.creation.personal.title' | dynamicTranslate }}</h2>
+  <p class="text-gray-600 mb-6">{{ 'character.creation.personal.description' | dynamicTranslate }}</p>
+
+  <form [formGroup]="personalDetailsForm" class="space-y-6">
+    
+    <!-- Backstory -->
+    <div>
+      <label for="backstory" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.backstory' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="backstory"
+        formControlName="backstory"
+        rows="4"
+        [placeholder]="'character.creation.personal.backstory.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('backstory')?.invalid && personalDetailsForm.get('backstory')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.backstory.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('backstory') ? 'text-red-600' : isFieldNearLimit('backstory') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('backstory') }} / {{ getMaxLength('backstory') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Traits and Mannerisms -->
+    <div>
+      <label for="traits" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.traits' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="traits"
+        formControlName="traits"
+        rows="2"
+        [placeholder]="'character.creation.personal.traits.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('traits')?.invalid && personalDetailsForm.get('traits')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.traits.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('traits') ? 'text-red-600' : isFieldNearLimit('traits') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('traits') }} / {{ getMaxLength('traits') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Ideology/Beliefs -->
+    <div>
+      <label for="ideologyBeliefs" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.ideologyBeliefs' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="ideologyBeliefs"
+        formControlName="ideologyBeliefs"
+        rows="2"
+        [placeholder]="'character.creation.personal.ideologyBeliefs.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('ideologyBeliefs')?.invalid && personalDetailsForm.get('ideologyBeliefs')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.ideologyBeliefs.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('ideologyBeliefs') ? 'text-red-600' : isFieldNearLimit('ideologyBeliefs') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('ideologyBeliefs') }} / {{ getMaxLength('ideologyBeliefs') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Significant People -->
+    <div>
+      <label for="significantPeople" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.significantPeople' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="significantPeople"
+        formControlName="significantPeople"
+        rows="2"
+        [placeholder]="'character.creation.personal.significantPeople.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('significantPeople')?.invalid && personalDetailsForm.get('significantPeople')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.significantPeople.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('significantPeople') ? 'text-red-600' : isFieldNearLimit('significantPeople') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('significantPeople') }} / {{ getMaxLength('significantPeople') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Meaningful Locations -->
+    <div>
+      <label for="meaningfulLocations" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.meaningfulLocations' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="meaningfulLocations"
+        formControlName="meaningfulLocations"
+        rows="2"
+        [placeholder]="'character.creation.personal.meaningfulLocations.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('meaningfulLocations')?.invalid && personalDetailsForm.get('meaningfulLocations')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.meaningfulLocations.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('meaningfulLocations') ? 'text-red-600' : isFieldNearLimit('meaningfulLocations') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('meaningfulLocations') }} / {{ getMaxLength('meaningfulLocations') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Treasured Possessions -->
+    <div>
+      <label for="treasuredPossessions" class="block text-sm font-medium text-gray-700 mb-2">
+        {{ 'character.creation.personal.treasuredPossessions' | dynamicTranslate }}
+      </label>
+      <textarea 
+        id="treasuredPossessions"
+        formControlName="treasuredPossessions"
+        rows="2"
+        [placeholder]="'character.creation.personal.treasuredPossessions.placeholder' | dynamicTranslate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+      </textarea>
+      <div class="flex justify-between mt-1">
+        <div *ngIf="personalDetailsForm.get('treasuredPossessions')?.invalid && personalDetailsForm.get('treasuredPossessions')?.touched" 
+             class="text-sm text-red-600">
+          {{ 'character.creation.personal.treasuredPossessions.maxlength' | dynamicTranslate }}
+        </div>
+        <div class="text-xs" 
+             [class]="isFieldOverLimit('treasuredPossessions') ? 'text-red-600' : isFieldNearLimit('treasuredPossessions') ? 'text-yellow-600' : 'text-gray-500'">
+          {{ getCharacterCount('treasuredPossessions') }} / {{ getMaxLength('treasuredPossessions') }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Note -->
+    <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-blue-700">
+            {{ 'character.creation.personal.note' | dynamicTranslate }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

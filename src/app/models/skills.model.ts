@@ -62,12 +62,25 @@ export const DEFAULT_SKILLS: Skill[] = [
 ];
 
 // Common occupations with skill bonuses
+export interface SkillPointFormula {
+  type: 'simple' | 'choice' | 'composite'; // simple: single formula, choice: choose best of multiple, composite: required + choice
+  formulas: {
+    attribute: string; // attribute name (e.g., 'education', 'dexterity')
+    multiplier: number; // multiplier (e.g., 4 for "EDU × 4")
+  }[];
+  // For composite type: additional choice formulas
+  choiceFormulas?: {
+    attribute: string;
+    multiplier: number;
+  }[];
+}
+
 export interface Occupation {
   id: string;
   creditRating: { min: number; max: number };
-  skillPoints: string; // Formula like "EDU × 4"
+  occupationSkillPoints: SkillPointFormula;
+  personalSkillPoints: SkillPointFormula;
   occupationSkills: string[]; // Skill IDs that get occupation points
-  personalSkills: number; // Number of personal interest skills
   suggestedContacts: string[];
 }
 
@@ -75,33 +88,63 @@ export const OCCUPATIONS: Occupation[] = [
   {
     id: 'antiquarian',
     creditRating: { min: 30, max: 70 },
-    skillPoints: 'EDU × 4',
+    occupationSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'education', multiplier: 4 }]
+    },
+    personalSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'intelligence', multiplier: 2 }]
+    },
     occupationSkills: ['appraise', 'artCraft', 'history', 'libraryUse', 'languageOther', 'navigate', 'occult', 'spotHidden'],
-    personalSkills: 4,
     suggestedContacts: ['Auction houses', 'Dealers', 'Historians', 'Museums']
   },
   {
     id: 'doctor',
     creditRating: { min: 60, max: 90 },
-    skillPoints: 'EDU × 4',
+    occupationSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'education', multiplier: 4 }]
+    },
+    personalSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'intelligence', multiplier: 2 }]
+    },
     occupationSkills: ['firstAid', 'languageOther', 'medicine', 'psychology', 'science', 'science'],
-    personalSkills: 4,
     suggestedContacts: ['Hospitals', 'Nurses', 'Patients', 'Medical suppliers']
   },
   {
     id: 'privateInvestigator',
     creditRating: { min: 9, max: 30 },
-    skillPoints: 'EDU × 2 + (DEX × 2 or STR × 2)',
+    occupationSkillPoints: {
+      type: 'composite',
+      formulas: [
+        { attribute: 'education', multiplier: 2 }
+      ],
+      choiceFormulas: [
+        { attribute: 'dexterity', multiplier: 2 },
+        { attribute: 'strength', multiplier: 2 }
+      ]
+    },
+    personalSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'intelligence', multiplier: 2 }]
+    },
     occupationSkills: ['artCraft', 'disguise', 'law', 'libraryUse', 'listen', 'locksmith', 'psychology', 'spotHidden', 'stealth'],
-    personalSkills: 4,
     suggestedContacts: ['Police', 'Criminals', 'Clients', 'Informants']
   },
   {
     id: 'journalist',
     creditRating: { min: 9, max: 30 },
-    skillPoints: 'EDU × 4',
+    occupationSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'education', multiplier: 4 }]
+    },
+    personalSkillPoints: {
+      type: 'simple',
+      formulas: [{ attribute: 'intelligence', multiplier: 2 }]
+    },
     occupationSkills: ['artCraft', 'history', 'libraryUse', 'languageOwn', 'languageOther', 'listen', 'persuade', 'psychology'],
-    personalSkills: 4,
     suggestedContacts: ['Publishers', 'Editors', 'Sources', 'Government officials']
   }
 ];

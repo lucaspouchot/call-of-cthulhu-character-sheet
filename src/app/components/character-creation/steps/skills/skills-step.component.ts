@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CharacterSheetCreate, StepValidation } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
@@ -17,7 +17,6 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   @Output() characterSheetChange = new EventEmitter<CharacterSheetCreate>();
   @Output() stepValidation = new EventEmitter<StepValidation>();
 
-  skillsForm!: FormGroup;
   private destroy$ = new Subject<void>();
 
   occupationPoints = 0;
@@ -25,9 +24,10 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   occupationPointsSpent = 0;
   personalPointsSpent = 0;
 
-  constructor(private fb: FormBuilder) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.validateStep();
   }
 
   ngOnDestroy(): void {
@@ -36,9 +36,8 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   }
 
   private validateStep(): void {
-    const isValid = this.skillsForm.valid &&
-      this.occupationPointsSpent <= this.occupationPoints &&
-      this.personalPointsSpent <= this.personalPoints;
+    const isValid = this.occupationPointsSpent === this.occupationPoints &&
+      this.personalPointsSpent === this.personalPoints;
 
     const errors: string[] = [];
 

@@ -2,7 +2,7 @@
   <h2 class="text-2xl font-bold mb-6 text-gray-800">{{ 'character.creation.skills.title' | dynamicTranslate }}</h2>
   <p class="text-gray-600 mb-6">{{ 'character.creation.skills.description' | dynamicTranslate }}</p>
 
-  <form [formGroup]="skillsForm" class="space-y-8">
+  <form class="space-y-8">
     
     <!-- Summary -->
     <div class="bg-gray-50 rounded-lg p-4">
@@ -11,13 +11,13 @@
       </h4>
       <div class="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span class="font-medium">{{ 'character.creation.skills.occupational.skill' | dynamicTranslate }}:</span>
+          <span class="font-medium">{{ 'character.creation.skills.occupational.skills' | dynamicTranslate }}:</span>
           <span [class]="isOccupationOverspent() ? 'text-red-600' : 'text-green-600'">
             {{ occupationPointsSpent }} / {{ occupationPoints }}
           </span>
         </div>
         <div>
-          <span class="font-medium">{{ 'character.creation.skills.personal.skill' | dynamicTranslate }}:</span>
+          <span class="font-medium">{{ 'character.creation.skills.personal.skills' | dynamicTranslate }}:</span>
           <span [class]="isPersonalOverspent() ? 'text-red-600' : 'text-green-600'">
             {{ personalPointsSpent }} / {{ personalPoints }}
           </span>

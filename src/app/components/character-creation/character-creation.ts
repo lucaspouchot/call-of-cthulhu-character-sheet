@@ -73,6 +73,14 @@ export class CharacterCreation {
       residence: '',
       birthplace: '',
 
+      // Characteristics
+      attributeRolls: {
+        generationMethod: 'quickfire',
+        rollingPoolA: [],
+        rollingPoolB: [],
+        assigned: []
+      },
+
       // Personal Details
       backstory: '',
       traits: '',

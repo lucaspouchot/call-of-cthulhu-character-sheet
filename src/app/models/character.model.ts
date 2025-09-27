@@ -77,10 +77,28 @@ export interface CharacterSheetCreate {
   education?: Attribute;
 
   // Characteristics generation method (quickfire or rolling)
-  generationMethod?: 'rolling' | 'quickfire';
+
+  attributeRolls: {
+    generationMethod: 'rolling' | 'quickfire';
+    rollingPoolA: number[];
+    rollingPoolB: number[];
+    assigned: { key: string; quickfireValue: number | null, rollingValue: number | null }[];
+  };
 
   // Luck (rolled during creation)
   luckValue?: number;
+
+  // Age modifiers (applied during creation)
+  ageModifiers?: {
+    strengthReduction: number;
+    constitutionReduction: number;
+    dexterityReduction: number;
+    sizeReduction: number;
+    appearanceReduction: number;
+    educationReduction: number;
+    educationBonus: number;
+    selectedLuckValue: number;
+  };
 
   // Skills (assigned during creation)
   skillAssignments?: {

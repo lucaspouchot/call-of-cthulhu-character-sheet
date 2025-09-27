@@ -87,6 +87,7 @@ export class DiceService {
     for (let i = 0; i < count; i++) {
       results.push(this.rollLuck());
     }
+    results.sort((a, b) => b - a);
     return results;
   }
 

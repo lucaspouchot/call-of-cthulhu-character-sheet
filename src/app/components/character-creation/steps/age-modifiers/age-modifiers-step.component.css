@@ -20,6 +20,16 @@
   border: 1px solid #fde68a;
 }
 
+/* Characteristic Card Styles (matching Characteristics step) */
+.characteristic-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.characteristic-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 .modifier-positive {
   color: #059669;
 }

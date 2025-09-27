@@ -145,6 +145,8 @@
         "occupationReminder": "Occupation Reminder",
         "importantAttributes": "Important attributes for your occupation",
         "occupationExplanation": "These attributes determine the number of occupational skill points you can allocate.",
+        "autoAssign": "Auto-Assign",
+        "autoAssignDescription": "Automatically assigns the best values to characteristics according to your occupation's recommended order.",
         "generation": {
           "method": "Generation Method",
           "standard": "Standard",
@@ -174,9 +176,27 @@
         "clearSingle": "Clear"
       },
       "ageModifiers": {
-        "title": "Age Modifiers",
+        "title": "Age Modifiers & Luck",
         "description": "Apply age-based modifications to your investigator's characteristics.",
         "ageRange": "Age must be between 15 and 90 years",
+        "fixedPenalties": "Fixed Penalties",
+        "luckSelection": "Luck Selection",
+        "educationImprovement": "Education Improvement",
+        "distributePenalties": "Distribute Attribute Penalties",
+        "pointsRemaining": "points remaining",
+        "reroll": "Reroll",
+        "option": "Option",
+        "check": "Check",
+        "totalBonus": "Total Bonus",
+        "luckGeneration": "Luck Generation",
+        "rollLuck": "Roll Luck",
+        "luckValue": "Luck Value",
+        "lastRoll": "Last Roll",
+        "rollTwice": "roll twice, choose best",
+        "availableRolls": "Available rolls",
+        "generatedValue": "Generated value",
+        "attributesSummary": "Final Attributes Summary",
+        "attributesSummaryDescription": "Your final attribute values after applying age modifiers. Green indicates bonuses, red indicates penalties.",
         "luck": {
           "title": "Luck",
           "description": "Luck is generated separately with 3d6×5 and affects various game mechanics",
@@ -186,16 +206,19 @@
         },
         "young": {
           "title": "Young Character (15-19 years)",
+          "description": "Young characters receive a Luck bonus but suffer physical attribute penalties.",
           "strength": "Strength Reduction",
           "luck": "Luck Bonus: Roll twice and choose the best",
           "selectLuck": "Choose your Luck value"
         },
         "adult": {
           "title": "Young Adult (20-39 years)",
+          "description": "Young adults have no age penalties but can improve their Education.",
           "education": "One Education improvement check"
         },
         "older": {
           "title": "Older Character (40+ years)",
+          "description": "Older characters can improve their Education but suffer physical attribute penalties.",
           "appearance": "Appearance Penalty",
           "distribute": "Distribute physical attribute penalties",
           "points": "points",

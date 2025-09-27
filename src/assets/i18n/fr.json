@@ -145,6 +145,8 @@
         "occupationReminder": "Rappel de Profession",
         "importantAttributes": "Attributs importants pour votre profession",
         "occupationExplanation": "Ces attributs déterminent le nombre de points de compétences professionnelles que vous pourrez attribuer.",
+        "autoAssign": "Assignement Automatique",
+        "autoAssignDescription": "Assigne automatiquement les meilleures valeurs aux caractéristiques selon l'ordre recommandé de votre profession.",
         "generation": {
           "method": "Méthode de Génération",
           "standard": "Standard",
@@ -174,9 +176,27 @@
         "clearSingle": "Effacer"
       },
       "ageModifiers": {
-        "title": "Modificateurs d'Âge",
+        "title": "Modificateurs d'Âge et Chance",
         "description": "Appliquez les modifications basées sur l'âge aux caractéristiques de votre investigateur.",
         "ageRange": "L'âge doit être entre 15 et 90 ans",
+        "fixedPenalties": "Pénalités Fixes",
+        "luckSelection": "Sélection de la Chance",
+        "educationImprovement": "Amélioration de l'Éducation",
+        "distributePenalties": "Distribuer les Pénalités d'Attributs",
+        "pointsRemaining": "points restants",
+        "reroll": "Relancer",
+        "option": "Option",
+        "check": "Test",
+        "totalBonus": "Bonus Total",
+        "luckGeneration": "Génération de la Chance",
+        "rollLuck": "Lancer la Chance",
+        "luckValue": "Valeur de Chance",
+        "lastRoll": "Dernier Lancé",
+        "rollTwice": "lancer deux fois, choisir le meilleur",
+        "availableRolls": "Lancés disponibles",
+        "generatedValue": "Valeur générée",
+        "attributesSummary": "Résumé des Attributs Finaux",
+        "attributesSummaryDescription": "Vos valeurs d'attributs finales après application des modificateurs d'âge. Le vert indique les bonus, le rouge indique les pénalités.",
         "luck": {
           "title": "Chance",
           "description": "La chance est générée séparément avec 3d6×5 et affecte diverses mécaniques de jeu",
@@ -186,16 +206,19 @@
         },
         "young": {
           "title": "Personnage Jeune (15-19 ans)",
+          "description": "Les jeunes personnages bénéficient d'un bonus de chance mais subissent des pénalités aux attributs physiques.",
           "strength": "Réduction de Force",
           "luck": "Bonus de Chance : Lancez deux fois et choisissez le meilleur",
           "selectLuck": "Choisissez votre valeur de Chance"
         },
         "adult": {
           "title": "Jeune Adulte (20-39 ans)",
+          "description": "Les jeunes adultes n'ont pas de pénalités d'âge, mais peuvent améliorer leur Éducation.",
           "education": "Un test d'amélioration d'Éducation"
         },
         "older": {
           "title": "Personnage Âgé (40+ ans)",
+          "description": "Les personnages plus âgés peuvent améliorer leur Éducation mais subissent des pénalités aux attributs physiques.",
           "appearance": "Pénalité d'Apparence",
           "distribute": "Distribuez les pénalités d'attributs physiques",
           "points": "points",

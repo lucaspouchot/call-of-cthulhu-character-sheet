@@ -74,34 +74,86 @@ export class CharacterService {
     const id = this.generateId();
     const now = new Date();
 
-    // Ensure we have all required attributes
-    const strength = characterData.strength || this.createAttribute(50);
-    const constitution = characterData.constitution || this.createAttribute(50);
+    // Ensure we have all required attributes (base values before age modifiers)
+    let strength = characterData.strength || this.createAttribute(50);
+    let constitution = characterData.constitution || this.createAttribute(50);
     const power = characterData.power || this.createAttribute(50);
-    const dexterity = characterData.dexterity || this.createAttribute(50);
-    const appearance = characterData.appearance || this.createAttribute(50);
-    const size = characterData.size || this.createAttribute(50);
+    let dexterity = characterData.dexterity || this.createAttribute(50);
+    let appearance = characterData.appearance || this.createAttribute(50);
+    let size = characterData.size || this.createAttribute(50);
     const intelligence = characterData.intelligence || this.createAttribute(50);
-    const education = characterData.education || this.createAttribute(50);
+    let education = characterData.education || this.createAttribute(50);
 
-    // Calculate derived stats
+    // Apply age modifiers if they exist
+    if (characterData.ageModifiers && characterData.age) {
+      // Apply strength reduction
+      if (characterData.ageModifiers.strengthReduction > 0) {
+        const newStrengthValue = Math.max(0, strength.value - characterData.ageModifiers.strengthReduction);
+        strength = this.createAttribute(newStrengthValue);
+      }
+
+      // Apply constitution reduction
+      if (characterData.ageModifiers.constitutionReduction > 0) {
+        const newConstitutionValue = Math.max(0, constitution.value - characterData.ageModifiers.constitutionReduction);
+        constitution = this.createAttribute(newConstitutionValue);
+      }
+
+      // Apply dexterity reduction
+      if (characterData.ageModifiers.dexterityReduction > 0) {
+        const newDexterityValue = Math.max(0, dexterity.value - characterData.ageModifiers.dexterityReduction);
+        dexterity = this.createAttribute(newDexterityValue);
+      }
+
+      // Apply size reduction (for young characters)
+      if (characterData.ageModifiers.sizeReduction > 0) {
+        const newSizeValue = Math.max(0, size.value - characterData.ageModifiers.sizeReduction);
+        size = this.createAttribute(newSizeValue);
+      }
+
+      // Apply appearance reduction
+      if (characterData.ageModifiers.appearanceReduction > 0) {
+        const newAppearanceValue = Math.max(0, appearance.value - characterData.ageModifiers.appearanceReduction);
+        appearance = this.createAttribute(newAppearanceValue);
+      }
+
+      // Apply education changes (reduction for young, bonus for older)
+      let educationModifier = characterData.ageModifiers.educationBonus - characterData.ageModifiers.educationReduction;
+      if (educationModifier !== 0) {
+        const newEducationValue = Math.max(0, education.value + educationModifier);
+        education = this.createAttribute(newEducationValue);
+      }
+    }
+
+    // Calculate derived stats (using modified attribute values)
     const hitPointsMax = Math.floor((constitution.value + size.value) / 10);
     const sanityMax = power.value;
     const magicPointsMax = Math.floor(power.value / 5);
-    const luckStarting = characterData.luckValue || 50;
+
+    // Use luck value from age modifiers if available, otherwise from characterData or default
+    const luckStarting = characterData.ageModifiers?.selectedLuckValue || characterData.luckValue || 50;
 
     // Calculate movement with age penalties
     const baseMovement = this.calculateMovement(strength.value, dexterity.value, size.value);
     const movement = this.ageModifierService.applyMovementPenalty(baseMovement, characterData.age || 25);
 
-    // Initialize skills with base values + assignments
+    // Initialize skills with base values + assignments (using modified attribute values)
     const skills = DEFAULT_SKILLS.map(skill => {
       const assignment = characterData.skillAssignments?.[skill.id] || { occupation: 0, personal: 0 };
+      let baseValue = skill.baseValue;
+
+      // Update skills that depend on attributes with the modified values
+      if (skill.id === 'dodge') {
+        baseValue = dexterity.halfValue;
+      } else if (skill.id === 'languageOwn') {
+        baseValue = education.value;
+      }
+
       return {
         ...skill,
+        baseValue,
         personalValue: assignment.personal,
         occupationValue: assignment.occupation,
-        totalValue: skill.baseValue + assignment.occupation + assignment.personal
+        totalValue: baseValue + assignment.occupation + assignment.personal
       };
     });
 

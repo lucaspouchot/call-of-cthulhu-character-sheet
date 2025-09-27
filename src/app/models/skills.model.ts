@@ -61,16 +61,18 @@ export const DEFAULT_SKILLS: Skill[] = [
   { id: 'languageOther', baseValue: 1, personalValue: 0, occupationValue: 0, totalValue: 1 },
 ];
 
+type CharacteristicValue = 'strength' | 'constitution' | 'dexterity' | 'appearance' | 'size' | 'intelligence' | 'power' | 'education';
+
 // Common occupations with skill bonuses
 export interface SkillPointFormula {
   type: 'simple' | 'choice' | 'composite'; // simple: single formula, choice: choose best of multiple, composite: required + choice
   formulas: {
-    attribute: string; // attribute name (e.g., 'education', 'dexterity')
+    attribute: CharacteristicValue;
     multiplier: number; // multiplier (e.g., 4 for "EDU × 4")
   }[];
   // For composite type: additional choice formulas
   choiceFormulas?: {
-    attribute: string;
+    attribute: CharacteristicValue;
     multiplier: number;
   }[];
 }
@@ -82,6 +84,7 @@ export interface Occupation {
   personalSkillPoints: SkillPointFormula;
   occupationSkills: string[]; // Skill IDs that get occupation points
   suggestedContacts: string[];
+  recommendedCharacteristicsOrder: CharacteristicValue[];
 }
 
 export const OCCUPATIONS: Occupation[] = [
@@ -97,7 +100,8 @@ export const OCCUPATIONS: Occupation[] = [
       formulas: [{ attribute: 'intelligence', multiplier: 2 }]
     },
     occupationSkills: ['appraise', 'artCraft', 'history', 'libraryUse', 'languageOther', 'navigate', 'occult', 'spotHidden'],
-    suggestedContacts: ['Auction houses', 'Dealers', 'Historians', 'Museums']
+    suggestedContacts: ['Auction houses', 'Dealers', 'Historians', 'Museums'],
+    recommendedCharacteristicsOrder: ['education', 'intelligence', 'dexterity', 'appearance', 'constitution', 'size', 'power', 'strength']
   },
   {
     id: 'doctor',
@@ -111,7 +115,8 @@ export const OCCUPATIONS: Occupation[] = [
       formulas: [{ attribute: 'intelligence', multiplier: 2 }]
     },
     occupationSkills: ['firstAid', 'languageOther', 'medicine', 'psychology', 'science', 'science'],
-    suggestedContacts: ['Hospitals', 'Nurses', 'Patients', 'Medical suppliers']
+    suggestedContacts: ['Hospitals', 'Nurses', 'Patients', 'Medical suppliers'],
+    recommendedCharacteristicsOrder: ['education', 'intelligence', 'dexterity', 'constitution', 'appearance', 'size', 'power', 'strength']
   },
   {
     id: 'privateInvestigator',
@@ -131,7 +136,8 @@ export const OCCUPATIONS: Occupation[] = [
       formulas: [{ attribute: 'intelligence', multiplier: 2 }]
     },
     occupationSkills: ['artCraft', 'disguise', 'law', 'libraryUse', 'listen', 'locksmith', 'psychology', 'spotHidden', 'stealth'],
-    suggestedContacts: ['Police', 'Criminals', 'Clients', 'Informants']
+    suggestedContacts: ['Police', 'Criminals', 'Clients', 'Informants'],
+    recommendedCharacteristicsOrder: ['education', 'intelligence', 'dexterity', 'appearance', 'power', 'constitution', 'size', 'strength']
   },
   {
     id: 'journalist',
@@ -145,6 +151,7 @@ export const OCCUPATIONS: Occupation[] = [
       formulas: [{ attribute: 'intelligence', multiplier: 2 }]
     },
     occupationSkills: ['artCraft', 'history', 'libraryUse', 'languageOwn', 'languageOther', 'listen', 'persuade', 'psychology'],
-    suggestedContacts: ['Publishers', 'Editors', 'Sources', 'Government officials']
+    suggestedContacts: ['Publishers', 'Editors', 'Sources', 'Government officials'],
+    recommendedCharacteristicsOrder: ['education', 'intelligence', 'dexterity', 'appearance', 'power', 'constitution', 'size', 'strength']
   }
 ];

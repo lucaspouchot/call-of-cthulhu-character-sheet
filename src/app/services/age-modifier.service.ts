@@ -5,7 +5,9 @@ export interface AgeModifiers {
   strengthReduction: number;
   constitutionReduction: number;
   dexterityReduction: number;
+  sizeReduction: number;
   appearanceReduction: number;
+  educationReduction: number;
   educationBonusRolls: number;
   educationRolls: { roll: number, success: boolean, bonus: number }[];
   luckRolls: number[];
@@ -31,7 +33,9 @@ export class AgeModifierService {
       strengthReduction: 0,
       constitutionReduction: 0,
       dexterityReduction: 0,
+      sizeReduction: 0,
       appearanceReduction: 0,
+      educationReduction: 0,
       educationBonusRolls: 0,
       educationRolls: [],
       luckRolls: [],
@@ -52,7 +56,10 @@ export class AgeModifierService {
 
     if (age >= 15 && age <= 19) {
       // Young character penalties and luck bonus
+      // Remove 5 points from Strength, Size, and Education
       modifiers.strengthReduction = 5;
+      modifiers.sizeReduction = 5;
+      modifiers.educationReduction = 5;
       modifiers.educationBonusRolls = 0;
       modifiers.appearanceReduction = 0;
       // Roll luck twice, player chooses
@@ -88,15 +95,21 @@ export class AgeModifierService {
   }
 
   /**
-   * Get total attribute penalty for older characters
+   * Get total attribute penalty for older characters (STR, CON, DEX)
    */
   getTotalAttributePenalty(age: number): number {
-    if (age >= 15 && age <= 19) return 5; // Fixed penalty for young characters
     if (age >= 40) {
       const decades = Math.floor((age - 40) / 10) + 1;
       return decades * 5;
     }
     return 0;
+  }
+
+  /**
+   * Get fixed penalties for young characters
+   */
+  getYoungCharacterPenalties(): { strength: number, size: number, education: number } {
+    return { strength: 5, size: 5, education: 5 };
   }
 
   /**
@@ -136,6 +149,17 @@ export class AgeModifierService {
   }
 
   /**
+   * Get appearance penalty for given age
+   */
+  getAppearancePenalty(age: number): number {
+    if (age >= 40) {
+      const decades = Math.floor((age - 40) / 10) + 1;
+      return decades * 5;
+    }
+    return 0;
+  }
+
+  /**
    * Get age category description
    */
   getAgeCategory(age: number): 'young' | 'adult' | 'older' {
@@ -155,8 +179,8 @@ export class AgeModifierService {
   /**
    * Re-roll luck values for young characters
    */
-  rerollLuckValues(): number[] {
-    return this.diceService.rollMultipleLuck(2);
+  rerollLuckValues(count: number = 2): number[] {
+    return this.diceService.rollMultipleLuck(count);
   }
 
   /**

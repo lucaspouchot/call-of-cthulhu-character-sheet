@@ -44,6 +44,29 @@
     </div>
   </div>
 
+  <!-- Auto-assign button -->
+  <div *ngIf="characterSheet.occupation" class="mb-6">
+    <button 
+      type="button"
+      (click)="autoAssignCharacteristics()"
+      [disabled]="!canAutoAssign()"
+      class="px-6 py-3 rounded-md font-medium transition-all duration-200 shadow-sm"
+      [class.bg-green-600]="canAutoAssign()"
+      [class.text-white]="canAutoAssign()"
+      [class.hover:bg-green-700]="canAutoAssign()"
+      [class.transform]="canAutoAssign()"
+      [class.hover:scale-105]="canAutoAssign()"
+      [class.bg-gray-300]="!canAutoAssign()"
+      [class.text-gray-500]="!canAutoAssign()"
+      [class.cursor-not-allowed]="!canAutoAssign()">
+      <i class="fas fa-magic mr-2"></i>
+      {{ 'character.creation.attributes.autoAssign' | dynamicTranslate }}
+    </button>
+    <p class="text-sm text-gray-600 mt-2">
+      {{ 'character.creation.attributes.autoAssignDescription' | dynamicTranslate }}
+    </p>
+  </div>
+
   <!-- Quick Fire Method -->
   <div *ngIf="generationMethod === 'quickfire'" class="space-y-6">
     <div class="bg-blue-50 p-4 rounded-md border border-blue-200">

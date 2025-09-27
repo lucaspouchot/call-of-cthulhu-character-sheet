@@ -1,9 +1,8 @@
 import { DiceService } from './../../../../services/dice.service';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { CharacterSheetCreate, StepValidation, Attribute } from '../../../../models/character.model';
+import { CharacterSheetCreate, StepValidation } from '../../../../models/character.model';
 import { OCCUPATIONS } from '../../../../models/skills.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 
@@ -12,7 +11,7 @@ type Characteristic = { key: string, min: number, max: number, current: number |
 @Component({
   selector: 'app-characteristics-step',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, DynamicTranslatePipe],
+  imports: [CommonModule, DynamicTranslatePipe],
   templateUrl: './characteristics-step.component.html',
   styleUrls: ['./characteristics-step.component.css']
 })
@@ -22,7 +21,6 @@ export class CharacteristicsStepComponent implements OnInit, OnDestroy {
   @Output() stepValidation = new EventEmitter<StepValidation>();
 
   private destroy$ = new Subject<void>();
-  Math = Math; // Expose Math to template
 
   // Generation methods
   generationMethod: 'rolling' | 'quickfire' = 'quickfire';

@@ -191,6 +191,7 @@
         "educationImprovement": "Education Improvement",
         "distributePenalties": "Distribute Attribute Penalties",
         "pointsRemaining": "points remaining",
+        "noBonus": "No bonus",
         "reroll": "Reroll",
         "option": "Option",
         "check": "Check",
@@ -263,6 +264,15 @@
         },
         "validation": {
           "overspent": "You have overspent your available points"
+        },
+        "creditRating": {
+          "title": "Credit Rating",
+          "label": "Credit Rating",
+          "description": "Level Description",
+          "financial": "Financial Information",
+          "spendingLevel": "Spending Level",
+          "cash": "Cash",
+          "assets": "Assets"
         }
       },
       "personal": {

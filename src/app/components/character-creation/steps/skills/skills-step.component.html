@@ -13,7 +13,7 @@
       <!-- Occupation Points Summary -->
       <div class="mb-4">
         <div class="flex items-center justify-between mb-2">
-          <span class="font-medium text-blue-700">{{ 'character.creation.skills.occupational.skills' | dynamicTranslate }}:</span>
+          <span class="font-medium text-cthulhu-yellow-600">{{ 'character.creation.skills.occupational.skills' | dynamicTranslate }}:</span>
           <span [class]="isOccupationOverspent() ? 'text-red-600 font-semibold' : 'text-green-600 font-semibold'">
             {{ occupationPointsSpent }} / {{ occupationPoints }}
           </span>
@@ -26,7 +26,7 @@
               (
             </span>
             
-            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-cthulhu-yellow-100 text-cthulhu-yellow-800">
               {{ chip.text }}
             </span>
             
@@ -81,13 +81,82 @@
       </div>
     </div>
 
+    <!-- Credit Rating Section -->
+    <div *ngIf="currentOccupation" class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2 mb-4">
+        {{ 'character.creation.skills.creditRating.title' | dynamicTranslate }}
+      </h3>
+      
+      <div class="space-y-4">
+        <!-- Credit Rating Slider -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-medium text-gray-700">
+              {{ 'character.creation.skills.creditRating.label' | dynamicTranslate }}
+            </label>
+            <span class="text-lg font-semibold text-indigo-600">
+              {{ selectedCreditRating }}
+            </span>
+          </div>
+          
+          <input
+            type="range"
+            [min]="currentOccupation.creditRating.min"
+            [max]="currentOccupation.creditRating.max"
+            [value]="selectedCreditRating"
+            (input)="onCreditRatingChange(+$any($event.target).value)"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+          />
+          
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>Min: {{ currentOccupation.creditRating.min }}</span>
+            <span>Max: {{ currentOccupation.creditRating.max }}</span>
+          </div>
+        </div>
+
+        <!-- Credit Rating Description and Financial Info -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Description -->
+          <div class="bg-gray-50 rounded-lg p-4">
+            <h4 class="text-sm font-medium text-indigo-800 mb-3">
+              {{ getCreditRatingLevel() }}
+            </h4>
+            <div class="font-medium text-sm text-gray-600">
+              {{ getCreditRatingDescription() }}
+            </div>
+          </div>
+
+          <!-- Financial Values -->
+          <div class="bg-indigo-50 rounded-lg p-4">
+            <h4 class="text-sm font-medium text-indigo-800 mb-3">
+              {{ 'character.creation.skills.creditRating.financial' | dynamicTranslate }}
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">{{ 'character.creation.skills.creditRating.spendingLevel' | dynamicTranslate }}:</span>
+                <span class="font-medium">${{ getFinancialInfo().spendingLevel }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">{{ 'character.creation.skills.creditRating.cash' | dynamicTranslate }}:</span>
+                <span class="font-medium">${{ getFinancialInfo().cash }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">{{ 'character.creation.skills.creditRating.assets' | dynamicTranslate }}:</span>
+                <span class="font-medium">${{ getFinancialInfo().assets }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Occupation Skills -->
     <div *ngIf="occupationSkills.length > 0" class="space-y-4">
       <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2">
         {{ 'character.creation.skills.occupational.title' | dynamicTranslate }}
       </h3>
-      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-        <p class="text-sm text-blue-700">{{ 'character.creation.skills.occupational.description' | dynamicTranslate }}</p>
+      <div class="bg-cthulhu-yellow-50 border-l-4 border-cthulhu-yellow-400 p-4 mb-4">
+        <p class="text-sm text-cthulhu-yellow-700">{{ 'character.creation.skills.occupational.description' | dynamicTranslate }}</p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -104,7 +173,7 @@
           <div class="grid grid-cols-3 gap-2 text-sm">
             <!-- Occupation Points -->
             <div>
-              <label class="block text-xs text-blue-600 mb-1">
+              <label class="block text-xs text-cthulhu-yellow-600 mb-1">
                 {{ 'character.creation.skills.occupation.short' | dynamicTranslate }}
               </label>
               <input 
@@ -113,7 +182,7 @@
                 [max]="getMaxOccupationPoints(skill.id)"
                 [value]="skill.occupationValue"
                 (input)="onOccupationPointsChange(skill.id, +$any($event.target).value)"
-                class="w-full px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-cthulhu-yellow-500"
               />
             </div>
             

@@ -76,7 +76,7 @@ export class AgeModifiersStepComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculateAgeModifiers(): void {
+  calculateAgeModifiers(): void {
     if (this.characterSheet.age) {
       const currentEducation = this.characterSheet.education?.value || 50;
       const previousAgeModifiers = { ...this.ageModifiers };

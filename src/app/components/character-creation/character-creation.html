@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
       <div class="flex items-center space-x-4">
-        <button (click)="goHome()" class="text-blue-600 hover:text-blue-800 transition-colors">
+        <button (click)="goHome()" class="text-cthulhu-green-600 hover:text-cthulhu-green-700 transition-colors">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
@@ -20,7 +20,7 @@
         <span class="text-sm text-gray-500">{{ currentStep() }}/{{ totalSteps }}</span>
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2">
-        <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+        <div class="bg-cthulhu-green-600 h-2 rounded-full transition-all duration-300 progress-bar-cthulhu" 
              [style.width.%]="(currentStep() / totalSteps) * 100"></div>
       </div>
     </div>
@@ -88,7 +88,7 @@
           <button type="button" (click)="nextStep()" 
                   *ngIf="currentStep() < totalSteps"
                   [disabled]="!canProceedToNextStep()"
-                  class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="px-4 py-2 bg-cthulhu-green-600 text-white rounded-md hover:bg-cthulhu-green-700 disabled:opacity-50 disabled:cursor-not-allowed btn-cthulhu-primary">
             {{ 'ui.actions.next' | dynamicTranslate }}
           </button>
 

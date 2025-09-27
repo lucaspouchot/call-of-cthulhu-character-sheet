@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { CharacterSheetCreate, StepValidation, Skill } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { DEFAULT_SKILLS, OCCUPATIONS, Occupation, SkillPointFormula } from '../../../../models/skills.model';
+import { TranslationService } from '../../../../services/translation.service';
 
 @Component({
   selector: 'app-skills-step',
@@ -29,11 +30,15 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   occupationSkills: Skill[] = [];
   otherSkills: Skill[] = [];
   currentOccupation?: Occupation;
+  selectedCreditRating = 0;
 
-  constructor() { }
+  constructor(
+    private translationService: TranslationService
+  ) { }
 
   ngOnInit(): void {
     this.initializeSkills();
+    this.initializeCreditRating();
     this.calculateSkillPoints();
     this.validateStep();
   }
@@ -433,6 +438,103 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
     return {
       text: `${attributeName} (${attributeValue}) × ${formula.multiplier}`,
       value: calculatedValue
+    };
+  }
+
+  // Credit Rating methods
+  private initializeCreditRating(): void {
+    if (this.currentOccupation) {
+      // Initialize with existing value or minimum for occupation
+      this.selectedCreditRating = this.characterSheet.creditRating || this.currentOccupation.creditRating.min;
+    }
+  }
+
+  onCreditRatingChange(value: number): void {
+    this.selectedCreditRating = value;
+    this.characterSheet.creditRating = value;
+    this.characterSheetChange.emit(this.characterSheet);
+    this.validateStep();
+  }
+
+  getCreditRatingLevel(): string {
+    if (this.selectedCreditRating < 1) {
+      return this.translationService.getTranslation('creditRating.levels.penniless.name');
+    } else if (this.selectedCreditRating >= 1 && this.selectedCreditRating <= 9) {
+      return this.translationService.getTranslation('creditRating.levels.poor.name');
+    } else if (this.selectedCreditRating >= 10 && this.selectedCreditRating <= 49) {
+      return this.translationService.getTranslation('creditRating.levels.average.name');
+    } else if (this.selectedCreditRating >= 50 && this.selectedCreditRating <= 89) {
+      return this.translationService.getTranslation('creditRating.levels.wealthy.name');
+    } else if (this.selectedCreditRating >= 90 && this.selectedCreditRating <= 98) {
+      return this.translationService.getTranslation('creditRating.levels.rich.name');
+    } else { // >= 99
+      return this.translationService.getTranslation('creditRating.levels.superRich.name');
+    }
+  }
+
+  getCreditRatingDescription(): string {
+    if (this.selectedCreditRating < 1) {
+      return this.translationService.getTranslation('creditRating.levels.penniless.description');
+    } else if (this.selectedCreditRating >= 1 && this.selectedCreditRating <= 9) {
+      return this.translationService.getTranslation('creditRating.levels.poor.description');
+    } else if (this.selectedCreditRating >= 10 && this.selectedCreditRating <= 49) {
+      return this.translationService.getTranslation('creditRating.levels.average.description');
+    } else if (this.selectedCreditRating >= 50 && this.selectedCreditRating <= 89) {
+      return this.translationService.getTranslation('creditRating.levels.wealthy.description');
+    } else if (this.selectedCreditRating >= 90 && this.selectedCreditRating <= 98) {
+      return this.translationService.getTranslation('creditRating.levels.rich.description');
+    } else { // >= 99
+      return this.translationService.getTranslation('creditRating.levels.superRich.description');
+    }
+  }
+
+  getFinancialInfo(): { spendingLevel: number, cash: number, assets: number } {
+    return this.initializeFinanceValues(this.selectedCreditRating);
+  }
+
+  private initializeFinanceValues(creditRating: number) {
+    // Call of Cthulhu financial calculations based on Credit Rating
+    // Using the same logic as getCreditRatingInfo and character.service.ts
+    let spendingLevel = 0;
+    let cash = 0;
+    let assets = 0;
+
+    if (creditRating < 1) {
+      // Penniless
+      spendingLevel = 0.50;
+      cash = 0.50;
+      assets = 0;
+    } else if (creditRating >= 1 && creditRating <= 9) {
+      // Poor
+      spendingLevel = 2;
+      cash = creditRating * 1;
+      assets = creditRating * 10;
+    } else if (creditRating >= 10 && creditRating <= 49) {
+      // Average
+      spendingLevel = 10;
+      cash = creditRating * 2;
+      assets = creditRating * 50;
+    } else if (creditRating >= 50 && creditRating <= 89) {
+      // Wealthy
+      spendingLevel = 50;
+      cash = creditRating * 5;
+      assets = creditRating * 500;
+    } else if (creditRating >= 90 && creditRating <= 98) {
+      // Rich
+      spendingLevel = 250;
+      cash = creditRating * 20;
+      assets = creditRating * 2000;
+    } else { // >= 99
+      // Super Rich
+      spendingLevel = 5000;
+      cash = 50000;
+      assets = 5000000;
+    }
+
+    return {
+      spendingLevel,
+      cash,
+      assets
     };
   }
 }

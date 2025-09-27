@@ -191,6 +191,7 @@
         "educationImprovement": "Amélioration de l'Éducation",
         "distributePenalties": "Distribuer les Pénalités d'Attributs",
         "pointsRemaining": "points restants",
+        "noBonus": "Pas de bonus",
         "reroll": "Relancer",
         "option": "Option",
         "check": "Test",
@@ -263,6 +264,15 @@
         },
         "validation": {
           "overspent": "Vous avez dépassé vos points disponibles"
+        },
+        "creditRating": {
+          "title": "Niveau de Crédit",
+          "label": "Niveau de Crédit",
+          "description": "Description du Niveau",
+          "financial": "Informations Financières",
+          "spendingLevel": "Niveau de Dépenses",
+          "cash": "Argent Liquide",
+          "assets": "Biens"
         }
       },
       "personal": {

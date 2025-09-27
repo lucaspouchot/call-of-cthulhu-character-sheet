@@ -40,4 +40,92 @@
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
   }
+
+  /* Call of Cthulhu themed color replacements for blue elements */
+  .cthulhu-info-panel {
+    background-color: #f0f5f0;
+    border-color: #c7d2cc;
+  }
+
+  .cthulhu-info-panel-dark {
+    background-color: #e8f2e8;
+    border-color: #b5c7b5;
+  }
+
+  .cthulhu-text-primary {
+    color: #2d4a22;
+  }
+
+  .cthulhu-text-secondary {
+    color: #4a6b3a;
+  }
+
+  .cthulhu-text-light {
+    color: #6b8559;
+  }
+
+  .cthulhu-bg-primary {
+    background-color: #2d4a22;
+  }
+
+  .cthulhu-bg-secondary {
+    background-color: #f0f5f0;
+  }
+
+  .cthulhu-bg-accent {
+    background-color: #e8f2e8;
+  }
+
+  .cthulhu-border {
+    border-color: #c7d2cc;
+  }
+
+  /* Progress bar enhancements for Call of Cthulhu theme */
+  .progress-bar-cthulhu {
+    background: linear-gradient(90deg, #2d4a22 0%, #4a6b3a 50%, #2d4a22 100%);
+    box-shadow: 0 2px 4px rgba(45, 74, 34, 0.2);
+  }
+
+  /* Button enhancements */
+  .btn-cthulhu-primary {
+    background: linear-gradient(135deg, #2d4a22 0%, #4a6b3a 100%);
+    border: 1px solid #1f3317;
+    transition: all 0.3s ease;
+  }
+
+  .btn-cthulhu-primary:hover {
+    background: linear-gradient(135deg, #1f3317 0%, #2d4a22 100%);
+    box-shadow: 0 4px 8px rgba(45, 74, 34, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Enhanced character sheet styling */
+  .character-sheet-cthulhu {
+    background: linear-gradient(145deg, #ffffff 0%, #f9f9f9 100%);
+    border: 1px solid #e5e7eb;
+    box-shadow:
+      0 10px 15px -3px rgba(45, 74, 34, 0.1),
+      0 4px 6px -2px rgba(45, 74, 34, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  /* Yellow theme variants */
+  .progress-bar-cthulhu-yellow {
+    background: linear-gradient(90deg, #b8944a 0%, #c5a962 50%, #b8944a 100%);
+    box-shadow: 0 2px 4px rgba(184, 148, 74, 0.2);
+  }
+
+  .btn-cthulhu-yellow {
+    background: linear-gradient(135deg, #b8944a 0%, #c5a962 100%);
+    border: 1px solid #9a7a3a;
+    transition: all 0.3s ease;
+  }
+
+  .btn-cthulhu-yellow:hover {
+    background: linear-gradient(135deg, #9a7a3a 0%, #b8944a 100%);
+    box-shadow: 0 4px 8px rgba(184, 148, 74, 0.3);
+    transform: translateY(-1px);
+  }
+
+
 }

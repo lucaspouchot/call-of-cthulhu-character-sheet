@@ -11,22 +11,22 @@ export class EntityTranslationService {
 
   getSkillTranslation(skill: Skill | string): string {
     const skillId = typeof skill === 'string' ? skill : skill.id;
-    const translationKey = `character.creation.skills.${skillId}`;
+    const translationKey = `skills.${skillId}`;
     return this.translationService.getTranslation(translationKey) || skillId;
   }
 
   getSexTranslation(sex: Sex): string {
-    const translationKey = `character.creation.options.sex.${sex}`;
+    const translationKey = `character.sex.${sex}`;
     return this.translationService.getTranslation(translationKey) || sex;
   }
 
   getOccupationName(occupationId: string): string {
-    const translationKey = `character.creation.occupation.preset.${occupationId}.name`;
+    const translationKey = `occupations.${occupationId}`;
     return this.translationService.getTranslation(translationKey) || occupationId;
   }
 
   getOccupationDescription(occupationId: string): string {
-    const translationKey = `character.creation.occupation.preset.${occupationId}.description`;
+    const translationKey = `occupations.${occupationId}.description`;
     return this.translationService.getTranslation(translationKey) || '';
   }
 }

@@ -33,15 +33,15 @@
               <h2 class="gothic-header text-xl">{{ 'character.sheet.characteristics' | dynamicTranslate }}</h2>
               <button *ngIf="!editMode.attributes" (click)="toggleEditMode('attributes')" 
                       class="text-sm text-blue-600 hover:text-blue-800">
-                {{ 'character.sheet.edit' | dynamicTranslate }}
+                {{ 'ui.actions.edit' | dynamicTranslate }}
               </button>
             </div>
             <div *ngIf="editMode.attributes" class="flex flex-col sm:flex-row gap-2 justify-center">
               <button (click)="saveCharacter()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-                {{ 'character.sheet.save' | dynamicTranslate }}
+                {{ 'ui.actions.save' | dynamicTranslate }}
               </button>
               <button (click)="cancelEdit('attributes')" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-                {{ 'character.actions.cancel' | dynamicTranslate }}
+                {{ 'ui.actions.cancel' | dynamicTranslate }}
               </button>
             </div>
           </div>
@@ -90,15 +90,15 @@
               <h2 class="gothic-header text-xl">{{ 'character.sheet.condition' | dynamicTranslate }}</h2>
               <button *ngIf="!editMode.health" (click)="toggleEditMode('health')" 
                       class="text-sm text-blue-600 hover:text-blue-800">
-                {{ 'character.sheet.edit' | dynamicTranslate }}
+                {{ 'ui.actions.edit' | dynamicTranslate }}
               </button>
             </div>
             <div *ngIf="editMode.health" class="flex flex-col sm:flex-row gap-2 justify-center">
               <button (click)="saveCharacter()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-                {{ 'character.sheet.save' | dynamicTranslate }}
+                {{ 'ui.actions.save' | dynamicTranslate }}
               </button>
               <button (click)="cancelEdit('health')" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-                {{ 'character.actions.cancel' | dynamicTranslate }}
+                {{ 'ui.actions.cancel' | dynamicTranslate }}
               </button>
             </div>
           </div>
@@ -107,7 +107,7 @@
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
               <div class="flex items-center gap-2">
-                <span class="font-medium">{{ 'character.sheet.hitPoints' | dynamicTranslate }}</span>
+                <span class="font-medium">{{ 'character.health.hitPoints' | dynamicTranslate }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="adjustHitPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
@@ -152,7 +152,7 @@
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
               <div class="flex items-center gap-2">
-                <span class="font-medium">{{ 'character.sanity' | dynamicTranslate }}</span>
+                <span class="font-medium">{{ 'character.health.sanity' | dynamicTranslate }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="adjustSanity(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
@@ -197,7 +197,7 @@
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
               <div class="flex items-center gap-2">
-                <span class="font-medium">{{ 'character.sheet.magicPoints' | dynamicTranslate }}</span>
+                <span class="font-medium">{{ 'character.health.magicPoints' | dynamicTranslate }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="adjustMagicPoints(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
@@ -242,7 +242,7 @@
           <div>
             <div class="flex justify-between items-center">
               <div class="flex items-center gap-2">
-                <span class="font-medium">{{ 'character.sheet.luck' | dynamicTranslate }}</span>
+                <span class="font-medium">{{ 'character.attributes.luck' | dynamicTranslate }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="adjustLuck(-1)" class="w-6 h-6 bg-red-500 text-white rounded text-xs">-</button>
@@ -281,12 +281,12 @@
 
         <!-- Movement -->
         <div class="character-sheet p-6">
-          <h2 class="gothic-header text-xl mb-4">{{ 'character.sheet.movement' | dynamicTranslate }}</h2>
+          <h2 class="gothic-header text-xl mb-4">{{ 'character.movement.label' | dynamicTranslate }}</h2>
           <div class="grid grid-cols-2 gap-2 text-sm">
-            <div>{{ 'character.sheet.normal' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.normal }}</div>
-            <div>{{ 'character.sheet.running' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.running }}</div>
-            <div>{{ 'character.sheet.climbing' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.climbing }}</div>
-            <div>{{ 'character.sheet.swimming' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.swimming }}</div>
+            <div>{{ 'character.movement.normal' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.normal }}</div>
+            <div>{{ 'character.movement.running' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.running }}</div>
+            <div>{{ 'character.movement.climbing' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.climbing }}</div>
+            <div>{{ 'character.movement.swimming' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ character.movement.swimming }}</div>
           </div>
         </div>
       </div>
@@ -301,15 +301,15 @@
               <h2 class="gothic-header text-xl">{{ 'character.skills' | dynamicTranslate }}</h2>
               <button *ngIf="!editMode.skills" (click)="toggleEditMode('skills')" 
                       class="text-sm text-blue-600 hover:text-blue-800">
-                {{ 'character.sheet.edit' | dynamicTranslate }}
+                {{ 'ui.actions.edit' | dynamicTranslate }}
               </button>
             </div>
             <div *ngIf="editMode.skills" class="flex flex-col sm:flex-row gap-2 justify-center">
               <button (click)="saveCharacter()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-                {{ 'character.sheet.save' | dynamicTranslate }}
+                {{ 'ui.actions.save' | dynamicTranslate }}
               </button>
               <button (click)="cancelEdit('skills')" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-                {{ 'character.actions.cancel' | dynamicTranslate }}
+                {{ 'ui.actions.cancel' | dynamicTranslate }}
               </button>
             </div>
           </div>
@@ -346,11 +346,11 @@
                 <!-- Existing modifiers (including occupation and personal if > 0) -->
                 <div class="space-y-1 mb-2">
                   <div *ngIf="skill.occupationValue > 0" class="flex justify-between items-center text-xs">
-                    <span>{{ 'character.sheet.occupation.points' | dynamicTranslate }}: <span class="text-blue-600">+{{ skill.occupationValue }}%</span></span>
+                    <span>{{ 'character.creation.occupation.skillPoints' | dynamicTranslate }}: <span class="text-blue-600">+{{ skill.occupationValue }}%</span></span>
                     <span class="text-gray-400 text-xs">{{ 'character.sheet.permanent' | dynamicTranslate }}</span>
                   </div>
                   <div *ngIf="skill.personalValue > 0" class="flex justify-between items-center text-xs">
-                    <span>{{ 'character.sheet.personal.points' | dynamicTranslate }}: <span class="text-green-600">+{{ skill.personalValue }}%</span></span>
+                    <span>{{ 'character.creation.occupation.personalPoints' | dynamicTranslate }}: <span class="text-green-600">+{{ skill.personalValue }}%</span></span>
                     <span class="text-gray-400 text-xs">{{ 'character.sheet.permanent' | dynamicTranslate }}</span>
                   </div>
                   <div *ngFor="let modifier of skill.modifiers" class="flex justify-between items-center text-xs">
@@ -385,47 +385,47 @@
               <h2 class="gothic-header text-xl">{{ 'character.sheet.personalDetails' | dynamicTranslate }}</h2>
               <button *ngIf="!editMode.personal" (click)="toggleEditMode('personal')" 
                       class="text-sm text-blue-600 hover:text-blue-800">
-                {{ 'character.sheet.edit' | dynamicTranslate }}
+                {{ 'ui.actions.edit' | dynamicTranslate }}
               </button>
             </div>
             <div *ngIf="editMode.personal" class="flex flex-col sm:flex-row gap-2 justify-center">
               <button (click)="saveCharacter()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-                {{ 'character.sheet.save' | dynamicTranslate }}
+                {{ 'ui.actions.save' | dynamicTranslate }}
               </button>
               <button (click)="cancelEdit('personal')" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-                {{ 'character.actions.cancel' | dynamicTranslate }}
+                {{ 'ui.actions.cancel' | dynamicTranslate }}
               </button>
             </div>
           </div>
           
           <div class="space-y-3 text-sm" *ngIf="!editMode.personal">
-            <div><strong>{{ 'character.sheet.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.player }}</div>
-            <div><strong>{{ 'character.sheet.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.age }}</div>
+            <div><strong>{{ 'character.basicInfo.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.player }}</div>
+            <div><strong>{{ 'character.basicInfo.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.age }}</div>
             <div><strong>{{ 'character.occupation' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getOccupationName(character.occupation) }}</div>
-            <div><strong>{{ 'character.sheet.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getSexTranslation(character.sex) }}</div>
-            <div><strong>{{ 'character.sheet.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.residence }}</div>
-            <div><strong>{{ 'character.sheet.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.birthplace }}</div>
+            <div><strong>{{ 'character.basicInfo.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getSexTranslation(character.sex) }}</div>
+            <div><strong>{{ 'character.basicInfo.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.residence }}</div>
+            <div><strong>{{ 'character.basicInfo.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ character.birthplace }}</div>
           </div>
 
           <!-- Edit mode for personal details -->
           <div class="space-y-3 text-sm" *ngIf="editMode.personal">
             <div class="grid grid-cols-3 gap-2 items-center">
-              <strong>{{ 'character.sheet.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <strong>{{ 'character.basicInfo.player' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <input [(ngModel)]="character.player" class="col-span-2 p-2 border rounded">
             </div>
             <div class="grid grid-cols-3 gap-2 items-center">
-              <strong>{{ 'character.sheet.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <strong>{{ 'character.basicInfo.age' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <input [(ngModel)]="character.age" (ngModelChange)="onAgeChange()" type="number" min="15" max="90" class="col-span-2 p-2 border rounded">
             </div>
             <div class="grid grid-cols-3 gap-2 items-center">
               <strong>{{ 'character.occupation' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <select [(ngModel)]="character.occupation" class="col-span-2 p-2 border rounded">
-                <option value="">{{ 'character.creation.options.occupation.select' | dynamicTranslate }}</option>
+                <option value="">{{ 'character.creation.occupation.select' | dynamicTranslate }}</option>
                 <option *ngFor="let occ of occupations" [value]="occ.id">{{ getOccupationName(occ.id) }}</option>
               </select>
             </div>
             <div class="grid grid-cols-3 gap-2 items-center">
-              <strong>{{ 'character.sheet.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <strong>{{ 'character.basicInfo.sex' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <select [(ngModel)]="character.sex" class="col-span-2 p-2 border rounded">
                 <option [value]="sexValues.Male">{{ getSexTranslation(sexValues.Male) }}</option>
                 <option [value]="sexValues.Female">{{ getSexTranslation(sexValues.Female) }}</option>
@@ -434,11 +434,11 @@
               </select>
             </div>
             <div class="grid grid-cols-3 gap-2 items-center">
-              <strong>{{ 'character.sheet.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <strong>{{ 'character.basicInfo.residence' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <input [(ngModel)]="character.residence" class="col-span-2 p-2 border rounded">
             </div>
             <div class="grid grid-cols-3 gap-2 items-center">
-              <strong>{{ 'character.sheet.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+              <strong>{{ 'character.basicInfo.birthplace' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
               <input [(ngModel)]="character.birthplace" class="col-span-2 p-2 border rounded">
             </div>
 
@@ -452,15 +452,15 @@
               <h3 class="gothic-header text-lg">{{ 'character.sheet.finance.title' | dynamicTranslate }}</h3>
               <button *ngIf="!editMode.finance" (click)="toggleEditMode('finance')" 
                       class="text-sm text-blue-600 hover:text-blue-800">
-                {{ 'character.sheet.edit' | dynamicTranslate }}
+                {{ 'ui.actions.edit' | dynamicTranslate }}
               </button>
             </div>
             <div *ngIf="editMode.finance" class="flex flex-col sm:flex-row gap-2 justify-center mb-2">
               <button (click)="saveCharacter()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-                {{ 'character.sheet.save' | dynamicTranslate }}
+                {{ 'ui.actions.save' | dynamicTranslate }}
               </button>
               <button (click)="cancelEdit('finance')" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-                {{ 'character.actions.cancel' | dynamicTranslate }}
+                {{ 'ui.actions.cancel' | dynamicTranslate }}
               </button>
             </div>
 
@@ -469,7 +469,7 @@
           <!-- Credit Rating Display -->
           <div class="mb-4">
             <div class="text-sm">
-              <strong>{{ 'character.sheet.creditRating' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> 
+              <strong>{{ 'skills.creditRating' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> 
               <span class="font-mono">{{ character.finance.creditRating || character.skillPoints.creditRating || 0 }}%</span>
               <div *ngIf="getCreditRatingInfo()" class="text-xs text-gray-600 mt-1">
                 {{ getCreditRatingInfo().level }} - {{ getCreditRatingInfo().description }}
@@ -574,7 +574,7 @@
           <h3 class="gothic-header text-lg mb-3">{{ 'character.sheet.equipment' | dynamicTranslate }}</h3>
           <div class="text-sm space-y-1">
             <div *ngFor="let item of character.equipment" class="text-gray-700">• {{ item }}</div>
-            <div *ngIf="character.equipment.length === 0" class="text-gray-500 italic">{{ 'character.sheet.noEquipment' | dynamicTranslate }}</div>
+            <div *ngIf="character.equipment.length === 0" class="text-gray-500 italic">{{ 'character.sheet.no.equipment' | dynamicTranslate }}</div>
           </div>
         </div>
 

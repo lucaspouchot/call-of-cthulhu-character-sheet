@@ -41,6 +41,7 @@
       "title": "No Investigators Yet",
       "subtitle": "Create your first investigator to begin exploring the unknown..."
     },
+    "occupation": "Occupation",
     "basicInfo": {
       "name": "Name",
       "player": "Player",
@@ -75,6 +76,7 @@
       "health": "Health"
     },
     "movement": {
+      "label": "Movement",
       "normal": "Normal",
       "running": "Running",
       "climbing": "Climbing",

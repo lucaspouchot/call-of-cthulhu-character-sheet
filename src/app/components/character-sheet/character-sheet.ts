@@ -584,13 +584,6 @@ export class CharacterSheetComponent implements OnInit {
     this.newSkillModifier[skillId].value = value;
   }
 
-  deleteCharacter() {
-    if (this.character && confirm('Are you sure you want to delete this character?')) {
-      this.characterService.deleteCharacter(this.character.id);
-      this.router.navigate(['/']);
-    }
-  }
-
   goBack() {
     this.router.navigate(['/']);
   }
@@ -765,12 +758,11 @@ export class CharacterSheetComponent implements OnInit {
 
     const creditRating = this.character.finance.creditRating;
 
-    if (creditRating >= 90) return { level: 'Magnifique', description: 'Richesse illimitée' };
-    if (creditRating >= 80) return { level: 'Somptueux', description: 'Très riche' };
-    if (creditRating >= 70) return { level: 'Luxueux', description: 'Riche' };
-    if (creditRating >= 50) return { level: 'Confortable', description: 'Classe moyenne supérieure' };
-    if (creditRating >= 30) return { level: 'Modeste', description: 'Classe moyenne' };
-    if (creditRating >= 10) return { level: 'Pauvre', description: 'Classe ouvrière' };
-    return { level: 'Misérable', description: 'Indigent' };
+    if (creditRating >= 99) return { level: this.translationService.getTranslation("creditRating.levels.superRich.name"), description: this.translationService.getTranslation("creditRating.levels.superRich.description") };
+    if (creditRating >= 90) return { level: this.translationService.getTranslation("creditRating.levels.rich.name"), description: this.translationService.getTranslation("creditRating.levels.rich.description") };
+    if (creditRating >= 50) return { level: this.translationService.getTranslation("creditRating.levels.wealthy.name"), description: this.translationService.getTranslation("creditRating.levels.wealthy.description") };
+    if (creditRating >= 10) return { level: this.translationService.getTranslation("creditRating.levels.average.name"), description: this.translationService.getTranslation("creditRating.levels.average.description") };
+    if (creditRating >= 1) return { level: this.translationService.getTranslation("creditRating.levels.poor.name"), description: this.translationService.getTranslation("creditRating.levels.poor.description") };
+    return { level: this.translationService.getTranslation("creditRating.levels.peniless.name"), description: this.translationService.getTranslation("creditRating.levels.peniless.description") };
   }
 }

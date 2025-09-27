@@ -41,6 +41,7 @@
       "title": "Aucun Investigateur",
       "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."
     },
+    "occupation": "Occupation",
     "basicInfo": {
       "name": "Nom",
       "player": "Joueur",
@@ -75,6 +76,7 @@
       "health": "Santé"
     },
     "movement": {
+      "label": "Mouvement",
       "normal": "Normal",
       "running": "Course",
       "climbing": "Escalade",

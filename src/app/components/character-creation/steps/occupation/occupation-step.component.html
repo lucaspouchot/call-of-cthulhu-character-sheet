@@ -14,7 +14,7 @@
         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
         <option value="" disabled>{{ 'character.creation.occupation.placeholder' | dynamicTranslate }}</option>
         <option *ngFor="let occ of availableOccupations" [value]="occ.id">
-          {{ ('occupations.' + occ.id) | dynamicTranslate }}
+          {{ ('occupations.' + occ.id + '.label') | dynamicTranslate }}
         </option>
       </select>
       
@@ -26,13 +26,13 @@
 
     <div *ngIf="occupationForm.get('occupation')?.value" class="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
       <h3 class="text-lg font-medium text-gray-900 mb-2">
-        {{ ('occupations.' + occupationForm.get('occupation')?.value) | dynamicTranslate }}
+        {{ ('occupations.' + occupationForm.get('occupation')?.value + '.label') | dynamicTranslate }}
       </h3>
       <div class="text-gray-700">
         <p class="mb-4 text-gray-600">{{ ('occupations.' + occupationForm.get('occupation')?.value + '.description') | dynamicTranslate }}</p>
         <div *ngIf="getSelectedOccupation() as selectedOcc" class="mt-4 space-y-4">
           <div>
-            <p class="text-sm font-semibold text-gray-800 mb-1">{{ 'character.attributes.creditRating' | dynamicTranslate }}:</p>
+            <p class="text-sm font-semibold text-gray-800 mb-1">{{ 'skills.creditRating' | dynamicTranslate }}:</p>
             <p class="text-gray-700 font-medium">{{ selectedOcc.creditRating.min }}-{{ selectedOcc.creditRating.max }}</p>
           </div>
           

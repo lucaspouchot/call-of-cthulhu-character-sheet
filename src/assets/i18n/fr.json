@@ -7,6 +7,10 @@
     "dot": ".",
     "colon": " :"
   },
+  "conjunction": {
+    "and": "et",
+    "or": "ou"
+  },
   "ui": {
     "actions": {
       "save": "Sauvegarder",
@@ -113,7 +117,7 @@
       "occupation": {
         "title": "Occupation et Compétences",
         "description": "Sélectionnez l'occupation de votre investigateur qui détermine ses compétences professionnelles et ses points de compétences de départ.",
-        "select": "Sélectionnez une occupation...",
+        "select": "Sélectionnez une occupation",
         "placeholder": "Choisissez votre occupation...",
         "required": "Veuillez sélectionner une occupation",
         "suggestedContacts": "Contacts Suggérés",
@@ -252,6 +256,11 @@
         "other": {
           "title": "Autres Compétences"
         },
+        "base": "Base",
+        "total": "Total",
+        "occupation": {
+          "short": "Prof"
+        },
         "validation": {
           "overspent": "Vous avez dépassé vos points disponibles"
         }
@@ -350,14 +359,22 @@
     }
   },
   "occupations": {
-    "antiquarian": "Antiquaire",
-    "antiquarian.description": "Vous commercez des livres rares, des cartes, des folios et des manuscrits. Vous savez où trouver les meilleurs exemplaires et les meilleurs clients. Vos connaissances en histoire et en documents anciens sont étendues.",
-    "doctor": "Docteur",
-    "doctor.description": "Vous êtes un praticien médical, formé au diagnostic et au traitement des maladies et des blessures. Vous avez une connaissance approfondie de l'anatomie humaine, de la psychologie et des arts de guérison.",
-    "privateInvestigator": "Détective privé",
-    "privateInvestigator.description": "Vous enquêtez sur des affaires pour des clients privés, des personnes disparues à la fraude d'assurance. Vous savez comment trouver des informations, suivre des pistes et éviter les ennuis.",
-    "journalist": "Journaliste",
-    "journalist.description": "Vous collectez, rédigez et rapportez des nouvelles et des événements d'actualité pour les journaux, magazines ou autres médias. Vous avez des contacts dans toute la société et savez comment trouver une histoire."
+    "antiquarian": {
+      "label": "Antiquaire",
+      "description": "Vous commercez des livres rares, des cartes, des folios et des manuscrits. Vous savez où trouver les meilleurs exemplaires et les meilleurs clients. Vos connaissances en histoire et en documents anciens sont étendues."
+    },
+    "doctor": {
+      "label": "Docteur",
+      "description": "Vous êtes un praticien médical, formé au diagnostic et au traitement des maladies et des blessures. Vous avez une connaissance approfondie de l'anatomie humaine, de la psychologie et des arts de guérison."
+    },
+    "privateInvestigator": {
+      "label": "Détective privé",
+      "description": "Vous enquêtez sur des affaires pour des clients privés, des personnes disparues à la fraude d'assurance. Vous savez comment trouver des informations, suivre des pistes et éviter les ennuis."
+    },
+    "journalist": {
+      "label": "Journaliste",
+      "description": "Vous collectez, rédigez et rapportez des nouvelles et des événements d'actualité pour les journaux, magazines ou autres médias. Vous avez des contacts dans toute la société et savez comment trouver une histoire."
+    }
   },
   "skills": {
     "validation": {

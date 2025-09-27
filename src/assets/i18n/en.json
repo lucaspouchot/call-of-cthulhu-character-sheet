@@ -2,6 +2,10 @@
   "game": {
     "title": "Call of Cthulhu"
   },
+  "conjunction": {
+    "and": "and",
+    "or": "or"
+  },
   "language": "Language",
   "ponctuation": {
     "dot": ".",
@@ -113,7 +117,7 @@
       "occupation": {
         "title": "Occupation & Skills",
         "description": "Select your investigator's occupation which determines their occupational skills and starting skill points.",
-        "select": "Select an occupation...",
+        "select": "Select an occupation",
         "placeholder": "Choose your occupation...",
         "required": "Please select an occupation",
         "suggestedContacts": "Suggested Contacts",
@@ -252,6 +256,11 @@
         "other": {
           "title": "Other Skills"
         },
+        "base": "Base",
+        "total": "Total",
+        "occupation": {
+          "short": "Occ"
+        },
         "validation": {
           "overspent": "You have overspent your available points"
         }
@@ -350,14 +359,22 @@
     }
   },
   "occupations": {
-    "antiquarian": "Antiquarian",
-    "antiquarian.description": "You deal in rare books, maps, folios, and manuscripts. You know where to find the finest examples and the best clients. Your knowledge of history and old documents is extensive.",
-    "doctor": "Doctor",
-    "doctor.description": "You are a medical practitioner, trained in the diagnosis and treatment of disease and injury. You have extensive knowledge of human anatomy, psychology, and the healing arts.",
-    "privateInvestigator": "Private Investigator",
-    "privateInvestigator.description": "You investigate matters for private clients, from missing persons to insurance fraud. You know how to find information, follow leads, and stay out of trouble.",
-    "journalist": "Journalist",
-    "journalist.description": "You gather, write, and report news and current events for newspapers, magazines, or other media. You have contacts throughout society and know how to find a story."
+    "antiquarian": {
+      "label": "Antiquarian",
+      "description": "You deal in rare books, maps, folios, and manuscripts. You know where to find the finest examples and the best clients. Your knowledge of history and old documents is extensive."
+    },
+    "doctor": {
+      "label": "Doctor",
+      "description": "You are a medical practitioner, trained in the diagnosis and treatment of disease and injury. You have extensive knowledge of human anatomy, psychology, and the healing arts."
+    },
+    "privateInvestigator": {
+      "label": "Private Investigator",
+      "description": "You investigate matters for private clients, from missing persons to insurance fraud. You know how to find information, follow leads, and stay out of trouble."
+    },
+    "journalist": {
+      "label": "Journalist",
+      "description": "You gather, write, and report news and current events for newspapers, magazines, or other media. You have contacts throughout society and know how to find a story."
+    }
   },
   "skills": {
     "validation": {

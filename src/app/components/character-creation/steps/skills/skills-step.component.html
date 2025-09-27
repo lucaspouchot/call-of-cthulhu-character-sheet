@@ -6,21 +6,192 @@
     
     <!-- Summary -->
     <div class="bg-gray-50 rounded-lg p-4">
-      <h4 class="text-md font-medium text-gray-900 mb-2">
+      <h4 class="text-md font-medium text-gray-900 mb-4">
         {{ 'character.creation.skills.summary' | dynamicTranslate }}
       </h4>
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <span class="font-medium">{{ 'character.creation.skills.occupational.skills' | dynamicTranslate }}:</span>
-          <span [class]="isOccupationOverspent() ? 'text-red-600' : 'text-green-600'">
+      
+      <!-- Occupation Points Summary -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-medium text-blue-700">{{ 'character.creation.skills.occupational.skills' | dynamicTranslate }}:</span>
+          <span [class]="isOccupationOverspent() ? 'text-red-600 font-semibold' : 'text-green-600 font-semibold'">
             {{ occupationPointsSpent }} / {{ occupationPoints }}
           </span>
         </div>
-        <div>
-          <span class="font-medium">{{ 'character.creation.skills.personal.skills' | dynamicTranslate }}:</span>
-          <span [class]="isPersonalOverspent() ? 'text-red-600' : 'text-green-600'">
+        <div class="flex flex-wrap gap-1 text-xs items-center">
+          <ng-container *ngFor="let chip of getOccupationFormulaChips(); let i = index">
+            <!-- Show opening parenthesis for composite choice -->
+            <span *ngIf="chip.type === 'choice' && chip.isFirst && currentOccupation?.occupationSkillPoints?.type === 'composite'" 
+                  class="text-xs text-gray-500">
+              (
+            </span>
+            
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              {{ chip.text }}
+            </span>
+            
+            <!-- Show separator -->
+            <span *ngIf="i < getOccupationFormulaChips().length - 1 && !chip.isLast" 
+                  class="text-xs text-gray-500 mx-1">
+              {{ chip.type === 'choice' ? ('conjunction.or' | dynamicTranslate ) : '+' }}
+            </span>
+            
+            <!-- Show closing parenthesis for composite choice -->
+            <span *ngIf="chip.type === 'choice' && chip.isLast && currentOccupation?.occupationSkillPoints?.type === 'composite'" 
+                  class="text-xs text-gray-500">
+              )
+            </span>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Personal Points Summary -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-medium text-green-700">{{ 'character.creation.skills.personal.skills' | dynamicTranslate }}:</span>
+          <span [class]="isPersonalOverspent() ? 'text-red-600 font-semibold' : 'text-green-600 font-semibold'">
             {{ personalPointsSpent }} / {{ personalPoints }}
           </span>
+        </div>
+        <div class="flex flex-wrap gap-1 text-xs items-center">
+          <ng-container *ngFor="let chip of getPersonalFormulaChips(); let i = index">
+            <!-- Show opening parenthesis for composite choice -->
+            <span *ngIf="chip.type === 'choice' && chip.isFirst && currentOccupation?.personalSkillPoints?.type === 'composite'" 
+                  class="text-xs text-gray-500">
+              + (
+            </span>
+            
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {{ chip.text }}
+            </span>
+            
+            <!-- Show separator -->
+            <span *ngIf="i < getPersonalFormulaChips().length - 1 && !chip.isLast" 
+                  class="text-xs text-gray-500 mx-1">
+              {{ chip.type === 'choice' ? ('conjunction.or' | dynamicTranslate ) : '+' }}
+            </span>
+            
+            <!-- Show closing parenthesis for composite choice -->
+            <span *ngIf="chip.type === 'choice' && chip.isLast && currentOccupation?.personalSkillPoints?.type === 'composite'" 
+                  class="text-xs text-gray-500">
+              )
+            </span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Occupation Skills -->
+    <div *ngIf="occupationSkills.length > 0" class="space-y-4">
+      <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2">
+        {{ 'character.creation.skills.occupational.title' | dynamicTranslate }}
+      </h3>
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+        <p class="text-sm text-blue-700">{{ 'character.creation.skills.occupational.description' | dynamicTranslate }}</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let skill of occupationSkills" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-medium text-gray-700">
+              {{ 'skills.' + skill.id | dynamicTranslate }}
+            </label>
+            <span class="text-xs text-gray-500">
+              {{ 'character.creation.skills.base' | dynamicTranslate }}: {{ skill.baseValue }}
+            </span>
+          </div>
+          
+          <div class="grid grid-cols-3 gap-2 text-sm">
+            <!-- Occupation Points -->
+            <div>
+              <label class="block text-xs text-blue-600 mb-1">
+                {{ 'character.creation.skills.occupation.short' | dynamicTranslate }}
+              </label>
+              <input 
+                type="number" 
+                min="0" 
+                [max]="getMaxOccupationPoints(skill.id)"
+                [value]="skill.occupationValue"
+                (input)="onOccupationPointsChange(skill.id, +$any($event.target).value)"
+                class="w-full px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            
+            <!-- Personal Points -->
+            <div>
+              <label class="block text-xs text-green-600 mb-1">
+                {{ 'character.creation.skills.personal.short' | dynamicTranslate }}
+              </label>
+              <input 
+                type="number" 
+                min="0" 
+                [max]="getMaxPersonalPoints(skill.id)"
+                [value]="skill.personalValue"
+                (input)="onPersonalPointsChange(skill.id, +$any($event.target).value)"
+                class="w-full px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+            
+            <!-- Total -->
+            <div>
+              <label class="block text-xs text-gray-600 mb-1">
+                {{ 'character.creation.skills.total' | dynamicTranslate }}
+              </label>
+              <div class="w-full px-2 py-1 bg-gray-100 border border-gray-300 rounded text-center font-medium">
+                {{ skill.totalValue }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Skills -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2">
+        {{ 'character.creation.skills.other.title' | dynamicTranslate }}
+      </h3>
+      <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+        <p class="text-sm text-green-700">{{ 'character.creation.skills.personal.description' | dynamicTranslate }}</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let skill of otherSkills" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-medium text-gray-700">
+              {{ 'skills.' + skill.id | dynamicTranslate }}
+            </label>
+            <span class="text-xs text-gray-500">
+              {{ 'character.creation.skills.base' | dynamicTranslate }}: {{ skill.baseValue }}
+            </span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <!-- Personal Points Only -->
+            <div>
+              <label class="block text-xs text-green-600 mb-1">
+                {{ 'character.creation.skills.personal.short' | dynamicTranslate }}
+              </label>
+              <input 
+                type="number" 
+                min="0" 
+                [max]="getMaxPersonalPoints(skill.id)"
+                [value]="skill.personalValue"
+                (input)="onPersonalPointsChange(skill.id, +$any($event.target).value)"
+                class="w-full px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+            
+            <!-- Total -->
+            <div>
+              <label class="block text-xs text-gray-600 mb-1">
+                {{ 'character.creation.skills.total' | dynamicTranslate }}
+              </label>
+              <div class="w-full px-2 py-1 bg-gray-100 border border-gray-300 rounded text-center font-medium">
+                {{ skill.totalValue }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

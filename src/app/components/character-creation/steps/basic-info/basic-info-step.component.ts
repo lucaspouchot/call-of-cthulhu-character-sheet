@@ -65,7 +65,7 @@ export class BasicInfoStepComponent implements OnInit, OnChanges {
     if (!this.localCharacterSheet.age || this.localCharacterSheet.age < 15 || this.localCharacterSheet.age > 90) {
       errors.push('Age must be between 15 and 90');
     }
-    if (!this.localCharacterSheet.sex) errors.push('Sex is required');
+    if (!this.localCharacterSheet.sex || this.localCharacterSheet.sex === Sex.Undefined) errors.push('Sex is required');
 
     const validation: StepValidation = {
       isValid: errors.length === 0,

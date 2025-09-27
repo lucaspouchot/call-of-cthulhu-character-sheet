@@ -1,3 +1,4 @@
+import { TranslationService } from './../../../../services/translation.service';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +24,10 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
 
   availableOccupations: Occupation[] = OCCUPATIONS;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private translationService: TranslationService
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -78,32 +82,6 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
     return occupation ? occupation.occupationSkills : [];
   }
 
-  getSkillPointsFormula(): string {
-    const occupation = this.getSelectedOccupation();
-    if (!occupation) return '';
-
-    const formula = occupation.occupationSkillPoints;
-    let result = '';
-
-    if (formula.type === 'simple') {
-      result = this.formatFormula(formula.formulas[0]);
-    } else if (formula.type === 'composite') {
-      result = this.formatFormula(formula.formulas[0]);
-      if (formula.choiceFormulas && formula.choiceFormulas.length > 0) {
-        const choices = formula.choiceFormulas
-          .map(f => this.formatFormula(f))
-          .join(' or ');
-        result += ` + (${choices})`;
-      }
-    } else if (formula.type === 'choice') {
-      result = formula.formulas
-        .map(f => this.formatFormula(f))
-        .join(' or ');
-    }
-
-    return result;
-  }
-
   getSkillPointsFormulaChips(): { type: 'chip' | 'text'; content: string; isTranslatable?: boolean }[] {
     const occupation = this.getSelectedOccupation();
     if (!occupation) return [];
@@ -126,7 +104,7 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
       if (formula.choiceFormulas && formula.choiceFormulas.length > 0) {
         parts.push({ type: 'text', content: ' + (', isTranslatable: false });
         formula.choiceFormulas.forEach((f, index) => {
-          if (index > 0) parts.push({ type: 'text', content: ' or ', isTranslatable: false });
+          if (index > 0) parts.push({ type: 'text', content: ` ${this.translationService.getTranslation('conjunction.or')} `, isTranslatable: false });
           parts.push({
             type: 'chip',
             content: `${f.attribute}|${f.multiplier}`,
@@ -137,57 +115,12 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
       }
     } else if (formula.type === 'choice') {
       formula.formulas.forEach((f, index) => {
-        if (index > 0) parts.push({ type: 'text', content: ' or ', isTranslatable: false });
+        if (index > 0) parts.push({ type: 'text', content: ` ${this.translationService.getTranslation('conjunction.or')} `, isTranslatable: false });
         parts.push({
           type: 'chip',
           content: `${f.attribute}|${f.multiplier}`,
           isTranslatable: true
         });
-      });
-    }
-
-    return parts;
-  }
-
-  getSkillPointsFormulaDisplay(): { text: string; isTranslatable: boolean }[] {
-    const occupation = this.getSelectedOccupation();
-    if (!occupation) return [];
-
-    const formula = occupation.occupationSkillPoints;
-    const parts: { text: string; isTranslatable: boolean }[] = [];
-
-    if (formula.type === 'simple') {
-      parts.push(
-        { text: `character.attributes.${formula.formulas[0].attribute}`, isTranslatable: true },
-        { text: ' × ', isTranslatable: false },
-        { text: formula.formulas[0].multiplier.toString(), isTranslatable: false }
-      );
-    } else if (formula.type === 'composite') {
-      parts.push(
-        { text: `character.attributes.${formula.formulas[0].attribute}`, isTranslatable: true },
-        { text: ' × ', isTranslatable: false },
-        { text: formula.formulas[0].multiplier.toString(), isTranslatable: false }
-      );
-      if (formula.choiceFormulas && formula.choiceFormulas.length > 0) {
-        parts.push({ text: ' + (', isTranslatable: false });
-        formula.choiceFormulas.forEach((f, index) => {
-          if (index > 0) parts.push({ text: ' or ', isTranslatable: false });
-          parts.push(
-            { text: `character.attributes.${f.attribute}`, isTranslatable: true },
-            { text: ' × ', isTranslatable: false },
-            { text: f.multiplier.toString(), isTranslatable: false }
-          );
-        });
-        parts.push({ text: ')', isTranslatable: false });
-      }
-    } else if (formula.type === 'choice') {
-      formula.formulas.forEach((f, index) => {
-        if (index > 0) parts.push({ text: ' or ', isTranslatable: false });
-        parts.push(
-          { text: `character.attributes.${f.attribute}`, isTranslatable: true },
-          { text: ' × ', isTranslatable: false },
-          { text: f.multiplier.toString(), isTranslatable: false }
-        );
       });
     }
 

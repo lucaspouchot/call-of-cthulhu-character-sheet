@@ -108,13 +108,6 @@ export class AgeModifierService {
   }
 
   /**
-   * Get fixed penalties for young characters
-   */
-  getYoungCharacterPenalties(): { strength: number, size: number, education: number } {
-    return { strength: 5, size: 5, education: 5 };
-  }
-
-  /**
    * Get remaining penalty points to assign
    */
   getRemainingPenaltyPoints(age: number, modifiers: AgeModifiers): number {
@@ -123,13 +116,6 @@ export class AgeModifierService {
       modifiers.constitutionReduction +
       modifiers.dexterityReduction;
     return total - assigned;
-  }
-
-  /**
-   * Check if penalty points can still be assigned
-   */
-  canAssignPenalty(age: number, modifiers: AgeModifiers): boolean {
-    return this.getRemainingPenaltyPoints(age, modifiers) > 0;
   }
 
   /**
@@ -148,17 +134,6 @@ export class AgeModifierService {
 
     // For adults, no special validation needed
     return true;
-  }
-
-  /**
-   * Get appearance penalty for given age
-   */
-  getAppearancePenalty(age: number): number {
-    if (age >= 40) {
-      const decades = Math.floor((age - 40) / 10) + 1;
-      return decades * 5;
-    }
-    return 0;
   }
 
   /**

@@ -417,7 +417,7 @@ export class CharacterService {
     let cash = 0;
     let assets = 0;
 
-    if (creditRating === 0) {
+    if (creditRating < 1) {
       // Penniless
       spendingLevel = 0.50;
       cash = 0.50;
@@ -442,16 +442,11 @@ export class CharacterService {
       spendingLevel = 250;
       cash = creditRating * 20;
       assets = creditRating * 2000;
-    } else if (creditRating === 99) {
+    } else { // >= 99
       // Super Rich
       spendingLevel = 5000;
       cash = 50000;
       assets = 5000000;
-    } else {
-      // Unknown/fallback
-      spendingLevel = 0;
-      cash = 0;
-      assets = 0;
     }
 
     return {

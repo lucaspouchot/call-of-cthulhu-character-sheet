@@ -1,0 +1,18 @@
+/* Styles spécifiques au composant Characteristic Card */
+.characteristic-value {
+  transition: all 0.2s ease;
+}
+
+.characteristic-value:hover {
+  transform: scale(1.02);
+}
+
+.characteristic-input {
+  transition: border-color 0.2s ease;
+}
+
+.characteristic-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}

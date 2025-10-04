@@ -1,0 +1,53 @@
+<div class="character-sheet p-6">
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="gothic-header text-xl">{{ 'character.sheet.characteristics' | dynamicTranslate }}</h2>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+  
+  <!-- View mode -->
+  <div class="grid grid-cols-2 gap-4" *ngIf="!isInEditMode()">
+    <div *ngFor="let attr of getAttributeNames()" 
+         class="border rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50"
+         (click)="onAttributeClick(attr)">
+      <div class="text-xs text-gray-600 capitalize mb-1">{{ attr }}</div>
+      <div class="text-xl font-bold">{{ getAttributeValue(attr) }}</div>
+      <div class="text-xs text-gray-500">
+        {{ 'character.attributes.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeHalfValue(attr) }} | {{ 'character.attributes.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeFifthValue(attr) }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit mode -->
+  <div class="grid grid-cols-2 gap-4" *ngIf="isInEditMode()">
+    <div *ngFor="let attr of getAttributeNames()" 
+         class="border rounded-lg p-3 text-center">
+      <div class="text-xs text-gray-600 capitalize mb-2">{{ attr }}</div>
+      <input type="number" 
+             [ngModel]="getAttributeValue(attr)"
+             (ngModelChange)="setAttributeValue(attr, $event)"
+             min="3" max="99"
+             class="w-full text-xl font-bold text-center border rounded p-1 mb-2">
+      <div class="text-xs text-gray-500">
+        {{ 'character.attributes.half' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeHalfValue(attr) }} | {{ 'character.attributes.fifth' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ getAttributeFifthValue(attr) }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Recalculation notice -->
+  <div *ngIf="showRecalculationNotice" class="mt-2 p-2 bg-blue-100 text-blue-800 text-xs rounded border">
+    ✓ Valeurs dérivées recalculées automatiquement (Sanité, Points de Vie, Points de Magie, Mouvement)
+  </div>
+</div>

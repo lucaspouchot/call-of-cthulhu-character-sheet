@@ -1,0 +1,121 @@
+<div class="character-sheet p-6">
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="gothic-header text-lg">{{ 'character.sheet.finance.title' | dynamicTranslate }}</h3>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center mb-2">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+  
+  <!-- Credit Rating Display -->
+  <div class="mb-4">
+    <div class="text-sm">
+      <strong>{{ 'skills.creditRating' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> 
+      <span class="font-mono">{{ getCreditRating() }}%</span>
+      <div *ngIf="getCreditRatingInfo()" class="text-xs text-gray-600 mt-1">
+        {{ getCreditRatingInfo().level }} - {{ getCreditRatingInfo().description }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Financial Status -->
+  <div class="space-y-3 text-sm" *ngIf="!isInEditMode()">
+    <div><strong>{{ 'character.sheet.finance.spendingLevel' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getSpendingLevel() }}$</div>
+    <div><strong>{{ 'character.sheet.finance.cash' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getCash() }}$</div>
+    <div><strong>{{ 'character.sheet.finance.assets' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ getAssets() }}$</div>
+  </div>
+
+  <!-- Edit Mode for Finance -->
+  <div class="space-y-3 text-sm" *ngIf="isInEditMode()">
+    <div class="grid grid-cols-3 gap-2 items-center">
+      <strong>{{ 'character.sheet.finance.spendingLevel' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+      <input [(ngModel)]="character.finance.spendingLevel" type="number" min="0" class="col-span-2 p-2 border rounded">
+    </div>
+    <div class="grid grid-cols-3 gap-2 items-center">
+      <strong>{{ 'character.sheet.finance.cash' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+      <input [(ngModel)]="character.finance.cash" type="number" min="0" class="col-span-2 p-2 border rounded">
+    </div>
+    <div class="grid grid-cols-3 gap-2 items-center">
+      <strong>{{ 'character.sheet.finance.assets' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong>
+      <input [(ngModel)]="character.finance.assets" type="number" min="0" class="col-span-2 p-2 border rounded">
+    </div>
+  </div>
+
+  <!-- Add Financial Entry Interface -->
+  <div class="border-t pt-3 mt-3" *ngIf="showFinanceEntries">
+    <div class="flex justify-between items-center mb-2">
+      <h4 class="font-medium">{{ 'character.sheet.finance.addEntry' | dynamicTranslate }}</h4>
+      <button (click)="toggleFinanceEntries()" class="text-sm text-gray-600 hover:text-gray-800">
+        {{ 'character.sheet.finance.done' | dynamicTranslate }}
+      </button>
+    </div>
+    <div class="space-y-2 text-sm">
+      <input [(ngModel)]="newFinanceEntry.description" placeholder="{{ 'character.sheet.finance.description' | dynamicTranslate }}" class="w-full p-2 border rounded text-xs">
+      <div class="grid grid-cols-2 gap-2">
+        <input [(ngModel)]="newFinanceEntry.amount" type="number" placeholder="{{ 'character.sheet.finance.amount' | dynamicTranslate }}" class="p-2 border rounded text-xs">
+        <select [(ngModel)]="newFinanceEntry.type" class="p-2 border rounded text-xs">
+          <option value="expense">{{ 'character.sheet.finance.expense' | dynamicTranslate }}</option>
+          <option value="income">{{ 'character.sheet.finance.income' | dynamicTranslate }}</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-1 gap-2">
+        <select [(ngModel)]="newFinanceEntry.target" class="p-2 border rounded text-xs">
+          <option value="cash">{{ 'character.sheet.finance.target' | dynamicTranslate }} {{ 'character.sheet.finance.cash' | dynamicTranslate }}</option>
+          <option value="assets">{{ 'character.sheet.finance.target' | dynamicTranslate }} {{ 'character.sheet.finance.assets' | dynamicTranslate }}</option>
+        </select>
+      </div>
+      <button (click)="addFinanceEntry()" class="w-full bg-blue-500 text-white rounded px-3 py-1 text-xs hover:bg-blue-600">
+        {{ 'character.sheet.finance.addEntry' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Financial History -->
+  <div class="border-t pt-3 mt-3" *ngIf="character.finance?.expenseHistory?.length">
+    <div class="flex justify-between items-center mb-2">
+      <button (click)="toggleFinanceHistory()" class="flex items-center gap-1 font-medium text-left hover:text-blue-600">
+        <span>{{ 'character.sheet.finance.history' | dynamicTranslate }}</span>
+        <span>{{ showFinanceHistory ? '▼' : '▶' }}</span>
+      </button>
+      <button *ngIf="!showFinanceEntries" (click)="toggleFinanceEntries()" 
+              class="text-sm text-green-600 hover:text-green-800">
+        {{ 'character.sheet.finance.addEntry' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="showFinanceHistory" class="max-h-32 overflow-y-auto space-y-1">
+      <div *ngFor="let entry of character.finance.expenseHistory" class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded">
+        <div>
+          <div class="font-medium">{{ entry.description }}</div>
+          <div class="text-gray-500">
+            {{ entry.date | date:'short' }} - 
+            {{ (entry.type === 'expense' ? 'character.sheet.finance.expense' : 'character.sheet.finance.income') | dynamicTranslate }}
+            <span *ngIf="entry.target"> ({{ (entry.target === 'cash' ? 'character.sheet.finance.cash' : 'character.sheet.finance.assets') | dynamicTranslate }})</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span [class]="entry.type === 'expense' ? 'text-red-600' : 'text-green-600'">
+            {{ entry.type === 'expense' ? '-' : '+' }}{{ entry.amount }}$
+          </span>
+          <button (click)="removeFinanceEntry(entry.id)" class="text-red-500 hover:text-red-700">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!character.finance?.expenseHistory?.length && !showFinanceEntries" class="text-gray-500 text-xs italic border-t pt-3 mt-3 flex justify-between items-center">
+    <span>{{ 'character.sheet.finance.noHistory' | dynamicTranslate }}</span>
+    <button *ngIf="!showFinanceEntries" (click)="toggleFinanceEntries()" 
+            class="text-sm text-green-600 hover:text-green-800">
+      {{ 'character.sheet.finance.addEntry' | dynamicTranslate }}
+    </button>
+  </div>
+</div>

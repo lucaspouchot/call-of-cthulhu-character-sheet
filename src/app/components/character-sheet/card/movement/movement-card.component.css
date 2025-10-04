@@ -1,0 +1,12 @@
+/* Styles spécifiques au composant Movement Card */
+.movement-item {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.movement-grid {
+  display: grid;
+  gap: 0.5rem;
+}

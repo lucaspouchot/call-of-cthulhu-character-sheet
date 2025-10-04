@@ -1,0 +1,42 @@
+/* Styles spécifiques au composant Skills Card */
+.skill-item {
+  transition: all 0.2s ease;
+}
+
+.skill-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(2px);
+}
+
+.skill-value {
+  font-family: 'Courier New', monospace;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.skill-modifiers {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.modifier-input {
+  transition: border-color 0.2s ease;
+}
+
+.modifier-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.skills-container {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .skills-container {
+    max-height: 80vh;
+  }
+}

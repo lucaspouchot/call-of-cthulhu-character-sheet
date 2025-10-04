@@ -1,0 +1,14 @@
+/* Styles spécifiques au composant Background Card */
+.background-section {
+  margin-bottom: 1rem;
+}
+
+.background-text {
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.background-label {
+  font-weight: 600;
+  color: #374151;
+}

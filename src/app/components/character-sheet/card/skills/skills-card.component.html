@@ -1,0 +1,76 @@
+<div class="character-sheet p-6">
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="gothic-header text-xl">{{ 'character.skills' | dynamicTranslate }}</h2>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+  
+  <!-- View Mode -->
+  <div *ngIf="!isInEditMode()" class="space-y-2 max-h-96 tablet-lg:max-h-screen overflow-y-auto">
+    <div *ngFor="let skill of character.skills" 
+         class="flex justify-between items-center p-2 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+         (click)="onSkillClick(skill)">
+      <span class="text-sm">{{ getSkillTranslation(skill) }}</span>
+      <span class="font-mono text-sm">{{ skill.totalValue }}%</span>
+    </div>
+  </div>
+
+  <!-- Edit Mode -->
+  <div *ngIf="isInEditMode()" class="space-y-3 max-h-96 tablet-lg:max-h-screen overflow-y-auto">
+    <div *ngFor="let skill of character.skills" 
+         class="border border-gray-200 rounded p-3 bg-white">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium">{{ getSkillTranslation(skill) }}</span>
+        <span class="text-sm text-gray-600">Total: {{ skill.totalValue }}%</span>
+      </div>
+      
+      <!-- Skill Modifiers (always open in edit mode) -->
+      <div class="bg-gray-50 p-3 rounded mb-3">
+        <div class="text-sm mb-2">
+          <strong>{{ 'character.sheet.base' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</strong> {{ skill.baseValue }}%
+          <span *ngIf="getSkillModifiersSum(skill.id) !== 0" 
+                [class]="getSkillModifiersSum(skill.id) > 0 ? 'text-green-600' : 'text-red-600'">
+            {{ getSkillModifiersSum(skill.id) > 0 ? '+' : '' }}{{ getSkillModifiersSum(skill.id) }}%
+          </span>
+        </div>
+        
+        <!-- Existing modifiers (including occupation and personal if > 0) -->
+        <div class="space-y-1 mb-2">
+          <div *ngIf="skill.occupationValue > 0" class="flex justify-between items-center text-xs">
+            <span>{{ 'character.creation.occupation.skillPoints' | dynamicTranslate }}: <span class="text-blue-600">+{{ skill.occupationValue }}%</span></span>
+            <span class="text-gray-400 text-xs">{{ 'character.sheet.permanent' | dynamicTranslate }}</span>
+          </div>
+          <div *ngIf="skill.personalValue > 0" class="flex justify-between items-center text-xs">
+            <span>{{ 'character.creation.occupation.personalPoints' | dynamicTranslate }}: <span class="text-green-600">+{{ skill.personalValue }}%</span></span>
+            <span class="text-gray-400 text-xs">{{ 'character.sheet.permanent' | dynamicTranslate }}</span>
+          </div>
+          <div *ngFor="let modifier of skill.modifiers" class="flex justify-between items-center text-xs">
+            <span>{{ modifier.name }}: <span [class]="modifier.value > 0 ? 'text-green-600' : 'text-red-600'">{{ modifier.value > 0 ? '+' : '' }}{{ modifier.value }}%</span></span>
+            <button (click)="removeSkillModifier(skill.id, modifier.id)" class="text-red-500 hover:text-red-700">✕</button>
+          </div>
+        </div>
+        
+        <!-- Add new modifier -->
+        <div class="border-t pt-2">
+          <div class="grid grid-cols-12 gap-1 text-xs">
+            <input [ngModel]="getNewSkillModifierName(skill.id)" (ngModelChange)="setNewSkillModifierName(skill.id, $event)" placeholder="Nom" class="col-span-6 p-1 border rounded">
+            <input [ngModel]="getNewSkillModifierValue(skill.id)" (ngModelChange)="setNewSkillModifierValue(skill.id, $event)" type="number" placeholder="±%" class="col-span-3 p-1 border rounded">
+            <button (click)="addSkillModifier(skill.id)" class="col-span-3 bg-blue-500 text-white rounded px-1">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

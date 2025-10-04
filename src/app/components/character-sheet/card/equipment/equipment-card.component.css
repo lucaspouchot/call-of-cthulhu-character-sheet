@@ -1,0 +1,14 @@
+/* Styles spécifiques au composant Equipment Card */
+.equipment-item {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.equipment-item:last-child {
+  border-bottom: none;
+}
+
+.equipment-list {
+  max-height: 200px;
+  overflow-y: auto;
+}

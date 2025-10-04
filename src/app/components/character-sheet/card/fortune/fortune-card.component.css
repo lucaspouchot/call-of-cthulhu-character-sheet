@@ -1,0 +1,42 @@
+/* Styles spécifiques au composant Fortune Card */
+.finance-entry {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.finance-entry:hover {
+  background-color: #f1f3f4;
+  transform: translateY(-1px);
+}
+
+.credit-rating {
+  background: linear-gradient(135deg, #b8944a 0%, #c5a962 100%);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.finance-history {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.expense-item {
+  border-left: 3px solid #dc2626;
+}
+
+.income-item {
+  border-left: 3px solid #16a34a;
+}
+
+.finance-input {
+  transition: border-color 0.2s ease;
+}
+
+.finance-input:focus {
+  border-color: #c5a962;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(197, 169, 98, 0.1);
+}

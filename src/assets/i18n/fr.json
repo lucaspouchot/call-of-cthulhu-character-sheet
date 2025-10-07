@@ -596,13 +596,265 @@
       "label": "Croque-mort",
       "description": "Vous gérez une entreprise de pompes funèbres. Votre travail consiste à préparer les défunts pour les funérailles et à soutenir les familles endeuillées."
     },
-    "doctor": {
-      "label": "Docteur",
-      "description": "Vous êtes un praticien médical, formé au diagnostic et au traitement des maladies et des blessures. Vous avez une connaissance approfondie de l'anatomie humaine, de la psychologie et des arts de guérison."
+    "deprogrammer": {
+      "label": "Déprogrammeur",
+      "description": "Expert en psychologie et persuasion, vous œuvrez pour libérer des individus de l'emprise de croyances sectaires. Vos méthodes varient pour contrer le conditionnement et offrir une chance de retour à une vie normale."
+    },
+    "agencyDetective": {
+      "label": "Détective d'agence",
+      "description": "Enquêteur au sein d'une agence renommée, vous êtes un protecteur discret de la justice. Vous résolvez des affaires complexes, de mystérieuses disparitions à la prévention de meurtres, incarnant l'intégrité et la perspicacité."
     },
     "privateInvestigator": {
       "label": "Détective privé",
-      "description": "Vous enquêtez sur des affaires pour des clients privés, des personnes disparues à la fraude d'assurance. Vous savez comment trouver des informations, suivre des pistes et éviter les ennuis."
+      "description": "Fin limier des temps modernes, vous excellez dans la collecte d'informations et la résolution d'affaires variées. Vous laissez vos sentiments de côté, privilégiant la rémunération à l'éthique."
+    },
+    "dilettante": {
+      "label": "Dilettante",
+      "description": "Incarnation de l'élégance oisive, vous vivez sur une rente ou un héritage, échappant aux rigueurs du travail. Votre richesse vous immunise contre les normes sociales, tolérant vos excentricités."
+    },
+    "domestic": {
+      "label": "Domestique",
+      "description": "Acteur discret mais essentiel de la vie quotidienne, vous vous distinguez par votre dévouement au service d'autrui. Majordome, valet ou femme de chambre, vous êtes indispensable au bon fonctionnement des grandes demeures."
+    },
+    "animalTrainer": {
+      "label": "Dresseur",
+      "description": "Artiste et confident des bêtes, vous excellez dans l'art délicat de l'entraînement animal. Que ce soit pour le cinéma, un cirque ou un haras, vous façonnez des liens uniques avec vos animaux."
+    },
+    "writer": {
+      "label": "Écrivain",
+      "description": "Artisan des mots, vous explorez les profondeurs de l'expérience humaine à travers la littérature. Votre existence souvent solitaire alterne entre recherche intensive et périodes créatives intenses."
+    },
+    "employee": {
+      "label": "Employé",
+      "description": "Du modeste salarié au quotidien routinier, vous évoluez dans le monde de l'entreprise. Votre rémunération est souvent insuffisante, mais vous gardez espoir d'une promotion future."
+    },
+    "executive": {
+      "label": "Cadre",
+      "description": "Figure clé de la hiérarchie professionnelle, vous occupez un poste de responsabilité et de direction. Votre expertise vous positionne comme acteur majeur dans les orientations stratégiques de votre entreprise."
+    },
+    "spy": {
+      "label": "Espion",
+      "description": "Vous opérez au sein des services de renseignements, obtenant des informations cruciales sous diverses couvertures. Vous naviguez dans un monde d'intrigues, de tromperies et d'actions clandestines."
+    },
+    "student": {
+      "label": "Étudiant/Stagiaire",
+      "description": "Immergé dans le monde académique, vous êtes en quête de connaissances. Votre vie est rythmée par les cours, les examens et les interactions au sein de la communauté éducative."
+    },
+    "explorer": {
+      "label": "Explorateur",
+      "description": "Pionnier intrépide, vous vous lancez à la conquête des régions inexplorées du monde. Soutenu par des bourses scientifiques et des contrats, vous repoussez les limites de l'inconnu."
+    },
+    "fanatic": {
+      "label": "Fanatique",
+      "description": "Obsédé par une vision mystique, vous œuvrez inlassablement pour l'avènement d'une existence meilleure. Animé par une dévotion extrême, vous êtes prêt à imposer vos croyances au monde."
+    },
+    "forger": {
+      "label": "Faussaire",
+      "description": "Maître de l'art de la contrefaçon, vous évoluez dans les ombres de la société. Vous créez des répliques astucieuses qui brouillent les frontières entre authenticité et tromperie."
+    },
+    "gangsterMoll": {
+      "label": "Frangine",
+      "description": "Mêlée à l'ombre des milieux criminels, vous excellez dans l'art de naviguer entre deux mondes. Compagne d'un criminel prospère, vous alliez charme et danger avec une habileté remarquable."
+    },
+    "zookeeper": {
+      "label": "Gardien de zoo",
+      "description": "Protecteur dévoué des habitants animaliers, vous veillez sur la santé et le bien-être des créatures captives. Vous jouez un rôle essentiel dans la gestion quotidienne de l'établissement."
+    },
+    "gentleman": {
+      "label": "Gentilhomme/Dame",
+      "description": "Vous incarnez l'élégance et le raffinement de la classe supérieure, vivant d'un héritage. Enraciné dans l'aristocratie, vous représentez le summum de l'élégance et de la tradition."
+    },
+    "guru": {
+      "label": "Gourou",
+      "description": "Guide spirituel charismatique, vous façonnez la croyance de vos disciples. Animé par une vision mystique, vous propulsez vos enseignements au sein de votre secte, attirant disciples ordinaires et célébrités."
+    },
+    "hobo": {
+      "label": "Hobo",
+      "description": "La misère est devenue votre mode de vie. Explorateur des rails, aventurier des temps modernes, vous avez abandonné l'idée de travail régulier. Vous vivez au jour le jour, dormant à la belle étoile."
+    },
+    "politician": {
+      "label": "Homme politique",
+      "description": "Vous occupez une position de prestige, influençant les destinées de votre municipalité, État ou nation. Élu démocratiquement, vous naviguez entre l'art de la gouvernance et les réalités du pouvoir."
+    },
+    "nurse": {
+      "label": "Infirmier",
+      "description": "Pièce maîtresse du secteur médical, vous êtes le lien indispensable entre patients et médecins. Votre rôle va au-delà des soins de base, englobant écoute attentive et gestion des urgences."
+    },
+    "computerProgrammer": {
+      "label": "Informaticien",
+      "description": "Maître des technologies émergentes, vous façonnez le paysage numérique. Vous êtes le cerveau derrière les réseaux, l'architecte des logiciels et le déchiffreur des codes."
+    },
+    "engineer": {
+      "label": "Ingénieur",
+      "description": "Cerveau créatif de l'innovation, vous êtes l'artisan de solutions techniques. Votre expertise scientifique et votre flair pour les mathématiques vous propulsent au cœur de la conception de systèmes complexes."
+    },
+    "gambler": {
+      "label": "Joueur professionnel",
+      "description": "Vous évoluez dans le monde effervescent du jeu, où charme et audace sont vos atouts. Votre vie est façonnée par le destin et la chance, oscillant entre glamour et risques."
+    },
+    "investigativeJournalist": {
+      "label": "Journaliste d'investigation",
+      "description": "Détective du monde médiatique, vous plongez dans les mystères du réel pour révéler la vérité cachée. Vous allez au-delà des manchettes pour explorer les vérités enfouies et éclairer les coins sombres de la société."
+    },
+    "judge": {
+      "label": "Juge",
+      "description": "Gardien de la justice, vous arbitrez les procès avec sagesse et autorité. Votre rôle consiste à interpréter la loi, rendre des verdicts impartiaux et garantir le respect des droits fondamentaux."
+    },
+    "labAssistant": {
+      "label": "Laborantin",
+      "description": "Collaborateur essentiel dans le domaine scientifique, vous œuvrez en tandem avec des chercheurs, soutenant leurs travaux par des tâches variées allant de l'échantillonnage aux analyses complexes."
+    },
+    "bookseller": {
+      "label": "Libraire",
+      "description": "Gardien des connaissances, vous naviguez à travers les pages de l'écriture pour partager des trésors littéraires avec le monde. Plus qu'un simple vendeur de livres, vous êtes un passeur de sagesses."
+    },
+    "antiqueDealer": {
+      "label": "Marchand d'antiquités",
+      "description": "Chercheur de trésors perdus, vous dénicher des reliques du passé pour les exposer au monde ou les revendre à des collectionneurs passionnés. Chaque objet transporte avec lui une histoire, un mystère à découvrir."
+    },
+    "gangster": {
+      "label": "Mafieux",
+      "description": "Maître des ruelles obscures, vous naviguez entre alliances et rivalités pour prospérer dans le monde impitoyable du crime organisé. Votre vie est un équilibre constant entre violence brutale et diplomatie sournoise."
+    },
+    "manager": {
+      "label": "Manager/Directeur",
+      "description": "Acteur influent du monde professionnel, vous occupez une position de leadership et de supervision, jouant un rôle central dans la gestion des équipes et des projets au sein des organisations."
+    },
+    "merchantMarine": {
+      "label": "Marine marchande",
+      "description": "Membre de la marine marchande, vous naviguez sur des eaux tumultueuses, assurant le transport des marchandises à travers les océans avec habileté et résilience."
+    },
+    "navyOfficer": {
+      "label": "Marine militaire",
+      "description": "Professionnel aguerri des forces navales, vous êtes prêt à affronter les défis de la mer au service de votre nation. Vous représentez la première ligne de défense maritime."
+    },
+    "mechanic": {
+      "label": "Mécanicien",
+      "description": "Pilier des métiers spécialisés, vous déployez votre expertise dans des domaines tels que la charpenterie, la soudure, la plomberie et l'électricité. Vos compétences sont essentielles à une variété d'industries."
+    },
+    "doctor": {
+      "label": "Médecin",
+      "description": "Praticien médical dévoué à la santé et au bien-être des individus, vous exercez avec altruisme dans votre cabinet ou hôpital. Vos motivations peuvent varier, mais tous partagent une mission : soigner et améliorer la vie."
+    },
+    "coroner": {
+      "label": "Médecin légiste",
+      "description": "Figure essentielle du domaine médico-légal, vous êtes spécialement formé pour mener des autopsies, déterminer les causes de décès et fournir des recommandations juridiques aux autorités compétentes."
+    },
+    "miner": {
+      "label": "Mineur",
+      "description": "Vous jouez un rôle essentiel dans l'exploitation des richesses enfouies sous la surface de la terre. Armé de votre courage et de votre connaissance des roches, vous affrontez l'obscurité pour extraire des ressources vitales."
+    },
+    "missionary": {
+      "label": "Missionnaire",
+      "description": "Véritable messager de la foi, vous parcourez les terres lointaines pour répandre la parole divine parmi les peuples éloignés ou égarés. Votre mission transcende les frontières culturelles."
+    },
+    "musician": {
+      "label": "Musicien",
+      "description": "Artiste passionné, vous maniez votre instrument avec virtuosité, que ce soit au sein d'un orchestre, d'un groupe ou en solo. En quête de reconnaissance, votre vie oscille entre rêves de succès et réalité des petites salles."
+    },
+    "occultist": {
+      "label": "Occultiste",
+      "description": "Érudit des sciences occultes, vous explorez les mystères anciens, les rituels et les savoirs ésotériques. Chercheur passionné ou praticien mystique, vous naviguez entre connaissance académique et pratiques obscures."
+    },
+    "militaryOfficer": {
+      "label": "Officier militaire",
+      "description": "Vous êtes un leader dans les forces armées, responsable de diriger des troupes et de prendre des décisions tactiques. Votre rang vous confère autorité et respect au sein de la hiérarchie militaire."
+    },
+    "unskilledWorker": {
+      "label": "Ouvrier non qualifié",
+      "description": "Travailleur manuel exerçant des tâches simples mais physiquement exigeantes. Sans formation spécialisée, vous gagnez votre vie par la force de vos bras dans la construction, le chargement ou d'autres emplois laborieux."
+    },
+    "parapsychologist": {
+      "label": "Parapsychologue",
+      "description": "Scientifique étudiant les phénomènes paranormaux et les capacités psychiques. Entre scepticisme académique et fascination pour l'inexpliqué, vous cherchez à comprendre ce qui échappe à la science conventionnelle."
+    },
+    "thug": {
+      "label": "Petite frappe",
+      "description": "Criminel de bas étage, vous survivez par l'intimidation et la violence. Muscle au service d'un gang ou délinquant indépendant, vous êtes habitué aux coups durs et à la vie dans la rue."
+    },
+    "pharmacist": {
+      "label": "Pharmacien",
+      "description": "Professionnel de santé spécialisé dans les médicaments et leurs effets. Vous gérez une pharmacie, préparez des ordonnances et conseillez les patients sur leurs traitements, alliant science chimique et service médical."
+    },
+    "photographer": {
+      "label": "Photographe",
+      "description": "Artiste de l'image capturant des moments à travers votre objectif. Que vous travailliez pour des clients privés, des magazines ou en freelance, votre œil affûté saisit la vérité cachée derrière chaque scène."
+    },
+    "photojournalist": {
+      "label": "Photojournaliste",
+      "description": "Reporter photographe documentant l'actualité et les événements importants. Vous mettez votre vie en danger pour rapporter des images qui racontent l'histoire, souvent là où les mots ne suffisent pas."
+    },
+    "pilot": {
+      "label": "Pilote",
+      "description": "Aviateur chevronné, vous maîtrisez les airs aux commandes d'avions commerciaux, privés ou militaires. Entre ciel et terre, vous transportez passagers ou marchandises avec sang-froid et expertise technique."
+    },
+    "hacker": {
+      "label": "Pirate informatique",
+      "description": "Expert en informatique utilisant vos compétences pour infiltrer des systèmes. Que vous soyez hacker éthique, cybercriminel ou chercheur en sécurité, vous naviguez dans les réseaux numériques avec aisance."
+    },
+    "diver": {
+      "label": "Plongeur",
+      "description": "Spécialiste des profondeurs marines, vous explorez les fonds sous-marins pour des recherches, des sauvetages ou des opérations commerciales. À l'aise dans un environnement hostile, vous maîtrisez l'équipement de plongée."
+    },
+    "policeOfficer": {
+      "label": "Policier",
+      "description": "Agent des forces de l'ordre maintenant la loi et l'ordre. Patrouillant dans les rues, vous faites respecter les règlements, arrêtez les criminels et protégez les citoyens au quotidien."
+    },
+    "detective": {
+      "label": "Inspecteur",
+      "description": "Enquêteur expérimenté résolvant des crimes complexes. Votre esprit analytique et votre intuition vous permettent de démasquer les coupables là où d'autres ne voient que des coïncidences."
+    },
+    "firefighter": {
+      "label": "Pompier",
+      "description": "Sauveteur courageux combattant les incendies et portant secours aux personnes en danger. Votre bravoure et votre formation vous permettent d'intervenir dans les situations les plus périlleuses."
+    },
+    "professor": {
+      "label": "Professeur",
+      "description": "Intellectuel érudit attaché à une université, vous partagez votre savoir à travers l'enseignement et la recherche. Votre expertise dans votre domaine fait de vous une référence académique respectée."
+    },
+    "prostitute": {
+      "label": "Prostitué(e)",
+      "description": "Figure complexe de la société, votre vie oscille entre survie et espoir d'émancipation. Que vous soyez call-girl élégante ou travailleur(se) des rues, vous naviguez dans un monde difficile avec résilience."
+    },
+    "psychiatrist": {
+      "label": "Psychiatre",
+      "description": "Médecin spécialisé dans les troubles mentaux, vous combinez prescription médicale et compréhension psychologique. Expert des méandres de l'esprit humain, vous soignez ceux que la raison a abandonnés."
+    },
+    "psychologist": {
+      "label": "Psychologue",
+      "description": "Spécialiste du comportement humain, vous explorez les profondeurs de la psyché par la thérapie et la recherche. Entre science et empathie, vous aidez à comprendre les mystères de l'esprit."
+    },
+    "newsReporter": {
+      "label": "Reporter",
+      "description": "Témoin intrépide du monde, vous déterrez la vérité et narrez les histoires qui façonnent la société. Armé de curiosité et de courage, vous apportez la lumière sur les réalités cachées."
+    },
+    "truckDriver": {
+      "label": "Routier",
+      "description": "Conducteur acharné des routes interurbaines, vous transportez des marchandises à travers le pays. Votre vie est rythmée par l'asphalte, la solitude des longues distances et les rencontres improbables."
+    },
+    "fence": {
+      "label": "Receleur",
+      "description": "Intermédiaire discret du marché noir, vous transformez les biens volés en profits. Maître de la dissimulation, vous prospérez dans les ombres du monde criminel avec habileté et prudence."
+    },
+    "priestMonk": {
+      "label": "Prêtre/Moine",
+      "description": "Agent spirituel au service de la foi, vous portez la bonne parole en paroisse ou en mission. Votre vie est dédiée à guider les âmes et servir une cause supérieure avec dévotion."
+    },
+    "scientist": {
+      "label": "Scientifique",
+      "description": "Explorateur de la réalité, vous plongez dans les mystères du monde pour dévoiler ses règles. Pionnier repoussant les frontières du possible, votre quête de connaissance ne connaît pas de limites."
+    },
+    "tribal": {
+      "label": "Sauvage",
+      "description": "Membre d'une tribu guidé par la tradition et l'honneur, votre vie est intimement liée à la communauté. Profondément connecté à la nature, vous suivez les coutumes ancestrales et le code d'honneur tribal."
+    },
+    "trafficker": {
+      "label": "Trafiquant",
+      "description": "Navigateur des marchés noirs et réseaux criminels, vous excellez dans la négociation et la dissimulation. Entre transactions illicites et stratégies pour échapper à la justice, vous prospérez dans l'ombre."
+    },
+    "hitMan": {
+      "label": "Tueur à gages",
+      "description": "Ombre insaisissable évoluant dans les recoins obscurs, vous excellez dans l'art de l'élimination discrète. Caméléon mortel, vous naviguez entre contrats lucratifs et nécessité de rester invisible."
     },
     "journalist": {
       "label": "Journaliste",

@@ -143,6 +143,16 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
           isTranslatable: true
         });
       });
+    } else if (formula.type === 'cumulative') {
+      // Sum all formulas with ' + ' separator
+      formula.formulas.forEach((f, index) => {
+        if (index > 0) parts.push({ type: 'text', content: ' + ', isTranslatable: false });
+        parts.push({
+          type: 'chip',
+          content: `${f.attribute}|${f.multiplier}`,
+          isTranslatable: true
+        });
+      });
     }
 
     return parts;

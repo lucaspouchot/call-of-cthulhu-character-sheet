@@ -306,6 +306,10 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
           Math.max(...formula.choiceFormulas.map(f => this.calculateSimpleFormula(f, character))) : 0;
         return required + choice;
 
+      case 'cumulative':
+        // Sum all formulas
+        return formula.formulas.reduce((sum, f) => sum + this.calculateSimpleFormula(f, character), 0);
+
       default:
         return 0;
     }
@@ -485,6 +489,10 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
         }
         return required;
 
+      case 'cumulative':
+        // Simply join all formulas with ' + '
+        return formula.formulas.map(f => this.generateSimpleFormulaDisplay(f)).join(' + ');
+
       default:
         return '';
     }
@@ -563,6 +571,18 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
             });
           });
         }
+        break;
+
+      case 'cumulative':
+        // All formulas are required and added together
+        formula.formulas.forEach((f, index) => {
+          chips.push({
+            ...this.generateSimpleFormulaChip(f),
+            type: 'required',
+            isFirst: index === 0,
+            isLast: index === formula.formulas.length - 1
+          });
+        });
         break;
     }
 

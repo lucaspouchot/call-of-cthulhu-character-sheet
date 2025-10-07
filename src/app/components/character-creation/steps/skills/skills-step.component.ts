@@ -167,6 +167,39 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
       this.currentOccupation = OCCUPATIONS.find(occ => occ.id === this.characterSheet.occupation);
     }
 
+    // Add custom skills required by occupation
+    if (this.currentOccupation) {
+      const customSkillSpecs = this.skillManagementService.getCustomSkillSpecs(
+        this.currentOccupation.occupationSkills
+      );
+
+      for (const customSpec of customSkillSpecs) {
+        // Get the translated skill name from the key
+        const translatedSkillName = this.translationService.getTranslation(customSpec.skillNameKey);
+
+        // Check if this custom skill already exists in skills list
+        const existingSkill = this.skills.find(s =>
+          s.isCustom && s.customName === translatedSkillName
+        );
+
+        if (!existingSkill) {
+          const personalValue = this.characterSheet.skillAssignments?.[`custom_${translatedSkillName}`]?.personal || 0;
+          const occupationValue = this.characterSheet.skillAssignments?.[`custom_${translatedSkillName}`]?.occupation || 0;
+
+          const customSkill = this.skillManagementService.createCustomSkill(
+            translatedSkillName,
+            customSpec.baseValue
+          );
+
+          customSkill.personalValue = personalValue;
+          customSkill.occupationValue = occupationValue;
+          customSkill.totalValue = customSkill.baseValue + personalValue + occupationValue;
+
+          this.skills.push(customSkill);
+        }
+      }
+    }
+
     // Initialize occupation skill specs
     this.initializeOccupationSpecs();
 
@@ -231,6 +264,22 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
     );
 
     const occupationSkillIds = new Set<string>(directSkillIds);
+
+    // Add custom skills from occupation
+    const customSkillSpecs = this.skillManagementService.getCustomSkillSpecs(
+      this.currentOccupation.occupationSkills
+    );
+
+    for (const customSpec of customSkillSpecs) {
+      // Get the translated skill name and find the custom skill in the skills list
+      const translatedSkillName = this.translationService.getTranslation(customSpec.skillNameKey);
+      const customSkill = this.skills.find(s =>
+        s.isCustom && s.customName === translatedSkillName
+      );
+      if (customSkill) {
+        occupationSkillIds.add(customSkill.id);
+      }
+    }
 
     // Add selected choice skills
     for (const [choiceIndex, selectedSkills] of Object.entries(this.selectedChoiceSkills)) {

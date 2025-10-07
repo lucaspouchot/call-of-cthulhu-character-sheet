@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * PriestMonk occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/religieux/
+ * Verified: 2025-01-07
  */
 export const priestMonk: Occupation = {
     id: 'priestMonk',
@@ -23,7 +24,7 @@ export const priestMonk: Occupation = {
       { type: 'specialization', baseSkillId: 'languageOther', allowCustom: true },
       'psychology',
       { type: 'choice', count: 1, options: ['fastTalk', 'charm', 'intimidate', 'persuade'] },
-      { type: 'any', count: 1 }
+      { type: 'any', count: 1, description: 'character.creation.skills.anySkills.occupationDescription.personalOrEra' }
     ],
     suggestedContacts: ['Church hierarchy', 'Parishioners', 'Influential church members'],
     recommendedCharacteristicsOrder: ['education', 'intelligence', 'power', 'appearance', 'constitution', 'dexterity', 'strength', 'size']

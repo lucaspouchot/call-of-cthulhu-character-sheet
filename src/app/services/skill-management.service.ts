@@ -126,11 +126,39 @@ export class SkillManagementService {
       if (typeof spec === 'string') {
         directSkills.push(spec);
       }
+      // customSkill types are handled separately - they get created as real skills
       // Choices, specializations, and 'any' are not included as direct skills
       // They need user interaction to be selected
     }
 
     return directSkills;
+  }
+
+  /**
+   * Get custom skill specifications from occupation skills
+   */
+  getCustomSkillSpecs(occupationSkillSpecs: OccupationSkillSpec[]): Array<{
+    skillNameKey: string;
+    baseValue: number;
+    description?: string;
+  }> {
+    const customSkills: Array<{
+      skillNameKey: string;
+      baseValue: number;
+      description?: string;
+    }> = [];
+
+    for (const spec of occupationSkillSpecs) {
+      if (typeof spec !== 'string' && spec.type === 'customSkill') {
+        customSkills.push({
+          skillNameKey: spec.skillNameKey,
+          baseValue: spec.baseValue,
+          description: spec.description
+        });
+      }
+    }
+
+    return customSkills;
   }
 
   /**

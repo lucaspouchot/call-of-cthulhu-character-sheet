@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Smuggler occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/contrebandier/
+ * Verified: 2025-01-07
  */
 export const smuggler: Occupation = {
     id: 'smuggler',

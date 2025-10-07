@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Thug occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/petite-frappe/
+ * Verified: 2025-01-07
  */
 export const thug: Occupation = {
     id: 'thug',
@@ -23,7 +24,7 @@ export const thug: Occupation = {
       'intimidate',
       'jump',
       'stealth',
-      { type: 'any', count: 2 }
+      { type: 'any', count: 2, description: 'character.creation.skills.anySkills.occupationDescription.personalOrEra' }
     ],
     suggestedContacts: ['Street gangs', 'Organized crime', 'Fences'],
     recommendedCharacteristicsOrder: ['strength', 'dexterity', 'constitution', 'size', 'power', 'appearance', 'intelligence', 'education']

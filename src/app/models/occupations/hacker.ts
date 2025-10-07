@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Hacker occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/pirate-informatique/
+ * Verified: 2025-01-07
  */
 export const hacker: Occupation = {
     id: 'hacker',

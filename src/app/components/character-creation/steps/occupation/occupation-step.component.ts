@@ -94,6 +94,9 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
       } else if (spec.type === 'specialization') {
         // Specializable skill
         displaySkills.push(`specialization.${spec.baseSkillId}`);
+      } else if (spec.type === 'customSkill') {
+        // Custom skill with specific name (use translation key)
+        displaySkills.push(`custom.${spec.skillNameKey}`);
       } else if (spec.type === 'any') {
         // Any skill
         displaySkills.push(`any.${spec.count}`);

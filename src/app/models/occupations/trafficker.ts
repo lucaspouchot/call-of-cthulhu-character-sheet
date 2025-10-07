@@ -3,13 +3,18 @@ import { Occupation } from './occupation.types';
 /**
  * Trafficker occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/trafiquant/
+ * Verified: 2025-01-07
  */
 export const trafficker: Occupation = {
     id: 'trafficker',
     creditRating: { min: 5, max: 30 },
-    occupationSkillPoints: {
-      type: 'cumulative',
-      formulas: [{ attribute: 'education', multiplier: 2 }, { attribute: 'strength', multiplier: 2 }]
+        occupationSkillPoints: {
+      type: 'composite',
+      formulas: [{ attribute: 'education', multiplier: 2 }],
+      choiceFormulas: [
+        { attribute: 'dexterity', multiplier: 2 },
+        { attribute: 'strength', multiplier: 2 }
+      ]
     },
     personalSkillPoints: {
       type: 'simple',

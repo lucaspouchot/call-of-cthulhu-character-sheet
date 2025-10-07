@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Scientist occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/scientifique/
+ * Verified: 2025-01-07
  */
 export const scientist: Occupation = {
     id: 'scientist',

@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Lumberjack occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/bucheron/
+ * Verified: 2025-01-07
  */
 export const lumberjack: Occupation = {
     id: 'lumberjack',

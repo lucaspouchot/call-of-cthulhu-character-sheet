@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * PoliceOfficer occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/policier/
+ * Verified: 2025-01-07
  */
 export const policeOfficer: Occupation = {
     id: 'policeOfficer',

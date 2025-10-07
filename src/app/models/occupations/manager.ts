@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Manager occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/manager/
+ * Verified: 2025-01-07
  */
 export const manager: Occupation = {
     id: 'manager',

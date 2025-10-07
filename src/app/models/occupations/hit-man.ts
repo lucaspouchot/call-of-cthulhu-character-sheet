@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * HitMan occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/tueur-a-gages/
+ * Verified: 2025-01-07
  */
 export const hitMan: Occupation = {
     id: 'hitMan',

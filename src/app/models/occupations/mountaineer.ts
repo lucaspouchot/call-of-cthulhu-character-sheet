@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Mountaineer occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/alpiniste/
+ * Verified: 2025-01-07
  */
 export const mountaineer: Occupation = {
     id: 'mountaineer',

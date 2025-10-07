@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Missionary occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/missionnaire/
+ * Verified: 2025-01-07
  */
 export const missionary: Occupation = {
     id: 'missionary',

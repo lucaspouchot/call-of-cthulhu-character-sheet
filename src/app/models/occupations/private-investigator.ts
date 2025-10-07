@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * PrivateInvestigator occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/detective-prive/
+ * Verified: 2025-01-07
  */
 export const privateInvestigator: Occupation = {
     id: 'privateInvestigator',
@@ -27,7 +28,7 @@ export const privateInvestigator: Occupation = {
       'psychology',
       'spotHidden',
       { type: 'choice', count: 1, options: ['fastTalk', 'charm', 'intimidate', 'persuade'] },
-      { type: 'any', count: 1 }
+      { type: 'any', count: 1, description: 'character.creation.skills.anySkills.occupationDescription.personalOrEra' }
     ],
     suggestedContacts: ['Police', 'Clients'],
     recommendedCharacteristicsOrder: ['education', 'dexterity', 'intelligence', 'strength', 'constitution', 'power', 'size', 'appearance']

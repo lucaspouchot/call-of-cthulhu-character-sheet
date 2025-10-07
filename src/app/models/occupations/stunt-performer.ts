@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * StuntPerformer occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/cascadeur/
+ * Verified: 2025-01-07
  */
 export const stuntPerformer: Occupation = {
     id: 'stuntPerformer',

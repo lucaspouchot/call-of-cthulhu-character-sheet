@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * GangsterMoll occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/frangine/
+ * Verified: 2025-01-07
  */
 export const gangsterMoll: Occupation = {
     id: 'gangsterMoll',

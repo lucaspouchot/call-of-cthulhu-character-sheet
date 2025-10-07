@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Pilot occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/pilote/
+ * Verified: 2025-01-07
  */
 export const pilot: Occupation = {
     id: 'pilot',
@@ -24,7 +25,7 @@ export const pilot: Occupation = {
       'mechanicalRepair',
       'navigate',
       'spotHidden',
-      { type: 'any', count: 3 }
+      { type: 'any', count: 3, description: 'character.creation.skills.anySkills.occupationDescription.personalOrEra' }
     ],
     suggestedContacts: ['Airlines', 'Military', 'Airport staff'],
     recommendedCharacteristicsOrder: ['dexterity', 'education', 'intelligence', 'constitution', 'strength', 'power', 'appearance', 'size']

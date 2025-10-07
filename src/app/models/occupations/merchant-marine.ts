@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * MerchantMarine occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/marine-marchande/
+ * Verified: 2025-01-07
  */
 export const merchantMarine: Occupation = {
     id: 'merchantMarine',

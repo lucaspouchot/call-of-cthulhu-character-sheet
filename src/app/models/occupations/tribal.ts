@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Tribal occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/sauvage/
+ * Verified: 2025-01-07
  */
 export const tribal: Occupation = {
     id: 'tribal',

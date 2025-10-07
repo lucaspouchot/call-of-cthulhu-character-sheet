@@ -3,14 +3,17 @@ import { Occupation } from './occupation.types';
 /**
  * TheaterActor occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/acteur-de-theatre/
+ * Verified: 2025-01-07
  */
 export const theaterActor: Occupation = {
     id: 'theaterActor',
     creditRating: { min: 9, max: 40 },
-    occupationSkillPoints: {
-      type: 'composite',
-      formulas: [{ attribute: 'education', multiplier: 2 }],
-      choiceFormulas: [{ attribute: 'appearance', multiplier: 2 }]
+        occupationSkillPoints: {
+      type: 'cumulative',
+      formulas: [
+        { attribute: 'education', multiplier: 2 },
+        { attribute: 'appearance', multiplier: 2 }
+      ]
     },
     personalSkillPoints: {
       type: 'simple',

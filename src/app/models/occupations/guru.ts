@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Guru occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/gourou/
+ * Verified: 2025-01-07
  */
 export const guru: Occupation = {
     id: 'guru',

@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Photojournalist occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/photojournaliste/
+ * Verified: 2025-01-07
  */
 export const photojournalist: Occupation = {
     id: 'photojournalist',

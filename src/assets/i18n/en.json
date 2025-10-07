@@ -127,6 +127,7 @@
         "skills": "Occupational Skills",
         "skillDisplay": {
           "choice": "Choice between",
+          "custom": "Custom skill",
           "specialization": "Specialization of",
           "any": "any skill",
           "skills": "skills"
@@ -281,6 +282,10 @@
           "occupationDescription": {
             "personalOrEra": "Personal specialties or Era-appropriate"
           }
+        },
+        "customSkills": {
+          "humanResources": "Specific skill for personnel and human resources management.",
+          "elocution": "Art of speaking well in public, with eloquence and clarity."
         },
         "occupational": {
           "title": "Occupational Skill Points",
@@ -895,6 +900,8 @@
     "artCraftWriting": "Writing",
     "charm": "Charm",
     "climb": "Climb",
+    "humanResources": "Human Resources",
+    "elocution": "Elocution",
     "computerUse": "Computer Use",
     "creditRating": "Credit Rating",
     "disguise": "Disguise",
@@ -924,6 +931,7 @@
     "history": "History",
     "intimidate": "Intimidate",
     "jump": "Jump",
+    "language": "Language",
     "languageArabic": "Arabic",
     "languageChinese": "Chinese",
     "languageEnglish": "English",

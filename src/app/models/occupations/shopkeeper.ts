@@ -3,16 +3,16 @@ import { Occupation } from './occupation.types';
 /**
  * Shopkeeper occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/commercant/
+ * Verified: 2025-01-07
  */
 export const shopkeeper: Occupation = {
     id: 'shopkeeper',
     creditRating: { min: 20, max: 40 },
-    occupationSkillPoints: {
-      type: 'composite',
-      formulas: [{ attribute: 'education', multiplier: 2 }],
-      choiceFormulas: [
-        { attribute: 'appearance', multiplier: 2 },
-        { attribute: 'dexterity', multiplier: 2 }
+        occupationSkillPoints: {
+      type: 'cumulative',
+      formulas: [
+        { attribute: 'education', multiplier: 2 },
+        { attribute: 'appearance', multiplier: 2 }
       ]
     },
     personalSkillPoints: {

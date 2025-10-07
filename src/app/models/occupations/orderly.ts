@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Orderly occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/aide-soignant/
+ * Verified: 2025-01-07
  */
 export const orderly: Occupation = {
     id: 'orderly',

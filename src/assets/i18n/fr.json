@@ -127,6 +127,7 @@
         "skills": "Compétences Professionnelles",
         "skillDisplay": {
           "choice": "Choix entre",
+          "custom": "Compétence personnalisée",
           "specialization": "Spécialisation de",
           "any": "au choix",
           "skills": "compétences"
@@ -281,6 +282,10 @@
           "occupationDescription": {
             "personalOrEra": "Personnelles ou adaptées à l'époque"
           }
+        },
+        "customSkills": {
+          "humanResources": "Compétence spécifique à la gestion du personnel et des ressources humaines.",
+          "elocution": "Art de bien parler en public, avec éloquence et clarté."
         },
         "occupational": {
           "title": "Points de Compétences Professionnelles",
@@ -895,6 +900,8 @@
     "artCraftWriting": "Écriture",
     "climb": "Escalade",
     "charm": "Charme",
+    "humanResources": "Ressources humaines",
+    "elocution": "Élocution",
     "computerUse": "Informatique",
     "creditRating": "Crédit",
     "disguise": "Déguisement",
@@ -924,6 +931,7 @@
     "intimidate": "Intimidation",
     "history": "Histoire",
     "jump": "Saut",
+    "language": "Langue",
     "languageArabic": "Arabe",
     "languageChinese": "Chinois",
     "languageEnglish": "Anglais",

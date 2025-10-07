@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Mechanic occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/mecanicien/
+ * Verified: 2025-01-07
  */
 export const mechanic: Occupation = {
     id: 'mechanic',

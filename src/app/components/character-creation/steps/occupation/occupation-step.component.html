@@ -68,11 +68,17 @@
                   {{ 'character.creation.occupation.skillDisplay.specialization' | dynamicTranslate }}
                   {{ ('skills.' + skill.split('.')[1]) | dynamicTranslate }}
                 </ng-container>
+                <ng-container *ngIf="skill.startsWith('custom.')">
+                  {{ skill.substring(7) | dynamicTranslate }}
+                  <span class="text-xs opacity-75">
+                    ({{ 'character.creation.occupation.skillDisplay.custom' | dynamicTranslate }})
+                  </span>
+                </ng-container>
                 <ng-container *ngIf="skill.startsWith('any.')">
                   {{ skill.split('.')[1] }}
                   {{ 'character.creation.occupation.skillDisplay.any' | dynamicTranslate }}
                 </ng-container>
-                <ng-container *ngIf="!skill.startsWith('choice.') && !skill.startsWith('specialization.') && !skill.startsWith('any.')">
+                <ng-container *ngIf="!skill.startsWith('choice.') && !skill.startsWith('specialization.') && !skill.startsWith('custom.') && !skill.startsWith('any.')">
                   {{ ('skills.' + skill) | dynamicTranslate }}
                 </ng-container>
               </span>

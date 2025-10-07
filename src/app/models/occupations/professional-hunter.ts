@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * ProfessionalHunter occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/chasseur-professionnel/
+ * Verified: 2025-01-07
  */
 export const professionalHunter: Occupation = {
     id: 'professionalHunter',

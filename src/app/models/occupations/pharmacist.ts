@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Pharmacist occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/pharmacien/
+ * Verified: 2025-01-07
  */
 export const pharmacist: Occupation = {
     id: 'pharmacist',
@@ -22,7 +23,7 @@ export const pharmacist: Occupation = {
       { type: 'specialization', baseSkillId: 'languageOther', allowCustom: false, suggestedSpecializations: ['languageLatin'] },
       { type: 'specialization', baseSkillId: 'science', allowCustom: false, suggestedSpecializations: ['scienceChemistry'] },
       { type: 'specialization', baseSkillId: 'science', allowCustom: false, suggestedSpecializations: ['sciencePharmacy'] },
-      { type: 'any', count: 2 }
+      { type: 'any', count: 2, description: 'character.creation.skills.anySkills.occupationDescription.personalOrEra' }
     ],
     suggestedContacts: ['Doctors', 'Patients', 'Drug manufacturers'],
     recommendedCharacteristicsOrder: ['education', 'intelligence', 'dexterity', 'constitution', 'power', 'appearance', 'strength', 'size']

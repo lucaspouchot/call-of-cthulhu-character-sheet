@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * IndependentCriminal occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/criminel-independant/
+ * Verified: 2025-01-07
  */
 export const independentCriminal: Occupation = {
     id: 'independentCriminal',

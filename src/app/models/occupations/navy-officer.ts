@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * NavyOfficer occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/marine-militaire/
+ * Verified: 2025-01-07
  */
 export const navyOfficer: Occupation = {
     id: 'navyOfficer',

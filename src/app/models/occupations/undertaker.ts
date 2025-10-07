@@ -3,13 +3,17 @@ import { Occupation } from './occupation.types';
 /**
  * Undertaker occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/croque-mort/
+ * Verified: 2025-01-07
  */
 export const undertaker: Occupation = {
     id: 'undertaker',
     creditRating: { min: 20, max: 40 },
-    occupationSkillPoints: {
-      type: 'simple',
-      formulas: [{ attribute: 'education', multiplier: 4 }]
+        occupationSkillPoints: {
+      type: 'cumulative',
+      formulas: [
+        { attribute: 'education', multiplier: 2 },
+        { attribute: 'appearance', multiplier: 2 }
+      ]
     },
     personalSkillPoints: {
       type: 'simple',

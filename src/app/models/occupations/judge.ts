@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Judge occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/juge/
+ * Verified: 2025-01-07
  */
 export const judge: Occupation = {
     id: 'judge',

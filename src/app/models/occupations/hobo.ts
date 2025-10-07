@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Hobo occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/hobo/
+ * Verified: 2025-01-07
  */
 export const hobo: Occupation = {
     id: 'hobo',

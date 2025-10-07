@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Outdoorsman occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/baroudeur/
+ * Verified: 2025-01-07
  */
 export const outdoorsman: Occupation = {
     id: 'outdoorsman',

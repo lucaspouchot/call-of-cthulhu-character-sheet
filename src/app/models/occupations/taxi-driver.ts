@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * TaxiDriver occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/chauffeur-de-taxi/
+ * Verified: 2025-01-07
  */
 export const taxiDriver: Occupation = {
     id: 'taxiDriver',

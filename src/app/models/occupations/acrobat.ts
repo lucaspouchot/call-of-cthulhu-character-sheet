@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Acrobat occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/acrobate/
+ * Verified: 2025-10-07
  */
 export const acrobat: Occupation = {
   id: 'acrobat',

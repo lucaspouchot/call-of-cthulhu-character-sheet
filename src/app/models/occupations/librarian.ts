@@ -3,6 +3,7 @@ import { Occupation } from './occupation.types';
 /**
  * Librarian occupation
  * Source: https://appeldecthulhu.fr/jeu-de-role/profession/bibliothecaire/
+ * Verified: 2025-01-07
  */
 export const librarian: Occupation = {
     id: 'librarian',

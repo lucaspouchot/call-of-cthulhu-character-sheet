@@ -15,6 +15,12 @@ export type OccupationSkillSpec =
     allowCustom: boolean; // Allow custom specialization names
   }
   | {
+    type: 'customSkill';
+    skillNameKey: string; // Translation key for the custom skill name (e.g., "skills.humanResources", "skills.elocution")
+    baseValue: number; // Base value for this skill (e.g., 5, 20, etc.)
+    description?: string; // Optional description of what this skill does
+  }
+  | {
     type: 'any';
     count: number; // Number of any skills the player can choose
     description?: string; // Optional description (e.g., "personal specialties or era-appropriate")

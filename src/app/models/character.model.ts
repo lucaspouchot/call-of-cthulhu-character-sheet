@@ -12,6 +12,13 @@ export interface Skill {
   totalValue: number;
   description?: string;
   modifiers?: TemporaryModifier[];
+
+  // For specialized skills (e.g., Art/Craft (Photography), Fighting (Sword))
+  parentSkillId?: string; // References the parent skill ID (e.g., 'artCraft' for a photography skill)
+  customName?: string; // The specialization name (e.g., 'Photography', 'Sword')
+
+  // For completely custom skills added during play
+  isCustom?: boolean; // True if this is a completely new skill not derived from any base skill
 }
 
 export interface Weapon {
@@ -111,6 +118,9 @@ export interface CharacterSheetCreate {
       personal: number;
     };
   };
+
+  // Custom/specialized skills created during character creation
+  customSkills?: Skill[];
 
   // Credit Rating (set during occupation/skills step)
   creditRating?: number;

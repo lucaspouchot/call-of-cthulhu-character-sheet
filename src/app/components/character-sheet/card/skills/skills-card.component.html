@@ -2,24 +2,30 @@
   <div class="mb-4">
     <div class="flex justify-between items-center mb-2">
       <h2 class="gothic-header text-xl">{{ 'character.skills' | dynamicTranslate }}</h2>
-      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
-              class="text-sm text-blue-600 hover:text-blue-800">
-        {{ 'ui.actions.edit' | dynamicTranslate }}
-      </button>
+      <div class="flex gap-2">
+        <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+                class="text-sm text-blue-600 hover:text-blue-800">
+          {{ 'ui.actions.edit' | dynamicTranslate }}
+        </button>
+      </div>
     </div>
-    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center">
-      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
-        {{ 'ui.actions.save' | dynamicTranslate }}
-      </button>
-      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
-        {{ 'ui.actions.cancel' | dynamicTranslate }}
-      </button>
+    <div *ngIf="isInEditMode()" class="grid grid-cols-2 gap-2">
+      <div class="col-span-2 sm:col-span-1">
+        <button (click)="saveCharacterData()" class="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm">
+          {{ 'ui.actions.save' | dynamicTranslate }}
+        </button>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <button (click)="cancelEdit()" class="w-full px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm">
+          {{ 'ui.actions.cancel' | dynamicTranslate }}
+        </button>
+      </div>
     </div>
   </div>
   
   <!-- View Mode -->
   <div *ngIf="!isInEditMode()" class="space-y-2 max-h-96 tablet-lg:max-h-screen overflow-y-auto">
-    <div *ngFor="let skill of character.skills" 
+    <div *ngFor="let skill of getDisplayedSkills()" 
          class="flex justify-between items-center p-2 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
          (click)="onSkillClick(skill)">
       <span class="text-sm">{{ getSkillTranslation(skill) }}</span>
@@ -29,7 +35,7 @@
 
   <!-- Edit Mode -->
   <div *ngIf="isInEditMode()" class="space-y-3 max-h-96 tablet-lg:max-h-screen overflow-y-auto">
-    <div *ngFor="let skill of character.skills" 
+    <div *ngFor="let skill of getDisplayedSkills()" 
          class="border border-gray-200 rounded p-3 bg-white">
       <div class="flex justify-between items-center mb-2">
         <span class="text-sm font-medium">{{ getSkillTranslation(skill) }}</span>
@@ -72,5 +78,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Add New Skill Section (inline in Edit Mode) -->
+    <app-skill-selector
+      [allowCustomSkill]="true"
+      [allowSpecializedSkill]="true"
+      [existingSkillIds]="getExistingSkillIds()"
+      [showInitialPoints]="true"
+      (skillAdded)="onSkillAddedFromSelector($event)"
+    ></app-skill-selector>
   </div>
 </div>

@@ -1,16 +1,20 @@
+import { EntityTranslationService } from './../../../../services/entity-translation.service';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { CharacterSheetCreate, StepValidation, Skill } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
-import { DEFAULT_SKILLS, OCCUPATIONS, Occupation, SkillPointFormula } from '../../../../models/skills.model';
+import { DEFAULT_SKILLS } from '../../../../models/skills.model';
+import { OCCUPATIONS, Occupation, SkillPointFormula, OccupationSkillSpec } from '../../../../models/occupation.model';
 import { TranslationService } from '../../../../services/translation.service';
+import { SkillManagementService } from '../../../../services/skill-management.service';
+import { SkillSelectorComponent } from '../../../shared/skill-selector/skill-selector.component';
 
 @Component({
   selector: 'app-skills-step',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DynamicTranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, DynamicTranslatePipe, SkillSelectorComponent],
   templateUrl: './skills-step.component.html',
   styleUrls: ['./skills-step.component.css']
 })
@@ -32,8 +36,29 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   currentOccupation?: Occupation;
   selectedCreditRating = 0;
 
+  // New: Track user choices for occupation skills
+  choiceSpecs: Array<{ count: number; options: string[]; index: number }> = [];
+  selectedChoiceSkills: { [choiceIndex: number]: string[] } = {};
+
+  specializationSpecs: Array<{
+    baseSkillId: string;
+    suggestedSpecializations?: string[];
+    allowCustom: boolean;
+    index: number;
+  }> = [];
+  selectedSpecializations: { [specIndex: number]: string } = {}; // Maps spec index to selected skill ID
+  customSpecializationNames: { [specIndex: number]: string } = {}; // For custom specializations
+
+  anySkillSpecs: Array<{ count: number; description?: string; index: number }> = [];
+  selectedAnySkills: string[] = [];
+  anySkillSearchTerm = '';
+  anySkillCustomName = '';
+  hiddenSkills: Set<string> = new Set<string>(['science', 'languageOther', 'pilot', 'artCraft', 'survival', 'creditRating']);
+
   constructor(
-    private translationService: TranslationService
+    private entityTranslationService: EntityTranslationService,
+    private translationService: TranslationService,
+    private skillManagementService: SkillManagementService
   ) { }
 
   ngOnInit(): void {
@@ -126,24 +151,86 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
       this.currentOccupation = OCCUPATIONS.find(occ => occ.id === this.characterSheet.occupation);
     }
 
+    // Initialize occupation skill specs
+    this.initializeOccupationSpecs();
+
     // Separate occupation skills from others
     this.separateSkills();
+  }
+
+  private initializeOccupationSpecs(): void {
+    if (!this.currentOccupation) {
+      return;
+    }
+
+    // Reset specs
+    this.choiceSpecs = [];
+    this.specializationSpecs = [];
+    this.anySkillSpecs = [];
+
+    let choiceIndex = 0;
+    let specIndex = 0;
+    let anyIndex = 0;
+
+    // Parse occupation skill specs
+    for (const spec of this.currentOccupation.occupationSkills) {
+      if (typeof spec !== 'string') {
+        if (spec.type === 'choice') {
+          this.choiceSpecs.push({
+            ...spec,
+            index: choiceIndex++
+          });
+        } else if (spec.type === 'specialization') {
+          this.specializationSpecs.push({
+            ...spec,
+            index: specIndex++
+          });
+        } else if (spec.type === 'any') {
+          this.anySkillSpecs.push({
+            ...spec,
+            index: anyIndex++
+          });
+        }
+      }
+    }
   }
 
   private separateSkills(): void {
     if (!this.currentOccupation) {
       this.occupationSkills = [];
-      this.otherSkills = [...this.skills].sort((a, b) => a.id.localeCompare(b.id));
+      this.otherSkills = [...this.skills].filter(skill => !this.hiddenSkills.has(skill.id)).sort((a, b) => a.id.localeCompare(b.id));
       return;
     }
 
-    const occupationSkillIds = new Set(this.currentOccupation.occupationSkills);
+    // Get direct occupation skill IDs
+    const directSkillIds = this.skillManagementService.getDirectOccupationSkills(
+      this.currentOccupation.occupationSkills
+    );
+
+    const occupationSkillIds = new Set<string>(directSkillIds);
+
+    // Add selected choice skills
+    for (const [choiceIndex, selectedSkills] of Object.entries(this.selectedChoiceSkills)) {
+      selectedSkills.forEach(skillId => occupationSkillIds.add(skillId));
+    }
+
+    // Add selected specialization skills
+    for (const skillId of Object.values(this.selectedSpecializations)) {
+      if (skillId) {
+        occupationSkillIds.add(skillId);
+      }
+    }
+
+    // Add selected 'any' skills
+    this.selectedAnySkills.forEach(skillId => occupationSkillIds.add(skillId));
 
     this.occupationSkills = this.skills
+      .filter(skill => !this.hiddenSkills.has(skill.id))
       .filter(skill => occupationSkillIds.has(skill.id))
       .sort((a, b) => a.id.localeCompare(b.id));
 
     this.otherSkills = this.skills
+      .filter(skill => !this.hiddenSkills.has(skill.id))
       .filter(skill => !occupationSkillIds.has(skill.id))
       .sort((a, b) => a.id.localeCompare(b.id));
   }
@@ -295,12 +382,30 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
       };
     });
 
-    this.characterSheetChange.emit(this.characterSheet);
-  }
+    // Update credit rating
+    this.characterSheet.creditRating = this.selectedCreditRating;
 
-  canAllocateOccupationPoints(skillId: string): boolean {
-    if (!this.currentOccupation) return false;
-    return this.currentOccupation.occupationSkills.includes(skillId);
+    // Save custom/specialized skills (those not in DEFAULT_SKILLS)
+    const defaultSkillIds = new Set(DEFAULT_SKILLS.map(s => s.id));
+    const customSkills = this.skills.filter(skill => !defaultSkillIds.has(skill.id)).map(skill => ({
+      id: skill.id,
+      baseValue: skill.baseValue,
+      personalValue: skill.personalValue,
+      occupationValue: skill.occupationValue,
+      totalValue: skill.totalValue,
+      parentSkillId: skill.parentSkillId,
+      customName: skill.customName,
+      isCustom: skill.isCustom,
+      modifiers: skill.modifiers ? [...skill.modifiers] : undefined
+    }));
+
+    if (customSkills.length > 0) {
+      this.characterSheet.customSkills = customSkills;
+    } else {
+      this.characterSheet.customSkills = [];
+    }
+
+    this.characterSheetChange.emit(this.characterSheet);
   }
 
   getMaxOccupationPoints(skillId: string): number {
@@ -446,6 +551,9 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
     if (this.currentOccupation) {
       // Initialize with existing value or minimum for occupation
       this.selectedCreditRating = this.characterSheet.creditRating || this.currentOccupation.creditRating.min;
+      // Make sure to set it in the character sheet
+      this.characterSheet.creditRating = this.selectedCreditRating;
+      this.characterSheetChange.emit(this.characterSheet);
     }
   }
 
@@ -536,5 +644,422 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
       cash,
       assets
     };
+  }
+
+  // New methods for managing choices and specializations
+
+  /**
+   * Handle choice selection toggle
+   */
+  onChoiceToggle(choiceIndex: number, skillId: string): void {
+    if (!this.selectedChoiceSkills[choiceIndex]) {
+      this.selectedChoiceSkills[choiceIndex] = [];
+    }
+
+    const selectedSkills = this.selectedChoiceSkills[choiceIndex];
+    const index = selectedSkills.indexOf(skillId);
+    const choice = this.choiceSpecs[choiceIndex];
+
+    if (index > -1) {
+      // Deselect
+      selectedSkills.splice(index, 1);
+
+      // Clear occupation points from this skill
+      const skill = this.skills.find(s => s.id === skillId);
+      if (skill) {
+        skill.occupationValue = 0;
+        this.updateSkillTotal(skill);
+      }
+    } else {
+      // Check if we can select more
+      if (selectedSkills.length < choice.count) {
+        selectedSkills.push(skillId);
+      } else {
+        // Replace the first selected skill
+        const removedSkillId = selectedSkills.shift();
+        const removedSkill = this.skills.find(s => s.id === removedSkillId);
+        if (removedSkill) {
+          removedSkill.occupationValue = 0;
+          this.updateSkillTotal(removedSkill);
+        }
+        selectedSkills.push(skillId);
+      }
+    }
+
+    // Re-separate skills to update occupation skills list
+    this.separateSkills();
+
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Check if a skill is selected in a choice
+   */
+  isSkillSelectedInChoice(choiceIndex: number, skillId: string): boolean {
+    return this.selectedChoiceSkills[choiceIndex]?.includes(skillId) ?? false;
+  }
+
+  /**
+   * Check if a skill can be allocated occupation points
+   */
+  canAllocateOccupationPoints(skillId: string): boolean {
+    if (!this.currentOccupation) return false;
+
+    // Check direct skills
+    const directSkills = this.skillManagementService.getDirectOccupationSkills(
+      this.currentOccupation.occupationSkills
+    );
+    if (directSkills.includes(skillId)) {
+      return true;
+    }
+
+    // Check if skill is in a selected choice
+    for (const [choiceIndex, selectedSkills] of Object.entries(this.selectedChoiceSkills)) {
+      if (selectedSkills.includes(skillId)) {
+        return true;
+      }
+    }
+
+    // Check if skill is a selected specialization
+    for (const skillIdInSpec of Object.values(this.selectedSpecializations)) {
+      if (skillIdInSpec === skillId) {
+        return true;
+      }
+    }
+
+    // Check if skill is in selected 'any' skills
+    if (this.selectedAnySkills.includes(skillId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Handle specialization selection
+   */
+  onSpecializationSelect(specIndex: number, skillId: string): void {
+    const oldSkillId = this.selectedSpecializations[specIndex];
+
+    // Clear occupation points from old specialization
+    if (oldSkillId) {
+      const oldSkill = this.skills.find(s => s.id === oldSkillId);
+      if (oldSkill) {
+        oldSkill.occupationValue = 0;
+        this.updateSkillTotal(oldSkill);
+      }
+    }
+
+    // Set new specialization
+    this.selectedSpecializations[specIndex] = skillId;
+
+    // Re-separate skills to update occupation skills list
+    this.separateSkills();
+
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Create and add a custom specialized skill
+   */
+  onCreateCustomSpecialization(specIndex: number, customName: string): void {
+    const spec = this.specializationSpecs[specIndex];
+    if (!spec || !customName.trim()) {
+      return;
+    }
+
+    try {
+      const newSkill = this.skillManagementService.createSpecializedSkill(
+        spec.baseSkillId,
+        customName.trim()
+      );
+
+      // Add to skills list
+      this.skills.push(newSkill);
+
+      // Select it
+      this.onSpecializationSelect(specIndex, newSkill.id);
+
+      // Clear the custom name input
+      this.customSpecializationNames[specIndex] = '';
+
+      // Re-separate skills to update occupation skills list
+      this.separateSkills();
+    } catch (error) {
+      console.error('Error creating custom specialization:', error);
+    }
+  }
+
+  /**
+   * Get suggested specializations for a spec
+   */
+  getSuggestedSpecializations(specIndex: number): Array<{ id: string; name: string; baseValue: number }> {
+    const spec = this.specializationSpecs[specIndex];
+    if (!spec) {
+      return [];
+    }
+
+    const suggested = this.skillManagementService.getSuggestedSpecializations(spec.baseSkillId);
+
+    // Filter to only suggested ones if specified
+    if (spec.suggestedSpecializations && spec.suggestedSpecializations.length > 0) {
+      return suggested
+        .filter(s => spec.suggestedSpecializations!.includes(s.id))
+        .map(s => ({
+          id: s.id,
+          name: s.id, // Will be translated in template
+          baseValue: s.baseValue
+        }));
+    }
+
+    return suggested.map(s => ({
+      id: s.id,
+      name: s.id,
+      baseValue: s.baseValue
+    }));
+  }
+
+  /**
+   * Handle 'any skill' selection
+   */
+  onAnySkillSelect(skillId: string): void {
+    const index = this.selectedAnySkills.indexOf(skillId);
+
+    if (index > -1) {
+      // Deselect
+      this.selectedAnySkills.splice(index, 1);
+
+      // Clear occupation points
+      const skill = this.skills.find(s => s.id === skillId);
+      if (skill) {
+        skill.occupationValue = 0;
+        this.updateSkillTotal(skill);
+      }
+    } else {
+      // Check if we can select more
+      const totalAnyCount = this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+      if (this.selectedAnySkills.length < totalAnyCount) {
+        this.selectedAnySkills.push(skillId);
+      }
+    }
+
+    // Re-separate skills to update occupation skills list
+    this.separateSkills();
+
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Check if a skill is selected as 'any skill'
+   */
+  isSelectedAsAnySkill(skillId: string): boolean {
+    return this.selectedAnySkills.includes(skillId);
+  }
+
+  /**
+   * Get remaining 'any skill' slots
+   */
+  getRemainingAnySkillSlots(): number {
+    const totalAnyCount = this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+    return totalAnyCount - this.selectedAnySkills.length;
+  }
+
+  /**
+   * Get display name for a skill
+   */
+  getSkillDisplayName(skill: Skill): string {
+    return this.entityTranslationService.getSkillTranslation(skill);
+  }
+
+  /**
+   * Get total count of 'any' skill slots
+   */
+  getTotalAnySkillCount(): number {
+    return this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+  }
+
+  /**
+   * Get selected skill for specialization display
+   */
+  getSelectedSpecializationSkill(specIndex: number): Skill | undefined {
+    const skillId = this.selectedSpecializations[specIndex];
+    if (!skillId) return undefined;
+    return this.skills.find(s => s.id === skillId);
+  }
+
+  /**
+   * Get filtered skills for 'any skill' selection based on search term
+   */
+  getFilteredAnySkills(): Skill[] {
+    if (!this.anySkillSearchTerm.trim()) {
+      return this.otherSkills;
+    }
+
+    const searchLower = this.anySkillSearchTerm.toLowerCase();
+    return this.otherSkills.filter(skill => {
+      const translatedName = this.translationService.getTranslation(`skills.${skill.id}`).toLowerCase();
+      return translatedName.includes(searchLower) || skill.id.toLowerCase().includes(searchLower);
+    });
+  }
+
+  /**
+   * Select a skill from the dropdown
+   */
+  onAnySkillDropdownSelect(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const skillId = select.value;
+
+    if (skillId && !this.selectedAnySkills.includes(skillId)) {
+      const totalAnyCount = this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+      if (this.selectedAnySkills.length < totalAnyCount) {
+        this.selectedAnySkills.push(skillId);
+
+        // Re-separate skills to update occupation skills list
+        this.separateSkills();
+
+        this.updateSpentPoints();
+        this.updateCharacterSheet();
+        this.validateStep();
+      }
+    }
+
+    // Reset the select
+    select.value = '';
+  }
+
+  /**
+   * Remove a selected 'any skill'
+   */
+  onRemoveAnySkill(skillId: string): void {
+    this.onAnySkillSelect(skillId); // Reuse existing logic
+  }
+
+  /**
+   * Create a custom 'any skill'
+   */
+  onCreateCustomAnySkill(): void {
+    const customName = this.anySkillCustomName.trim();
+    if (!customName) {
+      return;
+    }
+
+    try {
+      const newSkill = this.skillManagementService.createCustomSkill(customName);
+
+      // Add to skills list
+      this.skills.push(newSkill);
+
+      // Add to otherSkills
+      this.otherSkills.push(newSkill);
+      this.otherSkills.sort((a, b) => a.id.localeCompare(b.id));
+
+      // Select it as 'any skill'
+      const totalAnyCount = this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+      if (this.selectedAnySkills.length < totalAnyCount) {
+        this.selectedAnySkills.push(newSkill.id);
+
+        // Re-separate skills to update occupation skills list
+        this.separateSkills();
+
+        this.updateSpentPoints();
+        this.updateCharacterSheet();
+        this.validateStep();
+      }
+
+      // Clear the input
+      this.anySkillCustomName = '';
+    } catch (error) {
+      console.error('Error creating custom any skill:', error);
+    }
+  }
+
+  /**
+   * Get all existing skill IDs to prevent duplicates
+   */
+  getAllExistingSkillIds(): string[] {
+    return this.skills.map(s => s.id);
+  }
+
+  /**
+   * Handle specialization creation from skill selector
+   */
+  onSpecializationCreated(specIndex: number, skill: Skill): void {
+    // Add the new skill to our skills list if it doesn't exist
+    const existingSkill = this.skills.find(s => s.id === skill.id);
+    if (!existingSkill) {
+      this.skills.push(skill);
+    }
+
+    // Select it
+    this.onSpecializationSelect(specIndex, skill.id);
+  }
+
+  /**
+   * Handle 'any skill' creation from skill selector
+   */
+  onAnySkillCreated(skill: Skill): void {
+    // Add the new skill to our skills list if it doesn't exist
+    const existingSkill = this.skills.find(s => s.id === skill.id);
+    if (!existingSkill) {
+      this.skills.push(skill);
+      this.otherSkills.push(skill);
+      this.otherSkills.sort((a, b) => a.id.localeCompare(b.id));
+    }
+
+    // Add to selected 'any' skills
+    const totalAnyCount = this.anySkillSpecs.reduce((sum, spec) => sum + spec.count, 0);
+    if (this.selectedAnySkills.length < totalAnyCount && !this.selectedAnySkills.includes(skill.id)) {
+      this.selectedAnySkills.push(skill.id);
+
+      // Re-separate skills to update occupation skills list
+      this.separateSkills();
+
+      this.updateSpentPoints();
+      this.updateCharacterSheet();
+      this.validateStep();
+    }
+  }
+
+  /**
+   * Get skill name by ID, handling custom and specialized skills
+   */
+  getSkillNameById(skillId: string): string {
+    const skill = this.skills.find(s => s.id === skillId);
+    if (!skill) {
+      return this.translationService.getTranslation(`skills.${skillId}`);
+    }
+    return this.getSkillTranslatedName(skill);
+  }
+
+  /**
+   * Get translated name for a skill, handling custom and specialized skills
+   */
+  getSkillTranslatedName(skill: Skill): string {
+    if (skill.customName) {
+      if (skill.parentSkillId) {
+        // Specialized skill: "Art/Craft (Photography)"
+        const parentTranslation = this.translationService.getTranslation(`skills.${skill.parentSkillId}`);
+
+        // Check if customName is a predefined specialization ID (for translation)
+        const translationKey = `skills.${skill.customName}`;
+        const translation = this.translationService.getTranslation(translationKey);
+
+        // If translation exists (not equal to the key), use it; otherwise use customName as is
+        const specializationName = translation !== translationKey ? translation : skill.customName;
+
+        return `${parentTranslation} (${specializationName})`;
+      }
+      // Completely custom skill - use customName directly
+      return skill.customName;
+    }
+
+    // Regular skill - use translation
+    return this.translationService.getTranslation(`skills.${skill.id}`);
   }
 }

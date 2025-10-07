@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { CharacterSheetCreate, StepValidation } from '../../../../models/character.model';
-import { OCCUPATIONS } from '../../../../models/skills.model';
+import { OCCUPATIONS } from '../../../../models/occupation.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 
 type Characteristic = {

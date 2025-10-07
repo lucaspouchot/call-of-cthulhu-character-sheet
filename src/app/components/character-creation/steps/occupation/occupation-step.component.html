@@ -59,7 +59,22 @@
             <div class="flex flex-wrap gap-2">
               <span *ngFor="let skill of getOccupationSkills()" 
                     class="skill-chip">
-                {{ ('skills.' + skill) | dynamicTranslate }}
+                <ng-container *ngIf="skill.startsWith('choice.')">
+                  {{ 'character.creation.occupation.skillDisplay.choice' | dynamicTranslate }}
+                  {{ skill.split('.')[1] }}
+                  {{ 'character.creation.occupation.skillDisplay.skills' | dynamicTranslate }}
+                </ng-container>
+                <ng-container *ngIf="skill.startsWith('specialization.')">
+                  {{ 'character.creation.occupation.skillDisplay.specialization' | dynamicTranslate }}
+                  {{ ('skills.' + skill.split('.')[1]) | dynamicTranslate }}
+                </ng-container>
+                <ng-container *ngIf="skill.startsWith('any.')">
+                  {{ skill.split('.')[1] }}
+                  {{ 'character.creation.occupation.skillDisplay.any' | dynamicTranslate }}
+                </ng-container>
+                <ng-container *ngIf="!skill.startsWith('choice.') && !skill.startsWith('specialization.') && !skill.startsWith('any.')">
+                  {{ ('skills.' + skill) | dynamicTranslate }}
+                </ng-container>
               </span>
             </div>
           </div>

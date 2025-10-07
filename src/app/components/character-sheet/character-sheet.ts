@@ -8,7 +8,7 @@ import { EntityTranslationService } from '../../services/entity-translation.serv
 import { TranslationService } from '../../services/translation.service';
 import { CharacterSheet as CharacterModel, Sex, Skill } from '../../models/character.model';
 import { DiceRoll } from '../../models/dice.model';
-import { OCCUPATIONS } from '../../models/skills.model';
+import { OCCUPATIONS } from '../../models/occupation.model';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 import { DynamicTranslatePipe } from '../../pipes/dynamic-translate.pipe';
 import { CharacteristicCardComponent } from './card/characteristic/characteristic-card.component';

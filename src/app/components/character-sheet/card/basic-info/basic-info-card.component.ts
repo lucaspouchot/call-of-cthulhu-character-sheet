@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BaseCardComponent } from '../base-card.component';
 import { Sex } from '../../../../models/character.model';
-import { OCCUPATIONS } from '../../../../models/skills.model';
+import { OCCUPATIONS } from '../../../../models/occupation.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { EntityTranslationService } from '../../../../services/entity-translation.service';
 

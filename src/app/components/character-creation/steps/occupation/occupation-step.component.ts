@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Subject, takeUntil } from 'rxjs';
 import { CharacterSheetCreate, StepValidation } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
-import { OCCUPATIONS, Occupation } from '../../../../models/skills.model';
+import { OCCUPATIONS, Occupation, OccupationSkillSpec } from '../../../../models/occupation.model';
 
 @Component({
   selector: 'app-occupation-step',
@@ -79,7 +79,28 @@ export class OccupationStepComponent implements OnInit, OnDestroy {
 
   getOccupationSkills(): string[] {
     const occupation = this.getSelectedOccupation();
-    return occupation ? occupation.occupationSkills : [];
+    if (!occupation) return [];
+
+    // Convert OccupationSkillSpec[] to display strings
+    const displaySkills: string[] = [];
+
+    for (const spec of occupation.occupationSkills) {
+      if (typeof spec === 'string') {
+        // Simple skill reference
+        displaySkills.push(spec);
+      } else if (spec.type === 'choice') {
+        // Choice between multiple skills
+        displaySkills.push(`choice.${spec.count}.from.${spec.options.length}`);
+      } else if (spec.type === 'specialization') {
+        // Specializable skill
+        displaySkills.push(`specialization.${spec.baseSkillId}`);
+      } else if (spec.type === 'any') {
+        // Any skill
+        displaySkills.push(`any.${spec.count}`);
+      }
+    }
+
+    return displaySkills;
   }
 
   getSkillPointsFormulaChips(): { type: 'chip' | 'text'; content: string; isTranslatable?: boolean }[] {

@@ -6,11 +6,14 @@ import { Skill } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { EntityTranslationService } from '../../../../services/entity-translation.service';
 import { DiceRollingService } from '../../../../services/dice-rolling.service';
+import { SkillManagementService } from '../../../../services/skill-management.service';
+import { SKILL_DEFINITIONS } from '../../../../models/skill-definitions.model';
+import { SkillSelectorComponent } from '../../../shared/skill-selector/skill-selector.component';
 
 @Component({
   selector: 'app-skills-card',
   standalone: true,
-  imports: [CommonModule, FormsModule, DynamicTranslatePipe],
+  imports: [CommonModule, FormsModule, DynamicTranslatePipe, SkillSelectorComponent],
   templateUrl: './skills-card.component.html',
   styleUrl: './skills-card.component.css'
 })
@@ -23,13 +26,25 @@ export class SkillsCardComponent extends BaseCardComponent {
 
   constructor(
     private entityTranslationService: EntityTranslationService,
-    private diceService: DiceRollingService
+    private diceService: DiceRollingService,
+    private skillManagementService: SkillManagementService
   ) {
     super();
   }
 
   protected getSectionName(): string {
     return 'skills';
+  }
+
+  /**
+   * Get skills to display - filters out specialized skills with no points
+   */
+  getDisplayedSkills(): Skill[] {
+    if (!this.character) {
+      return [];
+    }
+
+    return this.character.skills;
   }
 
   protected saveOriginalData(): void {
@@ -185,5 +200,37 @@ export class SkillsCardComponent extends BaseCardComponent {
       this.newSkillModifier[skillId] = { name: '', value: 0 };
     }
     this.newSkillModifier[skillId].value = value;
+  }
+
+  /**
+   * Get existing skill IDs to prevent duplicates
+   */
+  getExistingSkillIds(): string[] {
+    if (!this.character) {
+      return [];
+    }
+    return this.character.skills.map(s => s.id);
+  }
+
+  /**
+   * Handle skill added from skill selector component
+   */
+  onSkillAddedFromSelector(skill: Skill): void {
+    if (!this.character) {
+      return;
+    }
+
+    // Check if skill already exists
+    const existing = this.character.skills.find(s => s.id === skill.id);
+    if (existing) {
+      console.error('Skill already exists');
+      return;
+    }
+
+    // Add skill to character
+    this.character.skills.push(skill);
+
+    // Emit change
+    this.characterChange.emit(this.character);
   }
 }

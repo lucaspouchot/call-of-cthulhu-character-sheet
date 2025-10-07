@@ -157,6 +157,28 @@ export class CharacterService {
       };
     });
 
+    // Add custom/specialized skills created during character creation
+    if (characterData.customSkills && characterData.customSkills.length > 0) {
+      characterData.customSkills.forEach(customSkill => {
+        const assignment = characterData.skillAssignments?.[customSkill.id] || { occupation: 0, personal: 0 };
+
+        // Only add if the skill has points allocated or is a custom/specialized skill
+        if (assignment.occupation > 0 || assignment.personal > 0 || customSkill.isCustom || customSkill.parentSkillId) {
+          skills.push({
+            id: customSkill.id,
+            baseValue: customSkill.baseValue,
+            personalValue: assignment.personal,
+            occupationValue: assignment.occupation,
+            totalValue: customSkill.baseValue + assignment.occupation + assignment.personal,
+            parentSkillId: customSkill.parentSkillId,
+            customName: customSkill.customName,
+            isCustom: customSkill.isCustom,
+            modifiers: customSkill.modifiers ? [...customSkill.modifiers] : []
+          });
+        }
+      });
+    }
+
     // Calculate skill points allocation
     const skillPoints: SkillPointAllocation = {
       occupationPointsTotal: 0, // Will be calculated based on occupation

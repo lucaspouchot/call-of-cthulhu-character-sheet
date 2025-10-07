@@ -225,6 +225,78 @@
       </div>
     </div>
 
+    <!-- Mixed Choice Selection (NEW) -->
+    <div *ngIf="mixedChoiceSpecs.length > 0" class="space-y-4">
+      <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2">
+        {{ 'character.creation.skills.mixedChoices.title' | dynamicTranslate }}
+      </h3>
+      <div class="bg-teal-50 border-l-4 border-teal-400 p-4 mb-4">
+        <p class="text-sm text-teal-700">{{ 'character.creation.skills.mixedChoices.description' | dynamicTranslate }}</p>
+      </div>
+      
+      <div *ngFor="let mixedChoice of mixedChoiceSpecs" class="space-y-3">
+        <!-- Show selected skill info if already selected -->
+        <div *ngIf="getSelectedMixedChoiceSkill(mixedChoice.index) as selectedSkill" class="bg-green-50 border border-green-200 rounded-lg p-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-sm font-medium text-green-700">✓ {{ 'character.creation.skills.mixedChoices.selected' | dynamicTranslate }}</span>
+              <span class="text-sm text-gray-600 ml-2">→ {{ getSkillDisplayName(selectedSkill) }}</span>
+            </div>
+            <button
+              type="button"
+              (click)="onMixedChoiceReset(mixedChoice.index)"
+              class="text-xs text-red-600 hover:text-red-800"
+            >
+              {{ 'ui.actions.edit' | dynamicTranslate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Selection interface if not selected -->
+        <div *ngIf="!getSelectedMixedChoiceSkill(mixedChoice.index)" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          <h4 class="text-sm font-medium text-gray-800 mb-3">
+            {{ 'character.creation.skills.mixedChoices.chooseOne' | dynamicTranslate }}
+          </h4>
+          
+          <div class="space-y-3">
+            <!-- Loop through options -->
+            <div *ngFor="let option of mixedChoice.options; let optionIdx = index" class="border border-gray-300 rounded-lg p-3">
+              <!-- Simple skill option -->
+              <ng-container *ngIf="isMixedChoiceOptionSimpleSkill(option); else specializationOption">
+                <button
+                  type="button"
+                  (click)="onMixedChoiceSimpleSkillSelect(mixedChoice.index, getMixedChoiceOptionAsString(option))"
+                  class="w-full px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  {{ 'skills.' + getMixedChoiceOptionAsString(option) | dynamicTranslate }}
+                </button>
+              </ng-container>
+
+              <!-- Specialization option -->
+              <ng-template #specializationOption>
+                <ng-container *ngIf="getMixedChoiceOptionAsSpecialization(option) as specOption">
+                  <div class="space-y-2">
+                    <h5 class="text-xs font-medium text-gray-700 mb-2">
+                      {{ 'skills.' + specOption.baseSkillId | dynamicTranslate }} ({{ 'character.creation.skills.mixedChoices.specialization' | dynamicTranslate }})
+                    </h5>
+                    
+                    <!-- Use skill selector for specialization -->
+                    <app-skill-selector
+                      [forcedBaseSkill]="specOption.baseSkillId"
+                      [allowCustomSkill]="false"
+                      [allowSpecializedSkill]="true"
+                      [existingSkillIds]="getAllExistingSkillIds()"
+                      (skillSelected)="onMixedChoiceSpecializationCreated(mixedChoice.index, specOption.baseSkillId, $event)"
+                    ></app-skill-selector>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Any Skills Selection (NEW) -->
     <div *ngIf="anySkillSpecs.length > 0" class="space-y-4">
       <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-300 pb-2">

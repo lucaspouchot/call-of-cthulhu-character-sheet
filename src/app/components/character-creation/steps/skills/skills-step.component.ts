@@ -49,6 +49,22 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   selectedSpecializations: { [specIndex: number]: string } = {}; // Maps spec index to selected skill ID
   customSpecializationNames: { [specIndex: number]: string } = {}; // For custom specializations
 
+  // Mixed choice specs: choice between simple skills and specializations
+  mixedChoiceSpecs: Array<{
+    count: number;
+    options: Array<
+      | string
+      | { type: 'specialization'; baseSkillId: string; suggestedSpecializations?: string[]; allowCustom: boolean }
+    >;
+    index: number;
+  }> = [];
+  selectedMixedChoices: {
+    [mixedChoiceIndex: number]: {
+      selectedOption: string | { type: 'specialization'; baseSkillId: string };
+      skillId?: string; // For specializations, the actual selected skill ID
+    }
+  } = {};
+
   anySkillSpecs: Array<{ count: number; description?: string; index: number }> = [];
   selectedAnySkills: string[] = [];
   anySkillSearchTerm = '';
@@ -167,10 +183,12 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
     this.choiceSpecs = [];
     this.specializationSpecs = [];
     this.anySkillSpecs = [];
+    this.mixedChoiceSpecs = [];
 
     let choiceIndex = 0;
     let specIndex = 0;
     let anyIndex = 0;
+    let mixedChoiceIndex = 0;
 
     // Parse occupation skill specs
     for (const spec of this.currentOccupation.occupationSkills) {
@@ -189,6 +207,11 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
           this.anySkillSpecs.push({
             ...spec,
             index: anyIndex++
+          });
+        } else if (spec.type === 'mixedChoice') {
+          this.mixedChoiceSpecs.push({
+            ...spec,
+            index: mixedChoiceIndex++
           });
         }
       }
@@ -218,6 +241,17 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
     for (const skillId of Object.values(this.selectedSpecializations)) {
       if (skillId) {
         occupationSkillIds.add(skillId);
+      }
+    }
+
+    // Add selected mixed choice skills
+    for (const [mixedChoiceIndex, selection] of Object.entries(this.selectedMixedChoices)) {
+      if (typeof selection.selectedOption === 'string') {
+        // Simple skill selected
+        occupationSkillIds.add(selection.selectedOption);
+      } else if (selection.skillId) {
+        // Specialization selected
+        occupationSkillIds.add(selection.skillId);
       }
     }
 
@@ -729,6 +763,15 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Check if skill is in selected mixed choices
+    for (const [mixedChoiceIndex, selection] of Object.entries(this.selectedMixedChoices)) {
+      if (typeof selection.selectedOption === 'string' && selection.selectedOption === skillId) {
+        return true;
+      } else if (selection.skillId === skillId) {
+        return true;
+      }
+    }
+
     // Check if skill is in selected 'any' skills
     if (this.selectedAnySkills.includes(skillId)) {
       return true;
@@ -824,8 +867,222 @@ export class SkillsStepComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle 'any skill' selection
+   * Handle mixed choice option selection (simple skill)
    */
+  onMixedChoiceSimpleSkillSelect(mixedChoiceIndex: number, skillId: string): void {
+    const oldSelection = this.selectedMixedChoices[mixedChoiceIndex];
+
+    // Clear occupation points from old selection
+    if (oldSelection) {
+      if (typeof oldSelection.selectedOption === 'string') {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.selectedOption);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      } else if (oldSelection.skillId) {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.skillId);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      }
+    }
+
+    // Set new selection
+    this.selectedMixedChoices[mixedChoiceIndex] = {
+      selectedOption: skillId
+    };
+
+    // Re-separate skills
+    this.separateSkills();
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Reset mixed choice selection
+   */
+  onMixedChoiceReset(mixedChoiceIndex: number): void {
+    const oldSelection = this.selectedMixedChoices[mixedChoiceIndex];
+
+    // Clear occupation points from old selection
+    if (oldSelection) {
+      if (typeof oldSelection.selectedOption === 'string') {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.selectedOption);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      } else if (oldSelection.skillId) {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.skillId);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      }
+    }
+
+    // Remove selection
+    delete this.selectedMixedChoices[mixedChoiceIndex];
+
+    // Re-separate skills
+    this.separateSkills();
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Handle mixed choice option selection (specialization)
+   */
+  onMixedChoiceSpecializationSelect(mixedChoiceIndex: number, baseSkillId: string, skillId: string): void {
+    const oldSelection = this.selectedMixedChoices[mixedChoiceIndex];
+
+    // Clear occupation points from old selection
+    if (oldSelection) {
+      if (typeof oldSelection.selectedOption === 'string') {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.selectedOption);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      } else if (oldSelection.skillId) {
+        const oldSkill = this.skills.find(s => s.id === oldSelection.skillId);
+        if (oldSkill) {
+          oldSkill.occupationValue = 0;
+          this.updateSkillTotal(oldSkill);
+        }
+      }
+    }
+
+    // Set new selection
+    this.selectedMixedChoices[mixedChoiceIndex] = {
+      selectedOption: { type: 'specialization', baseSkillId },
+      skillId
+    };
+
+    // Re-separate skills
+    this.separateSkills();
+    this.updateSpentPoints();
+    this.updateCharacterSheet();
+    this.validateStep();
+  }
+
+  /**
+   * Get selected skill for mixed choice display
+   */
+  getSelectedMixedChoiceSkill(mixedChoiceIndex: number): Skill | undefined {
+    const selection = this.selectedMixedChoices[mixedChoiceIndex];
+    if (!selection) return undefined;
+
+    if (typeof selection.selectedOption === 'string') {
+      return this.skills.find(s => s.id === selection.selectedOption);
+    } else if (selection.skillId) {
+      return this.skills.find(s => s.id === selection.skillId);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Check if a mixed choice option is a simple skill (string)
+   */
+  isMixedChoiceOptionSimpleSkill(option: any): boolean {
+    return typeof option === 'string';
+  }
+
+  /**
+   * Cast mixed choice option as string
+   */
+  getMixedChoiceOptionAsString(option: any): string {
+    return option as string;
+  }
+
+  /**
+   * Cast mixed choice option as specialization
+   */
+  getMixedChoiceOptionAsSpecialization(option: any): { type: 'specialization'; baseSkillId: string; suggestedSpecializations?: string[]; allowCustom: boolean } {
+    return option as { type: 'specialization'; baseSkillId: string; suggestedSpecializations?: string[]; allowCustom: boolean };
+  }
+
+  /**
+   * Get suggested specializations for mixed choice
+   */
+  getMixedChoiceSuggestedSpecializations(
+    mixedChoiceIndex: number,
+    optionIndex: number
+  ): Array<{ id: string; name: string; baseValue: number }> {
+    const spec = this.mixedChoiceSpecs[mixedChoiceIndex];
+    if (!spec) return [];
+
+    const option = spec.options[optionIndex];
+    if (typeof option === 'string') return [];
+
+    // Get all skills with matching parent
+    const suggested = this.skills.filter(s =>
+      s.parentSkillId === option.baseSkillId && !this.hiddenSkills.has(s.id)
+    );
+
+    // Filter to only suggested ones if specified
+    if (option.suggestedSpecializations && option.suggestedSpecializations.length > 0) {
+      return suggested
+        .filter(s => option.suggestedSpecializations!.includes(s.id))
+        .map(s => ({
+          id: s.id,
+          name: s.id,
+          baseValue: s.baseValue
+        }));
+    }
+
+    return suggested.map(s => ({
+      id: s.id,
+      name: s.id,
+      baseValue: s.baseValue
+    }));
+  }
+
+  /**
+   * Create custom specialization for mixed choice
+   */
+  onMixedChoiceCreateCustomSpecialization(mixedChoiceIndex: number, optionIndex: number, customName: string): void {
+    const spec = this.mixedChoiceSpecs[mixedChoiceIndex];
+    if (!spec) return;
+
+    const option = spec.options[optionIndex];
+    if (typeof option === 'string' || !customName.trim()) return;
+
+    try {
+      const newSkill = this.skillManagementService.createSpecializedSkill(
+        option.baseSkillId,
+        customName.trim()
+      );
+
+      this.skills.push(newSkill);
+      this.onMixedChoiceSpecializationSelect(mixedChoiceIndex, option.baseSkillId, newSkill.id);
+    } catch (error) {
+      console.error('Error creating custom specialization:', error);
+    }
+  }
+
+  /**
+   * Handle mixed choice specialization creation from skill selector
+   */
+  onMixedChoiceSpecializationCreated(mixedChoiceIndex: number, baseSkillId: string, skill: Skill): void {
+    // Add the new skill to our skills list if it doesn't exist
+    const existingSkill = this.skills.find(s => s.id === skill.id);
+    if (!existingSkill) {
+      this.skills.push(skill);
+    }
+
+    // Select it
+    this.onMixedChoiceSpecializationSelect(mixedChoiceIndex, baseSkillId, skill.id);
+  }
+
+  /**
+   * Handle 'any skill' selection
+*/
   onAnySkillSelect(skillId: string): void {
     const index = this.selectedAnySkills.indexOf(skillId);
 

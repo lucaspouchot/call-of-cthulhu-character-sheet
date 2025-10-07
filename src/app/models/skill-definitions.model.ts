@@ -102,11 +102,15 @@ export const SKILL_DEFINITIONS: SkillDefinition[] = [
       { id: 'artCraftActing' },
       { id: 'artCraftBarber' },
       { id: 'artCraftCarpentry' },
+      { id: 'artCraftComedy' },
       { id: 'artCraftCooking' },
+      { id: 'artCraftFarming' },
       { id: 'artCraftFineArt' },
       { id: 'artCraftForgery' },
       { id: 'artCraftPhotography' },
       { id: 'artCraftSculpture' },
+      { id: 'artCraftSinging' },
+      { id: 'artCraftTechnicalDrawing' },
       { id: 'artCraftWriting' }
     ]
   },
@@ -183,6 +187,7 @@ export const SKILL_DEFINITIONS: SkillDefinition[] = [
       { id: 'survivalArctic' },
       { id: 'survivalDesert' },
       { id: 'survivalJungle' },
+      { id: 'survivalMountain' },
       { id: 'survivalSea' },
       { id: 'survivalUrban' }
     ]

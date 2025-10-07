@@ -259,6 +259,13 @@
           "create": "Create",
           "selected": "Selected"
         },
+        "mixedChoices": {
+          "title": "Mixed Skill Choices",
+          "description": "For some skills, you must choose between different options, including simple skills or specializations.",
+          "chooseOne": "Choose one option from the following:",
+          "selected": "Choice made",
+          "specialization": "Specialization"
+        },
         "anySkills": {
           "title": "Any Skills",
           "description": "Your occupation allows you to choose additional skills from all available skills.",
@@ -421,9 +428,173 @@
     }
   },
   "occupations": {
+    "acrobat": {
+      "label": "Acrobat",
+      "description": "You excel in the art of movement and physical performance, whether in gymnastics competitions or under circus spotlights. Your agility and flexibility are exceptional."
+    },
+    "movieActor": {
+      "label": "Movie Actor",
+      "description": "You embody diverse characters before the camera, playing an essential role in the visual and artistic storytelling of films. Your adaptability and on-screen presence are remarkable."
+    },
+    "theaterActor": {
+      "label": "Theater Actor",
+      "description": "You captivate audiences with your interpretation skills on stage, bringing varied characters to life. Your ability to project your voice and emotions without visual support is your strength."
+    },
+    "federalAgent": {
+      "label": "Federal Agent",
+      "description": "You serve in a federal agency, investigating crime and maintaining order at the national level. Your government training gives you access to extensive resources and authority."
+    },
+    "farmer": {
+      "label": "Farmer",
+      "description": "You cultivate the land or raise livestock, maintaining a laborious existence marked by hard outdoor labor. Your connection to nature and resilience are your assets."
+    },
+    "orderly": {
+      "label": "Orderly",
+      "description": "You work in a hospital, providing basic care and patient welfare. Your physical strength and compassion are essential to your daily work."
+    },
+    "alienist": {
+      "label": "Alienist",
+      "description": "A precursor to modern psychiatrists, you dedicate yourself to treating mental illnesses. Your expertise in psychoanalysis and mental medicine places you at the forefront of your field."
+    },
+    "mountaineer": {
+      "label": "Mountaineer",
+      "description": "Passionate about peaks, you embark on daring ascents, braving the often deadly challenges of mountains. Your endurance and survival skills are remarkable."
+    },
     "antiquarian": {
       "label": "Antiquarian",
       "description": "You deal in rare books, maps, folios, and manuscripts. You know where to find the finest examples and the best clients. Your knowledge of history and old documents is extensive."
+    },
+    "archaeologist": {
+      "label": "Archaeologist",
+      "description": "You dive into the exploration and study of artifacts, revealing buried secrets of human history. Your curiosity and scientific rigor guide your excavations."
+    },
+    "architect": {
+      "label": "Architect",
+      "description": "You design and plan spaces, from modest houses to imposing architectural projects. Your creativity combines with technical and legal understanding of construction."
+    },
+    "conArtist": {
+      "label": "Con Artist",
+      "description": "Master of deception and subterfuge, you navigate dark corners where cunning and guile are essential. Your ability to manipulate and outwit others' vigilance is your livelihood."
+    },
+    "craftsman": {
+      "label": "Craftsman",
+      "description": "You skillfully shape objects and materials by hand, expressing natural talent through artistic creations or essential services. Your craftsmanship is your pride."
+    },
+    "fineArtist": {
+      "label": "Fine Artist",
+      "description": "A creator obsessed with a personal vision, you are a painter, sculptor, or other artist. Your talent and passion drive you to shape your work despite obstacles."
+    },
+    "entertainer": {
+      "label": "Entertainer",
+      "description": "Singer, dancer, comedian, or musician, you perform on stage to captivate audiences eager for entertainment. Your passion for the spotlight drives you to excel every night."
+    },
+    "athlete": {
+      "label": "Athlete",
+      "description": "Professional athlete on a baseball, football, cricket, or basketball team. Your performance and impact attract admiration and public attention."
+    },
+    "aviator": {
+      "label": "Aviator",
+      "description": "Master of the skies and virtuoso of cockpits, you defy gravity to explore vast horizons. You handle aircraft skillfully, whether for civil, commercial, or military aviation."
+    },
+    "lawyer": {
+      "label": "Lawyer",
+      "description": "Expert in law, you advise and defend your clients. You juggle legal concepts to apply them to concrete situations, fiercely defending justice."
+    },
+    "bartender": {
+      "label": "Bartender",
+      "description": "Confidant and friend to your customers, you embody the warm soul of your establishment. Between service and conversation, you're at the heart of local social life."
+    },
+    "outdoorsman": {
+      "label": "Outdoorsman",
+      "description": "Nature lover, you find your essence far from civilization. Expert in survival and passionate about wilderness challenges, you live in harmony with nature."
+    },
+    "librarian": {
+      "label": "Librarian",
+      "description": "Guardian of knowledge, you work within institutions to organize and maintain diverse collections. Your mission is to facilitate access to knowledge for all."
+    },
+    "boxer": {
+      "label": "Boxer",
+      "description": "Professional ring fighter, you navigate the brutal world of competitions. From intense training to fights, every aspect of your life is dedicated to mastering your body and victory."
+    },
+    "bankRobber": {
+      "label": "Bank Robber",
+      "description": "You operate in the shadows, mastering the art of burglary and armed robbery. Your life is a dangerous dance with legality, making each heist a complex challenge."
+    },
+    "lumberjack": {
+      "label": "Lumberjack",
+      "description": "Master of forests, you specialize in logging and timber cutting. Your work demands physical strength and technical skills to maneuver through dense woods."
+    },
+    "burglar": {
+      "label": "Burglar",
+      "description": "You are a specialist in breaking and entering and theft by illegal entry. Your skills include lock picking, stealth, and knowledge of security systems."
+    },
+    "stuntPerformer": {
+      "label": "Stunt Performer",
+      "description": "You are a professional stunt performer for cinema, television, or shows. Your profession requires agility, daring, and mastery of many physical skills."
+    },
+    "chauffeur": {
+      "label": "Chauffeur",
+      "description": "You drive wealthy or important people to their destinations. Your work requires discretion, punctuality, and excellent driving skills."
+    },
+    "taxiDriver": {
+      "label": "Taxi Driver",
+      "description": "You transport passengers across the city. You know every street and alley, and meet all kinds of people in your vehicle."
+    },
+    "bountyHunter": {
+      "label": "Bounty Hunter",
+      "description": "You track down and capture fugitives for a reward. Your work combines investigation, combat, and knowledge of the law."
+    },
+    "professionalHunter": {
+      "label": "Professional Hunter",
+      "description": "You guide hunting expeditions in wild and remote regions. You possess deep knowledge of nature and animals."
+    },
+    "mobBoss": {
+      "label": "Mob Boss",
+      "description": "You lead a criminal organization. Your power relies on intimidation, corruption, and an extensive network of contacts in the underworld."
+    },
+    "researcher": {
+      "label": "Researcher",
+      "description": "You dedicate yourself to academic research in one or more specialized fields. Your work involves in-depth study, analysis, and publication."
+    },
+    "actor": {
+      "label": "Actor",
+      "description": "You are a theater, film, or stage performer. Your art consists of embodying characters and moving audiences with your performance."
+    },
+    "shopkeeper": {
+      "label": "Shopkeeper",
+      "description": "You run a retail business. You know your customers, know how to negotiate, and keep your shop in good condition."
+    },
+    "accountant": {
+      "label": "Accountant",
+      "description": "You manage finances and accounting for individuals or businesses. You master numbers, tax laws, and fraud detection."
+    },
+    "driver": {
+      "label": "Driver",
+      "description": "You professionally drive various vehicles. Whether trucks, buses, or other vehicles, you are an expert of the road."
+    },
+    "curator": {
+      "label": "Curator",
+      "description": "You manage a collection of artworks, artifacts, or historical documents in a museum or institution. You are an expert in history and conservation."
+    },
+    "smuggler": {
+      "label": "Smuggler",
+      "description": "You illegally transport goods across borders. Your work requires discretion, daring, and knowledge of clandestine routes."
+    },
+    "correspondent": {
+      "label": "Correspondent",
+      "description": "You are a foreign journalist, covering international news for your media. Your work exposes you to dangerous and complex situations."
+    },
+    "cowboy": {
+      "label": "Cowboy",
+      "description": "You work on a ranch, taking care of cattle. Your life is made of horseback riding, outdoor work, and a strong connection with animals."
+    },
+    "independentCriminal": {
+      "label": "Independent Criminal",
+      "description": "You are a criminal who operates alone or with a small group. Your activities may include theft, fraud, or other crimes."
+    },
+    "undertaker": {
+      "label": "Undertaker",
+      "description": "You run a funeral business. Your work consists of preparing the deceased for funerals and supporting bereaved families."
     },
     "doctor": {
       "label": "Doctor",
@@ -460,11 +631,15 @@
     "artCraftActing": "Acting",
     "artCraftBarber": "Barber",
     "artCraftCarpentry": "Carpentry",
+    "artCraftComedy": "Comedy",
     "artCraftCooking": "Cooking",
+    "artCraftFarming": "Farming",
     "artCraftFineArt": "Fine Art",
     "artCraftForgery": "Forgery",
     "artCraftPhotography": "Photography",
     "artCraftSculpture": "Sculpture",
+    "artCraftSinging": "Singing",
+    "artCraftTechnicalDrawing": "Technical Drawing",
     "artCraftWriting": "Writing",
     "charm": "Charm",
     "climb": "Climb",
@@ -553,6 +728,7 @@
     "survivalArctic": "Arctic",
     "survivalDesert": "Desert",
     "survivalJungle": "Jungle",
+    "survivalMountain": "Mountain",
     "survivalSea": "Sea",
     "survivalUrban": "Urban",
     "swim": "Swim",

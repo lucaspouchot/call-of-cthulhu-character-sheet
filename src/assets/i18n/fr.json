@@ -259,6 +259,13 @@
           "create": "Créer",
           "selected": "Sélectionné"
         },
+        "mixedChoices": {
+          "title": "Choix de compétences mixtes",
+          "description": "Pour certaines compétences, vous devez choisir entre différentes options, incluant des compétences simples ou des spécialisations.",
+          "chooseOne": "Choisissez une option parmi les suivantes :",
+          "selected": "Choix effectué",
+          "specialization": "Spécialisation"
+        },
         "anySkills": {
           "title": "Compétences au choix",
           "description": "Votre occupation vous permet de choisir des compétences additionnelles parmi toutes les compétences disponibles.",
@@ -421,9 +428,173 @@
     }
   },
   "occupations": {
+    "acrobat": {
+      "label": "Acrobate",
+      "description": "Vous excellez dans l'art du mouvement et de la performance physique, que ce soit dans les compétitions de gymnastique ou sous les projecteurs des cirques. Votre agilité et votre souplesse sont exceptionnelles."
+    },
+    "movieActor": {
+      "label": "Acteur de cinéma",
+      "description": "Vous incarnez des personnages divers devant la caméra, jouant un rôle essentiel dans la narration visuelle et artistique des films. Votre adaptabilité et votre présence à l'écran sont remarquables."
+    },
+    "theaterActor": {
+      "label": "Acteur de théâtre",
+      "description": "Vous captivez le public par votre talent d'interprétation sur les planches, donnant vie à des personnages variés. Votre capacité à projeter votre voix et vos émotions sans support visuel est votre force."
+    },
+    "federalAgent": {
+      "label": "Agent fédéral",
+      "description": "Vous servez dans une agence fédérale, enquêtant sur le crime et maintenant l'ordre au niveau national. Votre formation gouvernementale vous donne accès à des ressources et une autorité étendues."
+    },
+    "farmer": {
+      "label": "Agriculteur",
+      "description": "Vous cultivez la terre ou élevez du bétail, entretenant une existence laborieuse marquée par le dur labeur en plein air. Votre connexion à la nature et votre résilience sont vos atouts."
+    },
+    "orderly": {
+      "label": "Aide-soignant",
+      "description": "Vous travaillez dans un hôpital, assurant les soins de base et le bien-être des patients. Votre force physique et votre compassion sont essentielles à votre travail quotidien."
+    },
+    "alienist": {
+      "label": "Aliéniste",
+      "description": "Précurseur des psychiatres modernes, vous vous consacrez au traitement des maladies mentales. Votre expertise en psychanalyse et en médecine mentale vous place à l'avant-garde de votre domaine."
+    },
+    "mountaineer": {
+      "label": "Alpiniste",
+      "description": "Passionné des sommets, vous vous lancez dans des ascensions audacieuses, bravant les défis souvent mortels des montagnes. Votre endurance et vos compétences en survie sont remarquables."
+    },
     "antiquarian": {
       "label": "Antiquaire",
       "description": "Vous commercez des livres rares, des cartes, des folios et des manuscrits. Vous savez où trouver les meilleurs exemplaires et les meilleurs clients. Vos connaissances en histoire et en documents anciens sont étendues."
+    },
+    "archaeologist": {
+      "label": "Archéologue",
+      "description": "Vous plongez dans l'exploration et l'étude des artefacts, révélant les secrets enfouis de l'histoire humaine. Votre curiosité et votre rigueur scientifique guident vos fouilles."
+    },
+    "architect": {
+      "label": "Architecte",
+      "description": "Vous concevez et planifiez des espaces, de modestes maisons à d'imposants projets architecturaux. Votre créativité s'allie à une compréhension technique et légale de la construction."
+    },
+    "conArtist": {
+      "label": "Arnaqueur",
+      "description": "Maître de la tromperie et du subterfuge, vous naviguez dans les recoins obscurs où l'astuce et la ruse sont essentielles. Votre capacité à manipuler et à déjouer la vigilance d'autrui est votre gagne-pain."
+    },
+    "craftsman": {
+      "label": "Artisan",
+      "description": "Vous façonnez avec habileté des objets et des matériaux à la main, exprimant un talent naturel au travers de créations artistiques ou de services essentiels. Votre savoir-faire est votre fierté."
+    },
+    "fineArtist": {
+      "label": "Artiste plasticien",
+      "description": "Créateur obsédé par une vision personnelle, vous êtes peintre, sculpteur ou autre artiste. Votre talent et votre passion vous poussent à façonner votre œuvre malgré les obstacles."
+    },
+    "entertainer": {
+      "label": "Artiste scénique",
+      "description": "Chanteur, danseur, humoriste ou musicien, vous évoluez sur scène pour captiver un public avide de divertissement. Votre passion pour les projecteurs vous pousse à vous surpasser chaque soir."
+    },
+    "athlete": {
+      "label": "Athlète",
+      "description": "Professionnel du sport, vous évoluez dans une équipe de baseball, football, cricket ou basketball. Votre performance et votre impact suscitent l'admiration et l'attention du public."
+    },
+    "aviator": {
+      "label": "Aviateur",
+      "description": "Maître des cieux et virtuose des cockpits, vous défiez la gravité pour explorer les vastes horizons. Vous maniez les avions avec habileté, que ce soit pour l'aviation civile, commerciale ou militaire."
+    },
+    "lawyer": {
+      "label": "Avocat",
+      "description": "Expert dans la loi, vous conseillez et défendez vos clients. Vous jonglez avec les subtilités des concepts légaux pour les appliquer à des situations concrètes, défendant farouchement la justice."
+    },
+    "bartender": {
+      "label": "Barman",
+      "description": "Confident et ami de vos clients, vous incarnez l'âme chaleureuse de votre établissement. Entre service et conversation, vous êtes au cœur de la vie sociale locale."
+    },
+    "outdoorsman": {
+      "label": "Baroudeur",
+      "description": "Amant de la nature, vous trouvez votre essence loin de la civilisation. Expert en survie et passionné par les défis des environnements sauvages, vous vivez en harmonie avec la nature."
+    },
+    "librarian": {
+      "label": "Bibliothécaire",
+      "description": "Gardien du savoir, vous œuvrez au sein d'institutions pour organiser et entretenir des collections diverses. Votre mission est de faciliter l'accès au savoir pour tous."
+    },
+    "boxer": {
+      "label": "Boxeur",
+      "description": "Combattant professionnel du ring, vous naviguez dans le monde brutal des compétitions. De l'entraînement acharné aux combats, chaque aspect de votre vie est dédié à la maîtrise du corps et à la victoire."
+    },
+    "bankRobber": {
+      "label": "Braqueur de banque",
+      "description": "Vous évoluez dans l'ombre, maîtrisant l'art du cambriolage et du vol à main armée. Votre vie est une danse périlleuse avec la légalité, faisant de chaque coup un défi complexe."
+    },
+    "lumberjack": {
+      "label": "Bûcheron",
+      "description": "Maître des forêts, vous êtes spécialisé dans l'exploitation et la coupe du bois. Votre travail exige force physique et compétences techniques pour manœuvrer dans les bois denses."
+    },
+    "burglar": {
+      "label": "Cambrioleur",
+      "description": "Vous êtes un spécialiste de l'effraction et du vol par introduction illégale. Vos compétences incluent le crochetage, la discrétion et la connaissance des systèmes de sécurité."
+    },
+    "stuntPerformer": {
+      "label": "Cascadeur",
+      "description": "Vous êtes un professionnel des cascades pour le cinéma, la télévision ou les spectacles. Votre métier exige agilité, audace et maîtrise de nombreuses compétences physiques."
+    },
+    "chauffeur": {
+      "label": "Chauffeur",
+      "description": "Vous conduisez des personnes fortunées ou importantes dans leurs déplacements. Votre travail requiert discrétion, ponctualité et excellentes compétences de conduite."
+    },
+    "taxiDriver": {
+      "label": "Chauffeur de taxi",
+      "description": "Vous transportez des passagers à travers la ville. Vous connaissez chaque rue et ruelle, et rencontrez toutes sortes de personnes dans votre véhicule."
+    },
+    "bountyHunter": {
+      "label": "Chasseur de prime",
+      "description": "Vous traquez et capturez des fugitifs pour une récompense. Votre travail combine investigation, combat et connaissance de la loi."
+    },
+    "professionalHunter": {
+      "label": "Chasseur professionnel",
+      "description": "Vous guidez des expéditions de chasse dans des régions sauvages et éloignées. Vous possédez une connaissance approfondie de la nature et des animaux."
+    },
+    "mobBoss": {
+      "label": "Chef mafieux",
+      "description": "Vous dirigez une organisation criminelle. Votre pouvoir repose sur l'intimidation, la corruption et un réseau étendu de contacts dans le milieu."
+    },
+    "researcher": {
+      "label": "Chercheur",
+      "description": "Vous vous consacrez à la recherche académique dans un ou plusieurs domaines spécialisés. Votre travail implique l'étude approfondie, l'analyse et la publication."
+    },
+    "actor": {
+      "label": "Comédien",
+      "description": "Vous êtes un acteur de théâtre, de cinéma ou de spectacles. Votre art consiste à incarner des personnages et à émouvoir le public par votre jeu."
+    },
+    "shopkeeper": {
+      "label": "Commerçant",
+      "description": "Vous gérez un commerce de détail. Vous connaissez vos clients, savez négocier et maintenez votre boutique en bon état."
+    },
+    "accountant": {
+      "label": "Comptable",
+      "description": "Vous gérez les finances et la comptabilité pour des particuliers ou des entreprises. Vous maîtrisez les chiffres, les lois fiscales et la détection de fraudes."
+    },
+    "driver": {
+      "label": "Conducteur",
+      "description": "Vous conduisez professionnellement divers véhicules. Que ce soit des camions, des bus ou d'autres véhicules, vous êtes un expert de la route."
+    },
+    "curator": {
+      "label": "Conservateur",
+      "description": "Vous gérez une collection d'œuvres d'art, d'artefacts ou de documents historiques dans un musée ou une institution. Vous êtes un expert en histoire et en conservation."
+    },
+    "smuggler": {
+      "label": "Contrebandier",
+      "description": "Vous transportez illégalement des marchandises à travers les frontières. Votre travail exige discrétion, audace et connaissance des routes clandestines."
+    },
+    "correspondent": {
+      "label": "Correspondant",
+      "description": "Vous êtes journaliste à l'étranger, couvrant l'actualité internationale pour votre média. Votre travail vous expose à des situations dangereuses et complexes."
+    },
+    "cowboy": {
+      "label": "Cow-boy",
+      "description": "Vous travaillez dans un ranch, vous occupant du bétail. Votre vie est faite d'équitation, de travail en plein air et d'une forte connexion avec les animaux."
+    },
+    "independentCriminal": {
+      "label": "Criminel indépendant",
+      "description": "Vous êtes un criminel qui opère seul ou avec un petit groupe. Vos activités peuvent inclure le vol, l'escroquerie ou d'autres délits."
+    },
+    "undertaker": {
+      "label": "Croque-mort",
+      "description": "Vous gérez une entreprise de pompes funèbres. Votre travail consiste à préparer les défunts pour les funérailles et à soutenir les familles endeuillées."
     },
     "doctor": {
       "label": "Docteur",
@@ -460,11 +631,15 @@
     "artCraftActing": "Comédie",
     "artCraftBarber": "Barbier/Coiffeur",
     "artCraftCarpentry": "Menuiserie",
+    "artCraftComedy": "Humour",
     "artCraftCooking": "Cuisine",
+    "artCraftFarming": "Agriculture",
     "artCraftFineArt": "Beaux-Arts",
     "artCraftForgery": "Contrefaçon",
     "artCraftPhotography": "Photographie",
     "artCraftSculpture": "Sculpture",
+    "artCraftSinging": "Chant",
+    "artCraftTechnicalDrawing": "Dessin technique",
     "artCraftWriting": "Écriture",
     "climb": "Escalade",
     "charm": "Charme",
@@ -553,6 +728,7 @@
     "survivalArctic": "Arctique",
     "survivalDesert": "Désert",
     "survivalJungle": "Jungle",
+    "survivalMountain": "Montagne",
     "survivalSea": "Mer",
     "survivalUrban": "Urbaine",
     "swim": "Natation",

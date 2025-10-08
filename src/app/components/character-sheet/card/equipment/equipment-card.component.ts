@@ -5,11 +5,12 @@ import { BaseCardComponent } from '../base-card.component';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { EquipmentItem } from '../../../../models/character.model';
 import { EquipmentNoteModalComponent } from '../../../shared/equipment-note-modal/equipment-note-modal.component';
+import { DragDropDirective, DragDropEvent } from '../../../../directives/drag-drop.directive';
 
 @Component({
   selector: 'app-equipment-card',
   standalone: true,
-  imports: [CommonModule, DynamicTranslatePipe, FormsModule, EquipmentNoteModalComponent],
+  imports: [CommonModule, DynamicTranslatePipe, FormsModule, EquipmentNoteModalComponent, DragDropDirective],
   templateUrl: './equipment-card.component.html',
   styleUrl: './equipment-card.component.css'
 })
@@ -95,5 +96,20 @@ export class EquipmentCardComponent extends BaseCardComponent {
 
   private generateId(): string {
     return `equipment_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  onReorder(event: DragDropEvent): void {
+    const { fromIndex, toIndex } = event;
+
+    if (fromIndex === toIndex) return;
+
+    // Remove the item from the old position
+    const [movedItem] = this.character.equipment.splice(fromIndex, 1);
+
+    // Insert it at the new position
+    this.character.equipment.splice(toIndex, 0, movedItem);
+
+    // Don't auto-save - user stays in edit mode and can save manually
+    // This allows for multiple reorderings before saving
   }
 }

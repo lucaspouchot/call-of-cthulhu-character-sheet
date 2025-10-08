@@ -27,7 +27,8 @@
       "select": "Sélectionner...",
       "done": "Terminé",
       "close": "Fermer",
-      "ok": "OK"
+      "ok": "OK",
+      "dragToReorder": "Glisser pour réordonner"
     },
     "validation": {
       "required": "Ce champ est requis",

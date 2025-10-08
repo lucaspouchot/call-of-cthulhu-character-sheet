@@ -41,6 +41,7 @@
       "button": "📜 Créer un Nouvel Investigateur",
       "first": "Créer le Premier Investigateur"
     },
+    "createdAt": "Créé le",
     "empty": {
       "title": "Aucun Investigateur",
       "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."
@@ -420,13 +421,13 @@
       "characteristics": "Caractéristiques",
       "condition": "État",
       "personalDetails": "Détails Personnels",
-      "equipment": "Équipement",
+      "equipment": "Équipement et Possessions",
       "notFound": "Personnage Non Trouvé",
       "save": "Sauvegarder",
       "edit": "Modifier",
       "no": {
         "rolls": "Aucun jet de dé pour le moment",
-        "equipment": "Aucun équipement listé"
+        "equipment": "Aucun équipement ou possession listé"
       },
       "rolled": "Lancé",
       "vs": "contre",

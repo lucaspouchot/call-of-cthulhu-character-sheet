@@ -41,6 +41,7 @@
       "button": "📜 Create New Investigator",
       "first": "Create First Investigator"
     },
+    "createdAt": "Created At",
     "empty": {
       "title": "No Investigators Yet",
       "subtitle": "Create your first investigator to begin exploring the unknown..."
@@ -420,13 +421,13 @@
       "characteristics": "Characteristics",
       "condition": "Condition",
       "personalDetails": "Personal Details",
-      "equipment": "Equipment",
+      "equipment": "Equipment and Possessions",
       "notFound": "Character Not Found",
       "save": "Save",
       "edit": "Edit",
       "no": {
         "rolls": "No dice rolls yet",
-        "equipment": "No equipment listed"
+        "equipment": "No equipment or possessions listed"
       },
       "rolled": "Rolled",
       "vs": "vs",

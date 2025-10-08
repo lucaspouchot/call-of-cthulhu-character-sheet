@@ -1,7 +1,75 @@
 <div class="character-sheet p-6">
-  <h3 class="gothic-header text-lg mb-3">{{ 'character.sheet.equipment' | dynamicTranslate }}</h3>
-  <div class="text-sm space-y-1">
-    <div *ngFor="let item of character.equipment" class="text-gray-700">• {{ item }}</div>
-    <div *ngIf="character.equipment.length === 0" class="text-gray-500 italic">{{ 'character.sheet.no.equipment' | dynamicTranslate }}</div>
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="gothic-header text-xl">{{ 'character.sheet.equipment' | dynamicTranslate }}</h2>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Equipment List -->
+  <div class="space-y-2">
+    <div *ngFor="let item of character.equipment; let i = index" class="flex items-center gap-2">
+      <!-- View Mode -->
+      <div *ngIf="!isInEditMode() || !isEditingItem(i)" class="flex-1 text-sm text-gray-700">
+        • {{ item }}
+      </div>
+      
+      <!-- Edit Mode for Item -->
+      <div *ngIf="isInEditMode() && isEditingItem(i)" class="flex-1 flex gap-1">
+        <input [(ngModel)]="editingItems[i]" 
+               class="flex-1 p-1 border rounded text-sm"
+               (keyup.enter)="saveEditItem(i)"
+               (keyup.escape)="cancelEditItem(i)">
+        <button (click)="saveEditItem(i)" 
+                class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+          ✓
+        </button>
+        <button (click)="cancelEditItem(i)" 
+                class="px-2 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-600">
+          ✕
+        </button>
+      </div>
+
+      <!-- Edit/Delete Buttons (only in edit mode) -->
+      <div *ngIf="isInEditMode() && !isEditingItem(i)" class="flex gap-1">
+        <button (click)="startEditItem(i)" 
+                class="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">
+          {{ 'ui.actions.edit' | dynamicTranslate }}
+        </button>
+        <button (click)="removeItem(i)" 
+                class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">
+          {{ 'ui.actions.delete' | dynamicTranslate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- No Equipment Message -->
+    <div *ngIf="character.equipment.length === 0" class="text-gray-500 italic text-sm">
+      {{ 'character.sheet.no.equipment' | dynamicTranslate }}
+    </div>
+
+    <!-- Add New Item (only in edit mode) -->
+    <div *ngIf="isInEditMode()" class="border-t pt-3 mt-3">
+      <div class="flex gap-2">
+        <input [(ngModel)]="newItemName" 
+               class="flex-1 p-2 border rounded text-sm"
+               (keyup.enter)="addItem()">
+        <button (click)="addItem()" 
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+          {{ 'ui.actions.add' | dynamicTranslate }}
+        </button>
+      </div>
+    </div>
   </div>
 </div>

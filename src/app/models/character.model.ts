@@ -250,11 +250,10 @@ export interface CharacterSheet {
   significantPeople: string;
   meaningfulLocations: string;
   treasuredPossessions: string;
-  injuriesScars: string;
+  scarsInjuries: string;
   phobiasManias: string;
-  arcaneTomes: string;
-  spellsRituals: string;
-  encounters: string;
+  occultTomes: string;
+  entityEncounters: string;
 
   // Meta
   createdAt: Date;

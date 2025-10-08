@@ -81,6 +81,13 @@
           (saveCharacter)="saveCharacter()">
         </app-basic-info-card>
 
+        <!-- Profile -->
+        <app-profile-card 
+          [character]="character"
+          (characterChange)="onCharacterChange($event)"
+          (saveCharacter)="saveCharacter()">
+        </app-profile-card>
+
         <!-- Fortune -->
         <app-fortune-card 
           [character]="character"
@@ -101,13 +108,6 @@
           (characterChange)="onCharacterChange($event)"
           (saveCharacter)="saveCharacter()">
         </app-notes-card>
-
-        <!-- Background -->
-        <app-background-card 
-          [character]="character"
-          (characterChange)="onCharacterChange($event)"
-          (saveCharacter)="saveCharacter()">
-        </app-background-card>
       </div>
     </div>
 

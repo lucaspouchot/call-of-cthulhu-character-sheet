@@ -371,7 +371,7 @@
       "personal": {
         "title": "Personal Details",
         "description": "Add personality traits and background details to bring your investigator to life.",
-        "note": "Note: These details are purely narrative and do not affect game mechanics.",
+        "note": "Note: These details are purely narrative and do not affect game mechanics. Additional profile fields (scars, phobias, occult knowledge, entity encounters) can be filled after character creation.",
         "backstory": {
           "label": "Backstory",
           "placeholder": "Brief backstory of your investigator...",
@@ -429,6 +429,7 @@
       "rulesReference": "Quick Reference",
       "delete": "Delete",
       "backstory": "Backstory",
+      "profileTitle": "Profile",
       "return": "Return to Characters",
       "characteristics": "Characteristics",
       "condition": "Condition",
@@ -438,10 +439,30 @@
       "notFound": "Character Not Found",
       "save": "Save",
       "edit": "Edit",
+      "profile": {
+        "backstory": "Backstory",
+        "traits": "Traits",
+        "ideologyBeliefs": "Ideology/Beliefs",
+        "significantPeople": "Significant People",
+        "meaningfulLocations": "Meaningful Locations",
+        "treasuredPossessions": "Treasured Possessions",
+        "scarsInjuries": "Scars & Injuries",
+        "phobiasManias": "Phobias & Manias",
+        "occultTomes": "Occult Tomes, Spells & Artifacts",
+        "entityEncounters": "Encounters with Strange Entities",
+        "addField": "Add Profile Field",
+        "selectField": "Select a field to add",
+        "selectFieldPlaceholder": "Choose a field...",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter the description for this field...",
+        "allFieldsFilled": "All profile fields have been filled."
+      },
       "no": {
         "rolls": "No dice rolls yet",
         "equipment": "No equipment or possessions listed",
-        "notes": "No notes yet"
+        "notes": "No notes yet",
+        "backstory": "No backstory yet",
+        "profile": "No profile entries yet"
       },
       "equipment": {
         "name": "Equipment name",

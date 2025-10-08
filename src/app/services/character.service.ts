@@ -44,7 +44,18 @@ export class CharacterService {
           magicPoints: {
             ...char.magicPoints,
             modifiers: char.magicPoints.modifiers || []
-          }
+          },
+          // Ensure profile fields exist (migration for old characters)
+          backstory: char.backstory || '',
+          traits: char.traits || '',
+          ideologyBeliefs: char.ideologyBeliefs || '',
+          significantPeople: char.significantPeople || '',
+          meaningfulLocations: char.meaningfulLocations || '',
+          treasuredPossessions: char.treasuredPossessions || '',
+          scarsInjuries: char.scarsInjuries || '',
+          phobiasManias: char.phobiasManias || '',
+          occultTomes: char.occultTomes || '',
+          entityEncounters: char.entityEncounters || ''
         }));
         this.charactersSubject.next(characters);
       }
@@ -260,11 +271,10 @@ export class CharacterService {
       significantPeople: characterData.significantPeople || '',
       meaningfulLocations: characterData.meaningfulLocations || '',
       treasuredPossessions: characterData.treasuredPossessions || '',
-      injuriesScars: '',
+      scarsInjuries: '',
       phobiasManias: '',
-      arcaneTomes: '',
-      spellsRituals: '',
-      encounters: '',
+      occultTomes: '',
+      entityEncounters: '',
 
       createdAt: now,
       updatedAt: now,

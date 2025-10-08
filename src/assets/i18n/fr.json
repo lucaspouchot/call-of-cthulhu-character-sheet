@@ -371,7 +371,7 @@
       "personal": {
         "title": "Détails Personnels",
         "description": "Ajoutez des traits de personnalité et des détails de background pour donner vie à votre investigateur.",
-        "note": "Note : Ces détails sont purement narratifs et n'affectent pas les mécaniques de jeu.",
+        "note": "Note : Ces détails sont purement narratifs et n'affectent pas les mécaniques de jeu. Les champs de profil supplémentaires (séquelles, phobies, connaissances occultes, rencontres d'entités) pourront être renseignés une fois le personnage créé.",
         "backstory": {
           "label": "Histoire",
           "placeholder": "Brève histoire de votre investigateur...",
@@ -429,6 +429,7 @@
       "rulesReference": "Aide-Mémoire",
       "delete": "Supprimer",
       "backstory": "Histoire",
+      "profileTitle": "Profil",
       "return": "Retour aux Personnages",
       "characteristics": "Caractéristiques",
       "condition": "État",
@@ -438,10 +439,30 @@
       "notFound": "Personnage Non Trouvé",
       "save": "Sauvegarder",
       "edit": "Modifier",
+      "profile": {
+        "backstory": "Histoire",
+        "traits": "Traits",
+        "ideologyBeliefs": "Idéologie/Croyances",
+        "significantPeople": "Personnes Importantes",
+        "meaningfulLocations": "Lieux Significatifs",
+        "treasuredPossessions": "Possessions Précieuses",
+        "scarsInjuries": "Séquelles & Cicatrices",
+        "phobiasManias": "Phobies & Manies",
+        "occultTomes": "Ouvrages Occultes, Sorts & Artefacts",
+        "entityEncounters": "Rencontres avec Entités Étranges",
+        "addField": "Ajouter un champ de profil",
+        "selectField": "Sélectionner un champ à ajouter",
+        "selectFieldPlaceholder": "Choisir un champ...",
+        "description": "Description",
+        "descriptionPlaceholder": "Entrez la description pour ce champ...",
+        "allFieldsFilled": "Tous les champs de profil ont été remplis."
+      },
       "no": {
         "rolls": "Aucun jet de dé pour le moment",
         "equipment": "Aucun équipement ou possession listé",
-        "notes": "Aucune note pour le moment"
+        "notes": "Aucune note pour le moment",
+        "backstory": "Aucune histoire pour le moment",
+        "profile": "Aucune entrée de profil pour le moment"
       },
       "equipment": {
         "name": "Nom de l'équipement",

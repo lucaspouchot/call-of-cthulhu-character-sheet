@@ -37,10 +37,7 @@ export class PersonalDetailsStepComponent implements OnInit, OnDestroy {
     this.personalDetailsForm = this.fb.group({
       backstory: [this.characterSheet.backstory || '', [Validators.maxLength(500)]],
       traits: [this.characterSheet.traits || '', [Validators.maxLength(200)]],
-      ideologyBeliefs: [this.characterSheet.ideologyBeliefs || '', [Validators.maxLength(200)]],
-      significantPeople: [this.characterSheet.significantPeople || '', [Validators.maxLength(200)]],
-      meaningfulLocations: [this.characterSheet.meaningfulLocations || '', [Validators.maxLength(200)]],
-      treasuredPossessions: [this.characterSheet.treasuredPossessions || '', [Validators.maxLength(200)]]
+      ideologyBeliefs: [this.characterSheet.ideologyBeliefs || '', [Validators.maxLength(200)]]
     });
   }
 
@@ -52,10 +49,7 @@ export class PersonalDetailsStepComponent implements OnInit, OnDestroy {
           ...this.characterSheet,
           backstory: values.backstory,
           traits: values.traits,
-          ideologyBeliefs: values.ideologyBeliefs,
-          significantPeople: values.significantPeople,
-          meaningfulLocations: values.meaningfulLocations,
-          treasuredPossessions: values.treasuredPossessions
+          ideologyBeliefs: values.ideologyBeliefs
         };
 
         this.characterSheetChange.emit(updatedCharacterSheet);

@@ -1,0 +1,139 @@
+<div class="character-sheet p-4">
+  <div class="mb-6">
+    <div class="flex justify-between items-center pb-2 border-b border-gray-300">
+      <h2 class="gothic-header text-xl">{{ 'character.sheet.profileTitle' | dynamicTranslate }}</h2>
+      <button *ngIf="!editMode[getSectionName()]" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="editMode[getSectionName()]" class="flex flex-col sm:flex-row gap-2 justify-center mt-3">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2 transition-colors">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2 transition-colors">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+  
+  <!-- View Mode -->
+  <div *ngIf="!editMode[getSectionName()]" class="space-y-3 text-sm">
+    <!-- Display only filled fields as clickable badges -->
+    <div *ngIf="hasAnyContent()" class="flex flex-wrap gap-2">
+      <button
+        *ngFor="let fieldName of getFilledFields()"
+        (click)="openFieldModal(fieldName)"
+        class="px-4 py-2 bg-cthulhu-green-100 text-cthulhu-green-800 rounded-lg text-sm hover:bg-cthulhu-green-200 transition-colors cursor-pointer border border-cthulhu-green-300 font-medium">
+        {{ 'character.sheet.profile.' + fieldName | dynamicTranslate }}
+      </button>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!hasAnyContent()" 
+        class="text-center py-2 text-gray-400 border-2 border-dashed border-gray-200 rounded-lg">
+      <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+      </svg>
+      <p class="text-sm italic">{{ 'character.sheet.no.profile' | dynamicTranslate }}</p>
+    </div>
+  </div>
+
+  <!-- Edit Mode -->
+  <div *ngIf="editMode[getSectionName()]" class="space-y-4">
+    <!-- Display textareas only for filled fields -->
+    <div *ngFor="let fieldName of getFilledFields()" class="relative">
+      <label class="block text-sm font-medium text-gray-700 mb-1">
+        {{ 'character.sheet.profile.' + fieldName | dynamicTranslate }}
+      </label>
+      <div class="relative">
+        <textarea 
+          [value]="getFieldValue(fieldName)"
+          (input)="setFieldValue(fieldName, $any($event.target).value)"
+          rows="3"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+        </textarea>
+        <button
+          (click)="removeField(fieldName)"
+          type="button"
+          class="absolute top-2 right-2 text-red-600 hover:text-red-800 transition-colors bg-white rounded-full p-1"
+          title="Remove field">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Add field button / form -->
+    <div *ngIf="getAvailableFields().length > 0" class="border-t pt-4 mt-4">
+      <div *ngIf="!showAddForm">
+        <button
+          (click)="openAddFieldForm()"
+          class="w-full px-4 py-2 bg-cthulhu-green-600 text-white rounded-md hover:bg-cthulhu-green-700 transition-colors flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          {{ 'character.sheet.profile.addField' | dynamicTranslate }}
+        </button>
+      </div>
+
+      <div *ngIf="showAddForm" class="bg-gray-50 p-4 rounded-lg space-y-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ 'character.sheet.profile.selectField' | dynamicTranslate }}
+          </label>
+          <select 
+            [(ngModel)]="selectedFieldToAdd"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <option value="">{{ 'character.sheet.profile.selectFieldPlaceholder' | dynamicTranslate }}</option>
+            <option *ngFor="let field of availableFieldsCache" [value]="field">
+              {{ 'character.sheet.profile.' + field | dynamicTranslate }}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="selectedFieldToAdd">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            {{ 'character.sheet.profile.description' | dynamicTranslate }}
+          </label>
+          <textarea 
+            [(ngModel)]="newFieldDescription"
+            rows="4"
+            [placeholder]="'character.sheet.profile.descriptionPlaceholder' | dynamicTranslate"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-vertical">
+          </textarea>
+        </div>
+
+        <div class="flex gap-2">
+          <button
+            (click)="addSelectedField()"
+            [disabled]="!selectedFieldToAdd || !newFieldDescription.trim()"
+            class="flex-1 px-4 py-2 bg-cthulhu-green-600 text-white rounded-md hover:bg-cthulhu-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">
+            {{ 'ui.actions.add' | dynamicTranslate }}
+          </button>
+          <button
+            (click)="cancelAddField()"
+            class="flex-1 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors">
+            {{ 'ui.actions.cancel' | dynamicTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info message when all fields are filled -->
+    <div *ngIf="getAvailableFields().length === 0 && getFilledFields().length === allProfileFields.length" 
+         class="bg-blue-50 border border-blue-200 rounded-md p-3 text-sm text-blue-700">
+      {{ 'character.sheet.profile.allFieldsFilled' | dynamicTranslate }}
+    </div>
+  </div>
+</div>
+
+<!-- Profile Field Modal -->
+<app-profile-entry-modal
+  *ngIf="isModalOpen"
+  [fieldName]="'character.sheet.profile.' + selectedFieldName"
+  [content]="selectedFieldContent"
+  [isOpen]="isModalOpen"
+  (close)="closeModal()">
+</app-profile-entry-modal>

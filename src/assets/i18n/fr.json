@@ -432,13 +432,30 @@
       "characteristics": "Caractéristiques",
       "condition": "État",
       "personalDetails": "Détails Personnels",
-      "equipment": "Équipement et Possessions",
+      "equipmentTitle": "Équipement et Possessions",
       "notFound": "Personnage Non Trouvé",
       "save": "Sauvegarder",
       "edit": "Modifier",
       "no": {
         "rolls": "Aucun jet de dé pour le moment",
         "equipment": "Aucun équipement ou possession listé"
+      },
+      "equipment": {
+        "name": "Nom de l'équipement",
+        "has": {
+          "note": "Possède une note"
+        },
+        "note": {
+          "label": "Note / Description",
+          "placeholder": "Ajouter une note ou description pour cet équipement...",
+          "title": "Note"
+        },
+        "no": {
+          "note": "Aucune note pour cet équipement"
+        },
+        "new": {
+          "placeholder": "Nom du nouvel équipement..."
+        }
       },
       "rolled": "Lancé",
       "vs": "contre",

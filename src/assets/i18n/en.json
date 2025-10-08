@@ -432,13 +432,30 @@
       "characteristics": "Characteristics",
       "condition": "Condition",
       "personalDetails": "Personal Details",
-      "equipment": "Equipment and Possessions",
+      "equipmentTitle": "Equipment and Possessions",
       "notFound": "Character Not Found",
       "save": "Save",
       "edit": "Edit",
       "no": {
         "rolls": "No dice rolls yet",
         "equipment": "No equipment or possessions listed"
+      },
+      "equipment": {
+        "name": "Equipment name",
+        "has": {
+          "note": "Has a note"
+        },
+        "note": {
+          "label": "Note / Description",
+          "placeholder": "Add a note or description for this equipment...",
+          "title": "Note"
+        },
+        "no": {
+          "note": "No note for this equipment"
+        },
+        "new": {
+          "placeholder": "New equipment name..."
+        }
       },
       "rolled": "Rolled",
       "vs": "vs",

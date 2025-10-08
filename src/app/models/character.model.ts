@@ -21,6 +21,12 @@ export interface Skill {
   isCustom?: boolean; // True if this is a completely new skill not derived from any base skill
 }
 
+export interface EquipmentItem {
+  id: string; // Unique identifier
+  name: string; // Equipment name
+  note?: string; // Optional note/description
+}
+
 export interface Weapon {
   id: string; // Unique identifier for translation or custom weapon
   name?: string; // For custom weapons only
@@ -213,7 +219,7 @@ export interface CharacterSheet {
   }[];
 
   // Equipment & Personal Details
-  equipment: string[];
+  equipment: EquipmentItem[];
 
   // Finance
   finance: {

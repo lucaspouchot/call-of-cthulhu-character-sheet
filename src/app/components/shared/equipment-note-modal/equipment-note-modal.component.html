@@ -1,0 +1,32 @@
+<app-modal
+  [isOpen]="isOpen"
+  [title]="'character.sheet.equipment.note.title' | dynamicTranslate"
+  [type]="isEditMode ? 'form' : 'dialog'"
+  [maxWidth]="'max-w-lg'"
+  (save)="onSave()"
+  (close)="onClose()">
+  
+  <div>
+    <div *ngIf="item && item.name" class="text-lg text-gray-900 mb-2">{{ item.name }}</div>
+    <!-- Note display in view mode -->
+    <div *ngIf="!isEditMode" class="text-gray-700">
+      <div *ngIf="item && item.note" class="whitespace-pre-wrap">{{ item.note }}</div>
+      <div *ngIf="!item || !item.note" class="text-gray-400 italic">
+        {{ 'character.sheet.equipment.no.note' | dynamicTranslate }}
+      </div>
+    </div>
+
+    <!-- Note edit in edit mode -->
+    <div *ngIf="isEditMode" class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700">
+        {{ 'character.sheet.equipment.note.label' | dynamicTranslate }}
+      </label>
+      <textarea
+        [(ngModel)]="editedNote"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        rows="6"
+        [placeholder]="'character.sheet.equipment.note.placeholder' | dynamicTranslate">
+      </textarea>
+    </div>
+  </div>
+</app-modal>

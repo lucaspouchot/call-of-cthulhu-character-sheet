@@ -27,6 +27,12 @@ export interface EquipmentItem {
   note?: string; // Optional note/description
 }
 
+export interface NoteItem {
+  id: string; // Unique identifier
+  title: string; // Note title
+  description: string; // Note description/content
+}
+
 export interface Weapon {
   id: string; // Unique identifier for translation or custom weapon
   name?: string; // For custom weapons only
@@ -220,6 +226,7 @@ export interface CharacterSheet {
 
   // Equipment & Personal Details
   equipment: EquipmentItem[];
+  notes: NoteItem[];
 
   // Finance
   finance: {

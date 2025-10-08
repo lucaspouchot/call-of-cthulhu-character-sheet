@@ -1,0 +1,97 @@
+<div class="character-sheet p-6">
+  <div class="mb-6">
+    <div class="flex justify-between items-center pb-2 border-b border-gray-300">
+      <h2 class="gothic-header text-xl">{{ 'character.sheet.notesTitle' | dynamicTranslate }}</h2>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center mt-3">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2 transition-colors">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2 transition-colors">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Notes List as Cards -->
+  <!-- View Mode: Grid layout -->
+  <div *ngIf="!isInEditMode()" class="grid gap-3 auto-rows-auto" 
+       [class.lg:grid-cols-1]="character.notes.length > 1"
+       [class.xl:grid-cols-2]="character.notes.length > 2">
+    <div *ngFor="let note of character.notes; let i = index"
+        class="group relative bg-white border border-gray-200 rounded-lg shadow-sm transition-shadow p-3 hover:shadow-md cursor-pointer"
+        (click)="openEditNoteModal(note)">
+      
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <h3 class="font-medium text-gray-900 text-sm mb-1">{{ note.title }}</h3>
+          <p class="text-xs text-gray-600 line-clamp-2">{{ note.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="character.notes.length === 0" class="text-center text-gray-500 py-4">
+      {{ 'character.sheet.no.notes' | dynamicTranslate }}
+    </div>
+  </div>
+
+  <!-- Edit Mode: One note per line with all buttons visible -->
+  <div *ngIf="isInEditMode()" class="space-y-3">
+    <div *ngFor="let note of character.notes; let i = index" 
+         class="bg-white border border-gray-200 rounded-lg shadow-sm p-4"
+         appDragDrop
+         [dragDropIndex]="i"
+         dragDropGroup="notes-edit"
+         [attr.data-drag-index]="i"
+         [attr.data-drag-group]="'notes-edit'"
+         [dragDropDisabled]="character.notes.length <= 1"
+         (dragDropReorder)="onReorder($event)">
+      
+      <div class="flex gap-2 items-center justify-between mb-2">
+        <button (click)="openEditNoteModal(note)" 
+                class="flex-1 px-3 py-2 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors whitespace-nowrap">
+          {{ 'ui.actions.edit' | dynamicTranslate }}
+        </button>
+        <button (click)="removeNote(i)" 
+                class="flex-1 px-3 py-2 bg-red-500 text-white rounded text-xs hover:bg-red-600 transition-colors">
+          {{ 'ui.actions.delete' | dynamicTranslate }}
+        </button>
+        <div *ngIf="character.notes.length > 1" class="flex items-center">
+          <div class="text-gray-400 cursor-move drag-handle">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-500">{{ 'ui.actions.dragToReorder' | dynamicTranslate }}</span>
+        </div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h3 class="font-medium text-gray-900 text-sm">{{ note.title }}</h3>
+        <div class="mt-1 text-xs text-gray-600 line-clamp-2">
+          {{ note.description }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Add new note button in edit mode -->
+    <button (click)="openCreateNoteModal()" 
+            class="w-full px-2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+      {{ 'character.sheet.notes.add' | dynamicTranslate }}
+    </button>
+  </div>
+</div>
+
+<!-- Note Edit Modal -->
+<app-note-edit-modal
+  [isOpen]="isNoteModalOpen"
+  [note]="selectedNote"
+  [isCreating]="isCreatingNote"
+  [isEditMode]="isInEditMode()"
+  (save)="saveNote($event)"
+  (close)="closeNoteModal()">
+</app-note-edit-modal>

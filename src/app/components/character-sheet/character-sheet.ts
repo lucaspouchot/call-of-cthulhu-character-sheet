@@ -19,6 +19,7 @@ import { SkillsCardComponent } from './card/skills/skills-card.component';
 import { BasicInfoCardComponent } from './card/basic-info/basic-info-card.component';
 import { FortuneCardComponent } from './card/fortune/fortune-card.component';
 import { EquipmentCardComponent } from './card/equipment/equipment-card.component';
+import { NotesCardComponent } from './card/notes/notes-card.component';
 import { BackgroundCardComponent } from './card/background/background-card.component';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { DiceHistoryComponent } from '../shared/dice-history/dice-history.component';
@@ -39,6 +40,7 @@ import { DiceResultComponent } from '../shared/dice-result/dice-result.component
     BasicInfoCardComponent,
     FortuneCardComponent,
     EquipmentCardComponent,
+    NotesCardComponent,
     BackgroundCardComponent,
     ModalComponent,
     DiceHistoryComponent,

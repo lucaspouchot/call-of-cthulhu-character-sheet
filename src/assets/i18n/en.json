@@ -434,12 +434,14 @@
       "condition": "Condition",
       "personalDetails": "Personal Details",
       "equipmentTitle": "Equipment and Possessions",
+      "notesTitle": "Notes",
       "notFound": "Character Not Found",
       "save": "Save",
       "edit": "Edit",
       "no": {
         "rolls": "No dice rolls yet",
-        "equipment": "No equipment or possessions listed"
+        "equipment": "No equipment or possessions listed",
+        "notes": "No notes yet"
       },
       "equipment": {
         "name": "Equipment name",
@@ -457,6 +459,24 @@
         "new": {
           "placeholder": "New equipment name..."
         }
+      },
+      "notes": {
+        "add": "Add New Note",
+        "title": {
+          "label": "Title",
+          "placeholder": "Enter note title..."
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Enter note description..."
+        },
+        "create": {
+          "title": "Create New Note"
+        },
+        "edit": {
+          "title": "Edit Note"
+        },
+        "required": "Both title and description are required"
       },
       "rolled": "Rolled",
       "vs": "vs",

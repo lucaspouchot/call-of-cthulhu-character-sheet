@@ -95,6 +95,13 @@
           (saveCharacter)="saveCharacter()">
         </app-equipment-card>
 
+        <!-- Notes -->
+        <app-notes-card 
+          [character]="character"
+          (characterChange)="onCharacterChange($event)"
+          (saveCharacter)="saveCharacter()">
+        </app-notes-card>
+
         <!-- Background -->
         <app-background-card 
           [character]="character"

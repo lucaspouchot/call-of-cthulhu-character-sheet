@@ -1,0 +1,6 @@
+/* Styles spécifiques au composant Note Edit Modal */
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}

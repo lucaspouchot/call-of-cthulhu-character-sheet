@@ -1,0 +1,66 @@
+/* Styles spécifiques au composant Notes Card */
+
+/* Line clamp utility for truncating text to 2 lines */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-item {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.note-item:last-child {
+  border-bottom: none;
+}
+
+/* Drag and Drop styles */
+:host ::ng-deep .drag-drop-item {
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Disabled state (when dragDropDisabled is true) */
+:host ::ng-deep .drag-drop-item[draggable="false"] {
+  cursor: default;
+}
+
+:host ::ng-deep .drag-drop-item.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+:host ::ng-deep .drag-drop-item.touch-dragging {
+  opacity: 0.7;
+  transform: scale(1.02);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+:host ::ng-deep .drag-drop-item.drag-over {
+  background-color: #f3f4f6;
+  border-color: #3b82f6;
+}
+
+:host ::ng-deep .drag-drop-item.drag-over-top {
+  border-top: 2px solid #3b82f6;
+}
+
+:host ::ng-deep .drag-drop-item.drag-over-bottom {
+  border-bottom: 2px solid #3b82f6;
+}
+
+/* Smooth transitions for reordering */
+:host ::ng-deep .drag-drop-item {
+  transition: transform 0.2s ease;
+}

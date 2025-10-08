@@ -434,12 +434,14 @@
       "condition": "État",
       "personalDetails": "Détails Personnels",
       "equipmentTitle": "Équipement et Possessions",
+      "notesTitle": "Notes",
       "notFound": "Personnage Non Trouvé",
       "save": "Sauvegarder",
       "edit": "Modifier",
       "no": {
         "rolls": "Aucun jet de dé pour le moment",
-        "equipment": "Aucun équipement ou possession listé"
+        "equipment": "Aucun équipement ou possession listé",
+        "notes": "Aucune note pour le moment"
       },
       "equipment": {
         "name": "Nom de l'équipement",
@@ -457,6 +459,24 @@
         "new": {
           "placeholder": "Nom du nouvel équipement..."
         }
+      },
+      "notes": {
+        "add": "Ajouter une Nouvelle Note",
+        "title": {
+          "label": "Titre",
+          "placeholder": "Entrez le titre de la note..."
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Entrez la description de la note..."
+        },
+        "create": {
+          "title": "Créer une Nouvelle Note"
+        },
+        "edit": {
+          "title": "Modifier la Note"
+        },
+        "required": "Le titre et la description sont tous deux obligatoires"
       },
       "rolled": "Lancé",
       "vs": "contre",

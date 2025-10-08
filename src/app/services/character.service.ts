@@ -24,6 +24,7 @@ export class CharacterService {
           ...char,
           createdAt: new Date(char.createdAt),
           updatedAt: new Date(char.updatedAt),
+          notes: char.notes || [], // Add notes array for backwards compatibility
           hitPoints: {
             ...char.hitPoints,
             modifiers: char.hitPoints.modifiers || []
@@ -251,6 +252,7 @@ export class CharacterService {
       weapons: [],
       armor: [],
       equipment: [],
+      notes: [],
 
       backstory: characterData.backstory || '',
       traits: characterData.traits || '',

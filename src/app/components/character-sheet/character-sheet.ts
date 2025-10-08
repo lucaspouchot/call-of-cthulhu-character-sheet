@@ -20,6 +20,9 @@ import { BasicInfoCardComponent } from './card/basic-info/basic-info-card.compon
 import { FortuneCardComponent } from './card/fortune/fortune-card.component';
 import { EquipmentCardComponent } from './card/equipment/equipment-card.component';
 import { BackgroundCardComponent } from './card/background/background-card.component';
+import { ModalComponent } from '../shared/modal/modal.component';
+import { DiceHistoryComponent } from '../shared/dice-history/dice-history.component';
+import { DiceResultComponent } from '../shared/dice-result/dice-result.component';
 
 @Component({
   selector: 'app-character-sheet',
@@ -36,7 +39,10 @@ import { BackgroundCardComponent } from './card/background/background-card.compo
     BasicInfoCardComponent,
     FortuneCardComponent,
     EquipmentCardComponent,
-    BackgroundCardComponent
+    BackgroundCardComponent,
+    ModalComponent,
+    DiceHistoryComponent,
+    DiceResultComponent
   ],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.css'
@@ -45,6 +51,8 @@ export class CharacterSheetComponent implements OnInit {
   character: CharacterModel | null = null;
   rollHistory: DiceRoll[] = [];
   showDiceHistory = false;
+  showDiceResult = false;
+  currentDiceRoll: DiceRoll | null = null;
 
   // Make Sex enum available in template
   sexValues = Sex;
@@ -235,28 +243,17 @@ export class CharacterSheetComponent implements OnInit {
   }
 
   private showResultModal(roll: DiceRoll) {
-    // Use translation service for dynamic text
-    const getTranslation = (key: string) => this.translationService.getTranslation(key) || key;
+    this.currentDiceRoll = roll;
+    this.showDiceResult = true;
+  }
 
-    // Simple alert for now - could be enhanced with a proper modal
-    let message = `${roll.description}\n${getTranslation('character.sheet.rolled')}: ${roll.result}`;
-    if (roll.target) {
-      message += ` ${getTranslation('character.sheet.vs')} ${roll.target}%`;
-      if (roll.criticalSuccess) {
-        message += `\n🎯 ${getTranslation('character.sheet.critical')}`;
-      } else if (roll.extremeSuccess) {
-        message += `\n⭐ ${getTranslation('character.sheet.extreme')}`;
-      } else if (roll.hardSuccess) {
-        message += `\n💪 ${getTranslation('character.sheet.hard')}`;
-      } else if (roll.regularSuccess) {
-        message += `\n✅ ${getTranslation('character.sheet.regular')}`;
-      } else if (roll.fumble) {
-        message += `\n💀 ${getTranslation('character.sheet.fumble')}`;
-      } else if (roll.failure) {
-        message += `\n❌ ${getTranslation('character.sheet.failure')}`;
-      }
-    }
-    alert(message);
+  onCloseDiceHistory(): void {
+    this.showDiceHistory = false;
+  }
+
+  onCloseDiceResult(): void {
+    this.showDiceResult = false;
+    this.currentDiceRoll = null;
   }
 
   // Save character state without recalculating derived attributes

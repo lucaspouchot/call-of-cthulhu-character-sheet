@@ -6,15 +6,20 @@ import { EntityTranslationService } from '../../services/entity-translation.serv
 import { CharacterSheet } from '../../models/character.model';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
 import { DynamicTranslatePipe } from '../../pipes/dynamic-translate.pipe';
+import { ModalComponent } from '../shared/modal/modal.component';
+import { DeleteConfirmationComponent } from '../shared/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-character-list',
-  imports: [CommonModule, LanguageSwitcherComponent, DynamicTranslatePipe],
+  imports: [CommonModule, LanguageSwitcherComponent, DynamicTranslatePipe, ModalComponent, DeleteConfirmationComponent],
   templateUrl: './character-list.html',
   styleUrl: './character-list.css'
 })
 export class CharacterListComponent implements OnInit {
   characters: CharacterSheet[] = [];
+  showDeleteModal = false;
+  characterToDelete: CharacterSheet | null = null;
+  deleteConfirmationValid = false;
 
   constructor(
     private characterService: CharacterService,
@@ -36,11 +41,24 @@ export class CharacterListComponent implements OnInit {
     this.router.navigate(['/character', id]);
   }
 
-  deleteCharacter(id: string, event: Event) {
+  deleteCharacter(character: CharacterSheet, event: Event) {
     event.stopPropagation();
-    if (confirm('Are you sure you want to delete this character?')) {
-      this.characterService.deleteCharacter(id);
+    this.characterToDelete = character;
+    this.deleteConfirmationValid = false;
+    this.showDeleteModal = true;
+  }
+
+  onDeleteConfirmationChange(isValid: boolean) {
+    this.deleteConfirmationValid = isValid;
+  }
+
+  onDeleteModalClose(confirmed: boolean) {
+    if (confirmed && this.characterToDelete) {
+      this.characterService.deleteCharacter(this.characterToDelete.id);
     }
+    this.showDeleteModal = false;
+    this.characterToDelete = null;
+    this.deleteConfirmationValid = false;
   }
 
   getOccupationName(occupationId: string): string {

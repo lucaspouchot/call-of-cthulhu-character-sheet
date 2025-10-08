@@ -1,7 +1,14 @@
 <div class="character-sheet p-6">
   <div class="mb-4">
     <div class="flex justify-between items-center mb-2">
-      <h2 class="gothic-header text-xl">{{ 'character.sheet.condition' | dynamicTranslate }}</h2>
+      <div class="flex items-center gap-2">
+        <h2 class="gothic-header text-xl">{{ 'character.sheet.condition' | dynamicTranslate }}</h2>
+        <button (click)="toggleRulesModal()" 
+                class="text-blue-500 hover:text-blue-700 transition-colors text-lg"
+                title="Rules">
+          ℹ️
+        </button>
+      </div>
       <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
               class="text-sm text-blue-600 hover:text-blue-800">
         {{ 'ui.actions.edit' | dynamicTranslate }}
@@ -191,4 +198,14 @@
       </div>
     </div>
   </div>
+
+  <!-- Rules Modal -->
+  <app-modal 
+    [isOpen]="showRulesModal"
+    [title]="'rules.reference.injuries.title' | dynamicTranslate"
+    type="dialog"
+    [closeOnClickOutside]="true"
+    (close)="onCloseRulesModal()">
+    <app-injury-rules></app-injury-rules>
+  </app-modal>
 </div>

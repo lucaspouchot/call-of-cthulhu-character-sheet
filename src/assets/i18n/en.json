@@ -25,11 +25,20 @@
       "remove": "Remove",
       "clear": "Clear",
       "select": "Select...",
-      "done": "Done"
+      "done": "Done",
+      "close": "Close",
+      "ok": "OK"
     },
     "validation": {
       "required": "This field is required",
       "invalid": "Invalid value"
+    },
+    "delete": {
+      "warning": "This action is irreversible!",
+      "confirmLabel": "To confirm, type the name:",
+      "hint": "Type the exact name to enable the delete button",
+      "matches": "✓ Name matches",
+      "noMatch": "✗ Name does not match"
     }
   },
   "character": {
@@ -412,9 +421,11 @@
       "initialPointsHint": "Skill points to assign upon creation (optional)",
       "dice": {
         "history": "Dice History",
-        "rolls": "Recent Dice Rolls"
+        "rolls": "Recent Dice Rolls",
+        "result": "Roll Result"
       },
       "back": "Back",
+      "rulesReference": "Quick Reference",
       "delete": "Delete",
       "backstory": "Backstory",
       "return": "Return to Characters",
@@ -1107,6 +1118,50 @@
     "mgBrenGun": "Bren Gun",
     "mgLewisGun": "Mark I Lewis Gun",
     "mgVickers303": "Vickers .303 Machine Gun"
+  },
+  "rules": {
+    "reference": {
+      "title": "Rules Quick Reference",
+      "skillTests": {
+        "title": "Skill or Characteristic Test",
+        "successLevels": "Success Levels:",
+        "fumble": "Fumble",
+        "fumbleValue": "100 / 96+",
+        "failure": "Failure",
+        "failureValue": ">%",
+        "regular": "Regular",
+        "regularValue": "<=%",
+        "hard": "Hard",
+        "hardValue": "≤1/2%",
+        "extreme": "Extreme",
+        "extremeValue": "≤1/5%",
+        "critical": "Critical",
+        "criticalValue": "01",
+        "retryNote": "Retrying a test: justification required; impossible in combat or for mental health."
+      },
+      "injuries": {
+        "title": "Injuries and Healing",
+        "healing": "Healing",
+        "criticalStates": "Critical States",
+        "naturalHealing": "Natural Healing",
+        "firstAid": "First Aid",
+        "firstAidEffect": "Heals 1 HP",
+        "medicine": "Medicine",
+        "medicineEffect": "Heals 1D3 HP",
+        "majorWound": "Major Wound",
+        "majorWoundCondition": "Loss of half HP in one attack",
+        "unconscious": "Falling to 0 without major wound",
+        "unconsciousCondition": "Unconscious",
+        "dying": "Falling to 0 with major wound",
+        "dyingCondition": "Dying",
+        "stabilize": "Dying",
+        "stabilizeProcess": "First Aid to stabilize then Medicine",
+        "naturalHealingMinor": "Without major wound",
+        "naturalHealingMinorRate": "1 HP / day",
+        "naturalHealingMajor": "With major wound",
+        "naturalHealingMajorRate": "1 test / week"
+      }
+    }
   },
   "lovecraft": {
     "quote": "\"The oldest and strongest emotion of mankind is fear, and the oldest and strongest kind of fear is fear of the unknown.\"",

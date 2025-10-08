@@ -1,7 +1,14 @@
 <div class="character-sheet p-6">
   <div class="mb-4">
     <div class="flex justify-between items-center mb-2">
-      <h2 class="gothic-header text-xl">{{ 'character.skills' | dynamicTranslate }}</h2>
+      <div class="flex items-center gap-2">
+        <h2 class="gothic-header text-xl">{{ 'character.skills' | dynamicTranslate }}</h2>
+        <button (click)="toggleRulesModal()" 
+                class="text-blue-500 hover:text-blue-700 transition-colors text-lg"
+                title="Rules">
+          ℹ️
+        </button>
+      </div>
       <div class="flex gap-2">
         <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
                 class="text-sm text-blue-600 hover:text-blue-800">
@@ -88,4 +95,14 @@
       (skillAdded)="onSkillAddedFromSelector($event)"
     ></app-skill-selector>
   </div>
+
+  <!-- Rules Modal -->
+  <app-modal 
+    [isOpen]="showRulesModal"
+    [title]="'rules.reference.skillTests.title' | dynamicTranslate"
+    type="dialog"
+    [closeOnClickOutside]="true"
+    (close)="onCloseRulesModal()">
+    <app-skill-test-rules></app-skill-test-rules>
+  </app-modal>
 </div>

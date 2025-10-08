@@ -6,16 +6,20 @@ import { TemporaryModifier } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { CharacterService } from '../../../../services/character.service';
 import { DiceRollingService } from '../../../../services/dice-rolling.service';
+import { ModalComponent } from '../../../shared/modal/modal.component';
+import { InjuryRulesComponent } from '../../../shared/injury-rules/injury-rules.component';
 
 @Component({
   selector: 'app-health-card',
   standalone: true,
-  imports: [CommonModule, FormsModule, DynamicTranslatePipe],
+  imports: [CommonModule, FormsModule, DynamicTranslatePipe, ModalComponent, InjuryRulesComponent],
   templateUrl: './health-card.component.html',
   styleUrl: './health-card.component.css'
 })
 export class HealthCardComponent extends BaseCardComponent {
   @Output() rollSanityCheck = new EventEmitter<void>();
+
+  showRulesModal = false;
 
   showModifiers = {
     hitPoints: false,
@@ -147,5 +151,13 @@ export class HealthCardComponent extends BaseCardComponent {
 
   onSanityClick(): void {
     this.rollSanityCheck.emit();
+  }
+
+  toggleRulesModal(): void {
+    this.showRulesModal = !this.showRulesModal;
+  }
+
+  onCloseRulesModal(): void {
+    this.showRulesModal = false;
   }
 }

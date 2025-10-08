@@ -1,7 +1,14 @@
 <div class="character-sheet p-6">
   <div class="mb-4">
     <div class="flex justify-between items-center mb-2">
-      <h2 class="gothic-header text-xl">{{ 'character.sheet.characteristics' | dynamicTranslate }}</h2>
+      <div class="flex items-center gap-2">
+        <h2 class="gothic-header text-xl">{{ 'character.sheet.characteristics' | dynamicTranslate }}</h2>
+        <button (click)="toggleRulesModal()" 
+                class="text-blue-500 hover:text-blue-700 transition-colors text-lg"
+                title="Rules">
+          ℹ️
+        </button>
+      </div>
       <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
               class="text-sm text-blue-600 hover:text-blue-800">
         {{ 'ui.actions.edit' | dynamicTranslate }}
@@ -50,4 +57,14 @@
   <div *ngIf="showRecalculationNotice" class="mt-2 p-2 bg-blue-100 text-blue-800 text-xs rounded border">
     ✓ Valeurs dérivées recalculées automatiquement (Sanité, Points de Vie, Points de Magie, Mouvement)
   </div>
+
+  <!-- Rules Modal -->
+  <app-modal 
+    [isOpen]="showRulesModal"
+    [title]="'rules.reference.skillTests.title' | dynamicTranslate"
+    type="dialog"
+    [closeOnClickOutside]="true"
+    (close)="onCloseRulesModal()">
+    <app-skill-test-rules></app-skill-test-rules>
+  </app-modal>
 </div>

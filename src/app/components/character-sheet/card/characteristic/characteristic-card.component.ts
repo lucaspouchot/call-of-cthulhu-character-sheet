@@ -5,17 +5,21 @@ import { BaseCardComponent, CardEditMode } from '../base-card.component';
 import { CharacterSheet as CharacterModel } from '../../../../models/character.model';
 import { DynamicTranslatePipe } from '../../../../pipes/dynamic-translate.pipe';
 import { DiceRollingService } from '../../../../services/dice-rolling.service';
+import { ModalComponent } from '../../../shared/modal/modal.component';
+import { SkillTestRulesComponent } from '../../../shared/skill-test-rules/skill-test-rules.component';
 
 @Component({
   selector: 'app-characteristic-card',
   standalone: true,
-  imports: [CommonModule, FormsModule, DynamicTranslatePipe],
+  imports: [CommonModule, FormsModule, DynamicTranslatePipe, ModalComponent, SkillTestRulesComponent],
   templateUrl: './characteristic-card.component.html',
   styleUrl: './characteristic-card.component.css'
 })
 export class CharacteristicCardComponent extends BaseCardComponent {
   @Input() showRecalculationNotice = false;
   @Output() rollCharacteristicCheck = new EventEmitter<{ attribute: string, value: number }>();
+
+  showRulesModal = false;
 
   constructor(private diceService: DiceRollingService) {
     super();
@@ -94,5 +98,13 @@ export class CharacteristicCardComponent extends BaseCardComponent {
         value: this.getAttributeValue(attr)
       });
     }
+  }
+
+  toggleRulesModal(): void {
+    this.showRulesModal = !this.showRulesModal;
+  }
+
+  onCloseRulesModal(): void {
+    this.showRulesModal = false;
   }
 }

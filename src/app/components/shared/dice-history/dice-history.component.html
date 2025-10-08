@@ -1,0 +1,18 @@
+<div class="space-y-2">
+  <div *ngFor="let roll of rollHistory" class="border-b border-gray-200 pb-2">
+    <div class="text-sm font-medium">{{ roll.description }}</div>
+    <div class="text-xs text-gray-600">
+      {{ 'character.sheet.rolled' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ roll.result }}
+      <span *ngIf="roll.target"> {{ 'character.sheet.vs' | dynamicTranslate }} {{ roll.target }}%</span>
+      <span *ngIf="roll.criticalSuccess" class="text-yellow-600 font-bold"> - {{ 'character.sheet.critical' | dynamicTranslate }}</span>
+      <span *ngIf="roll.extremeSuccess" class="text-green-600 font-bold"> - {{ 'character.sheet.extreme' | dynamicTranslate }}</span>
+      <span *ngIf="roll.hardSuccess" class="text-green-600"> - {{ 'character.sheet.hard' | dynamicTranslate }}</span>
+      <span *ngIf="roll.regularSuccess" class="text-green-500"> - {{ 'character.sheet.regular' | dynamicTranslate }}</span>
+      <span *ngIf="roll.failure && !roll.fumble" class="text-red-600"> - {{ 'character.sheet.failure' | dynamicTranslate }}</span>
+      <span *ngIf="roll.fumble" class="text-red-800 font-bold"> - {{ 'character.sheet.fumble' | dynamicTranslate }}</span>
+    </div>
+  </div>
+  <div *ngIf="rollHistory.length === 0" class="text-gray-500 italic text-sm">
+    {{ 'character.sheet.no.rolls' | dynamicTranslate }}
+  </div>
+</div>

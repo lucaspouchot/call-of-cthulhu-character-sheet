@@ -9,11 +9,13 @@ import { DiceRollingService } from '../../../../services/dice-rolling.service';
 import { SkillManagementService } from '../../../../services/skill-management.service';
 import { SKILL_DEFINITIONS } from '../../../../models/skill-definitions.model';
 import { SkillSelectorComponent } from '../../../shared/skill-selector/skill-selector.component';
+import { ModalComponent } from '../../../shared/modal/modal.component';
+import { SkillTestRulesComponent } from '../../../shared/skill-test-rules/skill-test-rules.component';
 
 @Component({
   selector: 'app-skills-card',
   standalone: true,
-  imports: [CommonModule, FormsModule, DynamicTranslatePipe, SkillSelectorComponent],
+  imports: [CommonModule, FormsModule, DynamicTranslatePipe, SkillSelectorComponent, ModalComponent, SkillTestRulesComponent],
   templateUrl: './skills-card.component.html',
   styleUrl: './skills-card.component.css'
 })
@@ -23,6 +25,7 @@ export class SkillsCardComponent extends BaseCardComponent {
   // Skill modifier management
   showSkillModifiers: { [skillId: string]: boolean } = {};
   newSkillModifier: { [skillId: string]: { name: string, value: number } } = {};
+  showRulesModal = false;
 
   constructor(
     private entityTranslationService: EntityTranslationService,
@@ -232,5 +235,13 @@ export class SkillsCardComponent extends BaseCardComponent {
 
     // Emit change
     this.characterChange.emit(this.character);
+  }
+
+  toggleRulesModal(): void {
+    this.showRulesModal = !this.showRulesModal;
+  }
+
+  onCloseRulesModal(): void {
+    this.showRulesModal = false;
   }
 }

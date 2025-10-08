@@ -105,28 +105,27 @@
     </div>
 
     <!-- Dice History Modal -->
-    <div *ngIf="showDiceHistory" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" 
-         (click)="showDiceHistory = false">
-      <div class="character-sheet m-4 p-6 max-w-md max-h-96 overflow-y-auto" (click)="$event.stopPropagation()">
-        <h3 class="gothic-header text-lg mb-4">{{ 'character.sheet.dice.rolls' | dynamicTranslate }}</h3>
-        <div class="space-y-2">
-          <div *ngFor="let roll of rollHistory" class="border-b border-gray-200 pb-2">
-            <div class="text-sm font-medium">{{ roll.description }}</div>
-            <div class="text-xs text-gray-600">
-              {{ 'character.sheet.rolled' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }} {{ roll.result }}
-              <span *ngIf="roll.target"> {{ 'character.sheet.vs' | dynamicTranslate }} {{ roll.target }}%</span>
-              <span *ngIf="roll.criticalSuccess" class="text-yellow-600 font-bold"> - {{ 'character.sheet.critical' | dynamicTranslate }}</span>
-              <span *ngIf="roll.extremeSuccess" class="text-green-600 font-bold"> - {{ 'character.sheet.extreme' | dynamicTranslate }}</span>
-              <span *ngIf="roll.hardSuccess" class="text-green-600"> - {{ 'character.sheet.hard' | dynamicTranslate }}</span>
-              <span *ngIf="roll.regularSuccess" class="text-green-500"> - {{ 'character.sheet.regular' | dynamicTranslate }}</span>
-              <span *ngIf="roll.failure && !roll.fumble" class="text-red-600"> - {{ 'character.sheet.failure' | dynamicTranslate }}</span>
-              <span *ngIf="roll.fumble" class="text-red-800 font-bold"> - {{ 'character.sheet.fumble' | dynamicTranslate }}</span>
-            </div>
-          </div>
-          <div *ngIf="rollHistory.length === 0" class="text-gray-500 italic text-sm">{{ 'character.sheet.no.rolls' | dynamicTranslate }}</div>
-        </div>
-      </div>
-    </div>
+    <app-modal
+      [isOpen]="showDiceHistory"
+      [title]="'character.sheet.dice.rolls' | dynamicTranslate"
+      type="dialog"
+      [closeOnClickOutside]="true"
+      [maxWidth]="'max-w-md'"
+      (close)="onCloseDiceHistory()">
+      <app-dice-history [rollHistory]="rollHistory"></app-dice-history>
+    </app-modal>
+
+    <!-- Dice Result Modal -->
+    <app-modal
+      *ngIf="currentDiceRoll"
+      [isOpen]="showDiceResult"
+      [title]="'character.sheet.dice.result' | dynamicTranslate"
+      type="dialog"
+      [closeOnClickOutside]="true"
+      [maxWidth]="'max-w-lg'"
+      (close)="onCloseDiceResult()">
+      <app-dice-result [roll]="currentDiceRoll"></app-dice-result>
+    </app-modal>
   </div>
 </div>
 

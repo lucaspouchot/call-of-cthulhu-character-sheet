@@ -1,0 +1,69 @@
+<div class="text-center">
+  <!-- Description -->
+  <h4 class="text-lg font-semibold mb-4 text-gray-800">{{ roll.description }}</h4>
+  
+  <!-- Result Display -->
+  <div class="mb-6">
+    <div class="text-5xl font-bold mb-2" 
+         [class.text-yellow-600]="roll.criticalSuccess"
+         [class.text-green-600]="roll.extremeSuccess || roll.hardSuccess"
+         [class.text-green-500]="roll.regularSuccess && !roll.extremeSuccess && !roll.hardSuccess"
+         [class.text-red-600]="roll.failure && !roll.fumble"
+         [class.text-red-800]="roll.fumble">
+      {{ roll.result }}
+    </div>
+    <div *ngIf="roll.target" class="text-gray-600 text-sm">
+      {{ 'character.sheet.vs' | dynamicTranslate }} {{ roll.target }}%
+    </div>
+  </div>
+
+  <!-- Success Level Badge -->
+  <div class="mb-4">
+    <div *ngIf="roll.criticalSuccess" 
+         class="inline-block px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-bold">
+      🎯 {{ 'character.sheet.critical' | dynamicTranslate }}
+    </div>
+    <div *ngIf="roll.extremeSuccess && !roll.criticalSuccess" 
+         class="inline-block px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-bold">
+      ⭐ {{ 'character.sheet.extreme' | dynamicTranslate }}
+    </div>
+    <div *ngIf="roll.hardSuccess && !roll.extremeSuccess && !roll.criticalSuccess" 
+         class="inline-block px-4 py-2 bg-green-100 text-green-800 rounded-full font-semibold">
+      💪 {{ 'character.sheet.hard' | dynamicTranslate }}
+    </div>
+    <div *ngIf="roll.regularSuccess && !roll.hardSuccess && !roll.extremeSuccess && !roll.criticalSuccess" 
+         class="inline-block px-4 py-2 bg-green-50 text-green-700 rounded-full">
+      ✅ {{ 'character.sheet.regular' | dynamicTranslate }}
+    </div>
+    <div *ngIf="roll.failure && !roll.fumble" 
+         class="inline-block px-4 py-2 bg-red-100 text-red-700 rounded-full">
+      ❌ {{ 'character.sheet.failure' | dynamicTranslate }}
+    </div>
+    <div *ngIf="roll.fumble" 
+         class="inline-block px-4 py-2 bg-red-200 text-red-900 rounded-full font-bold">
+      💀 {{ 'character.sheet.fumble' | dynamicTranslate }}
+    </div>
+  </div>
+
+  <!-- Success Thresholds (if applicable) -->
+  <div *ngIf="roll.target" class="mt-4 pt-4 border-t border-gray-200">
+    <div class="text-xs text-gray-500 space-y-1">
+      <div class="flex justify-between">
+        <span>{{ 'character.sheet.regular' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+        <span>≤ {{ roll.target }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span>{{ 'character.sheet.hard' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+        <span>≤ {{ Math.floor(roll.target / 2) }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span>{{ 'character.sheet.extreme' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+        <span>≤ {{ Math.floor(roll.target / 5) }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span>{{ 'character.sheet.critical' | dynamicTranslate }}{{ 'ponctuation.colon' | dynamicTranslate }}</span>
+        <span>01</span>
+      </div>
+    </div>
+  </div>
+</div>

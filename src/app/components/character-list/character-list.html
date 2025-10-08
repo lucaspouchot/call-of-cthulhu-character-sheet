@@ -29,7 +29,7 @@
             <h3 class="text-xl font-bold text-cthulhu-dark">{{ character.name }}</h3>
             <p class="text-gray-600">{{ getOccupationName(character.occupation) }}</p>
           </div>
-          <button (click)="deleteCharacter(character.id, $event)" 
+          <button (click)="deleteCharacter(character, $event)" 
                   class="text-red-600 hover:text-red-800 text-xl">
             ×
           </button>
@@ -87,4 +87,18 @@
       <p class="mt-2 italic">{{ 'lovecraft.attribution' | dynamicTranslate }}</p>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <app-modal [isOpen]="showDeleteModal && !!characterToDelete"
+             [title]="'ui.actions.delete' | dynamicTranslate"
+             [type]="'confirm'"
+             [isDestructive]="true"
+             [disableConfirm]="!deleteConfirmationValid"
+             (close)="onDeleteModalClose($event)">
+    <app-delete-confirmation *ngIf="characterToDelete"
+      [itemName]="characterToDelete.name"
+      [itemType]="'character'"
+      (confirmationValidChange)="onDeleteConfirmationChange($event)">
+    </app-delete-confirmation>
+  </app-modal>
 </div>

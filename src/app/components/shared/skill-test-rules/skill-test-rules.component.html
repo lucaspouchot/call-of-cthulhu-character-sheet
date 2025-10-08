@@ -1,0 +1,48 @@
+<div>
+  <div class="bg-gray-50 p-4 rounded-lg">
+    <p class="font-semibold mb-3 text-gray-700">{{ 'rules.reference.skillTests.successLevels' | dynamicTranslate }}</p>
+    
+    <!-- Table for success levels -->
+    <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 mb-4">
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-red-800 rounded-full mr-2"></span>
+        <span class="font-medium text-red-800">{{ 'rules.reference.skillTests.fumble' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.fumbleValue' | dynamicTranslate }}</div>
+      
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+        <span class="font-medium text-red-600">{{ 'rules.reference.skillTests.failure' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.failureValue' | dynamicTranslate }}</div>
+      
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+        <span class="font-medium text-green-600">{{ 'rules.reference.skillTests.regular' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.regularValue' | dynamicTranslate }}</div>
+      
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-green-600 rounded-full mr-2"></span>
+        <span class="font-medium text-green-700">{{ 'rules.reference.skillTests.hard' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.hardValue' | dynamicTranslate }}</div>
+      
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+        <span class="font-medium text-blue-600">{{ 'rules.reference.skillTests.extreme' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.extremeValue' | dynamicTranslate }}</div>
+      
+      <div class="flex items-center">
+        <span class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+        <span class="font-medium text-yellow-600">{{ 'rules.reference.skillTests.critical' | dynamicTranslate }}</span>
+      </div>
+      <div class="text-gray-700">{{ 'rules.reference.skillTests.criticalValue' | dynamicTranslate }}</div>
+    </div>
+    
+    <div class="border-t border-gray-300 pt-3 mt-3">
+      <p class="italic text-gray-600 text-sm">💡 {{ 'rules.reference.skillTests.retryNote' | dynamicTranslate }}</p>
+    </div>
+  </div>
+</div>

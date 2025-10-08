@@ -25,11 +25,20 @@
       "remove": "Retirer",
       "clear": "Effacer",
       "select": "Sélectionner...",
-      "done": "Terminé"
+      "done": "Terminé",
+      "close": "Fermer",
+      "ok": "OK"
     },
     "validation": {
       "required": "Ce champ est requis",
       "invalid": "Valeur invalide"
+    },
+    "delete": {
+      "warning": "Cette action est irréversible !",
+      "confirmLabel": "Pour confirmer, tapez le nom :",
+      "hint": "Tapez le nom exact pour activer le bouton de suppression",
+      "matches": "✓ Le nom correspond",
+      "noMatch": "✗ Le nom ne correspond pas"
     }
   },
   "character": {
@@ -412,9 +421,11 @@
       "initialPointsHint": "Points de compétence à attribuer lors de la création (optionnel)",
       "dice": {
         "history": "Historique des Dés",
-        "rolls": "Jets de Dés Récents"
+        "rolls": "Jets de Dés Récents",
+        "result": "Résultat du Jet"
       },
       "back": "Retour",
+      "rulesReference": "Aide-Mémoire",
       "delete": "Supprimer",
       "backstory": "Histoire",
       "return": "Retour aux Personnages",
@@ -1107,6 +1118,50 @@
     "mgBrenGun": "Fusil Mitrailleur Bren",
     "mgLewisGun": "Fusil Mitrailleur Lewis",
     "mgVickers303": "Mitrailleuse Vickers .303"
+  },
+  "rules": {
+    "reference": {
+      "title": "Aide-Mémoire des Règles",
+      "skillTests": {
+        "title": "Test de compétence ou de caractéristique",
+        "successLevels": "Niveaux de réussite :",
+        "fumble": "Maladresse",
+        "fumbleValue": "100 / 96+",
+        "failure": "Échec",
+        "failureValue": ">%",
+        "regular": "Ordinaire",
+        "regularValue": "<=%",
+        "hard": "Majeur",
+        "hardValue": "≤1/2%",
+        "extreme": "Extrême",
+        "extremeValue": "≤1/5%",
+        "critical": "Critique",
+        "criticalValue": "01",
+        "retryNote": "Redoubler un test : justification nécessaire ; impossible en combat ou pour la santé mentale."
+      },
+      "injuries": {
+        "title": "Blessures et Soins",
+        "healing": "Soins",
+        "criticalStates": "États Critiques",
+        "naturalHealing": "Guérison Naturelle",
+        "firstAid": "Premiers Soins",
+        "firstAidEffect": "Soigne 1 PV",
+        "medicine": "Médecine",
+        "medicineEffect": "Soigne 1D3 PV",
+        "majorWound": "Blessure Grave",
+        "majorWoundCondition": "Perte de la moitié des PV en une attaque",
+        "unconscious": "Tomber à 0 sans blessure grave",
+        "unconsciousCondition": "Inconscient",
+        "dying": "Tomber à 0 avec blessure grave",
+        "dyingCondition": "Mourant",
+        "stabilize": "Mourant",
+        "stabilizeProcess": "Premiers Soins pour stabiliser puis Médecine",
+        "naturalHealingMinor": "Sans blessure grave",
+        "naturalHealingMinorRate": "1 PV / jour",
+        "naturalHealingMajor": "Avec blessure grave",
+        "naturalHealingMajorRate": "1 test / semaine"
+      }
+    }
   },
   "lovecraft": {
     "quote": "\"La plus ancienne et la plus forte émotion de l'humanité est la peur, et la plus ancienne et la plus forte des peurs est la peur de l'inconnu.\"",

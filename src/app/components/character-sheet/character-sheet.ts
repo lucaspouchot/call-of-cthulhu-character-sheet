@@ -88,6 +88,9 @@ export class CharacterSheetComponent implements OnInit {
   // Callback methods for card components
   onCharacterChange(character: CharacterModel): void {
     this.character = character;
+    if (this.character) {
+      this.characterService.updateCharacter(this.character.id, this.character);
+    }
   }
 
   onRollCharacteristicCheck(event: { attribute: string, value: number }): void {

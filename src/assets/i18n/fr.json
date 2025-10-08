@@ -89,7 +89,22 @@
       "hitPoints": "Points de Vie",
       "magicPoints": "Points de Magie",
       "sanity": "Sanité Mentale",
-      "health": "Santé"
+      "health": "Santé",
+      "status": {
+        "title": "État de Santé",
+        "consciousness": "Conscience",
+        "insanity": "Folie",
+        "insanityLabel": "Folie",
+        "normal": "Conscient",
+        "sane": "Sain d'esprit",
+        "unconscious": "Inconscient",
+        "dying": "Mourant",
+        "majorInjury": "Blessure Grave",
+        "temporary": "Temporaire",
+        "indefinite": "Persistante",
+        "temporaryInsanity": "Folie Temporaire",
+        "indefiniteInsanity": "Folie Persistante"
+      }
     },
     "movement": {
       "label": "Mouvement",

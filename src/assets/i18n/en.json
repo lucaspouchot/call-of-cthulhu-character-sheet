@@ -89,7 +89,22 @@
       "hitPoints": "Hit Points",
       "magicPoints": "Magic Points",
       "sanity": "Sanity",
-      "health": "Health"
+      "health": "Health",
+      "status": {
+        "title": "Health Status",
+        "consciousness": "Consciousness",
+        "insanity": "Insanity",
+        "insanityLabel": "Insanity",
+        "normal": "Conscious",
+        "sane": "Sane",
+        "unconscious": "Unconscious",
+        "dying": "Dying",
+        "majorInjury": "Major Injury",
+        "temporary": "Temporary",
+        "indefinite": "Indefinite",
+        "temporaryInsanity": "Temporary Insanity",
+        "indefiniteInsanity": "Indefinite Insanity"
+      }
     },
     "movement": {
       "label": "Movement",

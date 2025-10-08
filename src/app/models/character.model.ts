@@ -192,6 +192,15 @@ export interface CharacterSheet {
     modifiers: TemporaryModifier[];
   };
 
+  // Health status tracking
+  healthStatus: {
+    unconscious: boolean;
+    dying: boolean;
+    majorInjury: boolean;
+    temporaryInsanity: boolean;
+    indefiniteInsanity: boolean;
+  };
+
   luck: {
     starting: number;
     current: number;

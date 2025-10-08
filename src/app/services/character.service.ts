@@ -45,6 +45,14 @@ export class CharacterService {
             ...char.magicPoints,
             modifiers: char.magicPoints.modifiers || []
           },
+          // Ensure health status exists (migration for old characters)
+          healthStatus: char.healthStatus || {
+            unconscious: false,
+            dying: false,
+            majorInjury: false,
+            temporaryInsanity: false,
+            indefiniteInsanity: false
+          },
           // Ensure profile fields exist (migration for old characters)
           backstory: char.backstory || '',
           traits: char.traits || '',
@@ -236,6 +244,14 @@ export class CharacterService {
         startingValue: sanityMax,
         losses: [],
         modifiers: []
+      },
+
+      healthStatus: {
+        unconscious: false,
+        dying: false,
+        majorInjury: false,
+        temporaryInsanity: false,
+        indefiniteInsanity: false
       },
 
       luck: {

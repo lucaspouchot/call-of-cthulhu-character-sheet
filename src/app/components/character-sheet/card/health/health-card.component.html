@@ -199,6 +199,88 @@
     </div>
   </div>
 
+  <!-- Health Status -->
+  <div class="mb-4 border-t pt-4 mt-4">
+    <h3 class="font-medium mb-3">{{ 'character.health.status.title' | dynamicTranslate }}</h3>
+    <div class="space-y-3">
+      
+      <!-- Major Injury -->
+      <button (click)="toggleHealthStatus('majorInjury')"
+              class="w-full py-2 rounded border-2 transition-all text-sm"
+              [class.bg-orange-500]="character.healthStatus.majorInjury"
+              [class.text-white]="character.healthStatus.majorInjury"
+              [class.border-orange-600]="character.healthStatus.majorInjury"
+              [class.shadow-inner]="character.healthStatus.majorInjury"
+              [class.bg-white]="!character.healthStatus.majorInjury"
+              [class.border-gray-300]="!character.healthStatus.majorInjury"
+              [class.hover:bg-gray-50]="!character.healthStatus.majorInjury">
+        {{ 'character.health.status.majorInjury' | dynamicTranslate }}
+      </button>
+
+      <!-- Consciousness Status -->
+      <div class="grid grid-cols-3 gap-0 border-2 border-gray-300 rounded overflow-hidden">
+        <button (click)="setConsciousnessStatus('normal')"
+                class="py-2 px-1 transition-all border-r border-gray-300 text-sm"
+                [class.bg-green-500]="!character.healthStatus.unconscious && !character.healthStatus.dying"
+                [class.text-white]="!character.healthStatus.unconscious && !character.healthStatus.dying"
+                [class.shadow-inner]="!character.healthStatus.unconscious && !character.healthStatus.dying"
+                [class.bg-white]="character.healthStatus.unconscious || character.healthStatus.dying"
+                [class.hover:bg-gray-50]="character.healthStatus.unconscious || character.healthStatus.dying">
+          {{ 'character.health.status.normal' | dynamicTranslate }}
+        </button>
+        <button (click)="setConsciousnessStatus('unconscious')"
+                class="py-2 px-1 transition-all border-r border-gray-300 text-sm"
+                [class.bg-yellow-500]="character.healthStatus.unconscious"
+                [class.text-white]="character.healthStatus.unconscious"
+                [class.shadow-inner]="character.healthStatus.unconscious"
+                [class.bg-white]="!character.healthStatus.unconscious"
+                [class.hover:bg-gray-50]="!character.healthStatus.unconscious">
+          {{ 'character.health.status.unconscious' | dynamicTranslate }}
+        </button>
+        <button (click)="setConsciousnessStatus('dying')"
+                class="py-2 px-1 transition-all text-sm"
+                [class.bg-red-600]="character.healthStatus.dying"
+                [class.text-white]="character.healthStatus.dying"
+                [class.shadow-inner]="character.healthStatus.dying"
+                [class.bg-white]="!character.healthStatus.dying"
+                [class.hover:bg-gray-50]="!character.healthStatus.dying">
+          {{ 'character.health.status.dying' | dynamicTranslate }}
+        </button>
+      </div>
+
+      <!-- Insanity Status -->
+      <div class="grid grid-cols-3 gap-0 border-2 border-gray-300 rounded overflow-hidden">
+        <button (click)="setInsanityStatus('none')"
+                class="py-2 px-1 transition-all border-r border-gray-300 text-sm"
+                [class.bg-blue-500]="!character.healthStatus.temporaryInsanity && !character.healthStatus.indefiniteInsanity"
+                [class.text-white]="!character.healthStatus.temporaryInsanity && !character.healthStatus.indefiniteInsanity"
+                [class.shadow-inner]="!character.healthStatus.temporaryInsanity && !character.healthStatus.indefiniteInsanity"
+                [class.bg-white]="character.healthStatus.temporaryInsanity || character.healthStatus.indefiniteInsanity"
+                [class.hover:bg-gray-50]="character.healthStatus.temporaryInsanity || character.healthStatus.indefiniteInsanity">
+          {{ 'character.health.status.sane' | dynamicTranslate }}
+        </button>
+        <button (click)="setInsanityStatus('temporary')"
+                class="py-2 px-1 transition-all border-r border-gray-300 text-sm"
+                [class.bg-purple-500]="character.healthStatus.temporaryInsanity"
+                [class.text-white]="character.healthStatus.temporaryInsanity"
+                [class.shadow-inner]="character.healthStatus.temporaryInsanity"
+                [class.bg-white]="!character.healthStatus.temporaryInsanity"
+                [class.hover:bg-gray-50]="!character.healthStatus.temporaryInsanity">
+          {{ 'character.health.status.temporaryInsanity' | dynamicTranslate }}
+        </button>
+        <button (click)="setInsanityStatus('indefinite')"
+                class="py-2 px-1 transition-all text-sm"
+                [class.bg-purple-700]="character.healthStatus.indefiniteInsanity"
+                [class.text-white]="character.healthStatus.indefiniteInsanity"
+                [class.shadow-inner]="character.healthStatus.indefiniteInsanity"
+                [class.bg-white]="!character.healthStatus.indefiniteInsanity"
+                [class.hover:bg-gray-50]="!character.healthStatus.indefiniteInsanity">
+          {{ 'character.health.status.indefiniteInsanity' | dynamicTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Rules Modal -->
   <app-modal 
     [isOpen]="showRulesModal"

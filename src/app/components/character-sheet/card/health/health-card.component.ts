@@ -52,7 +52,8 @@ export class HealthCardComponent extends BaseCardComponent {
         hitPoints: { ...this.character.hitPoints, modifiers: [...(this.character.hitPoints.modifiers || [])] },
         sanity: { ...this.character.sanity, modifiers: [...(this.character.sanity.modifiers || [])] },
         magicPoints: { ...this.character.magicPoints, modifiers: [...(this.character.magicPoints.modifiers || [])] },
-        luck: { ...this.character.luck, modifiers: [...(this.character.luck.modifiers || [])] }
+        luck: { ...this.character.luck, modifiers: [...(this.character.luck.modifiers || [])] },
+        healthStatus: { ...this.character.healthStatus }
       };
     }
   }
@@ -63,6 +64,7 @@ export class HealthCardComponent extends BaseCardComponent {
       this.character.sanity = { ...this.originalData.sanity };
       this.character.magicPoints = { ...this.originalData.magicPoints };
       this.character.luck = { ...this.originalData.luck };
+      this.character.healthStatus = { ...this.originalData.healthStatus };
     }
   }
 
@@ -159,5 +161,28 @@ export class HealthCardComponent extends BaseCardComponent {
 
   onCloseRulesModal(): void {
     this.showRulesModal = false;
+  }
+
+  toggleHealthStatus(status: 'unconscious' | 'dying' | 'majorInjury' | 'temporaryInsanity' | 'indefiniteInsanity'): void {
+    if (this.character) {
+      this.character.healthStatus[status] = !this.character.healthStatus[status];
+      this.characterChange.emit(this.character);
+    }
+  }
+
+  setConsciousnessStatus(status: 'normal' | 'unconscious' | 'dying'): void {
+    if (this.character) {
+      this.character.healthStatus.unconscious = status === 'unconscious';
+      this.character.healthStatus.dying = status === 'dying';
+      this.characterChange.emit(this.character);
+    }
+  }
+
+  setInsanityStatus(status: 'none' | 'temporary' | 'indefinite'): void {
+    if (this.character) {
+      this.character.healthStatus.temporaryInsanity = status === 'temporary';
+      this.character.healthStatus.indefiniteInsanity = status === 'indefinite';
+      this.characterChange.emit(this.character);
+    }
   }
 }

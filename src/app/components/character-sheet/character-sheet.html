@@ -3,7 +3,7 @@
     
     <!-- Header with character name and controls -->
     <div class="character-sheet p-6">
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center pb-4 border-b border-gray-300 mb-4">
         <div>
           <h1 class="gothic-header text-3xl">{{ character.name }}</h1>
         </div>
@@ -130,7 +130,7 @@
 </div>
 
 <div *ngIf="!character" class="min-h-screen bg-parchment p-4 flex items-center justify-center">
-  <div class="character-sheet p-6 text-center">
+  <div class="character-sheet p-6 text-center pb-4 border-b border-gray-300 mb-4">
     <h2 class="gothic-header text-2xl mb-4">{{ 'character.sheet.notFound' | dynamicTranslate }}</h2>
     <button (click)="goBack()" class="skill-check-button">{{ 'character.sheet.return' | dynamicTranslate }}</button>
   </div>

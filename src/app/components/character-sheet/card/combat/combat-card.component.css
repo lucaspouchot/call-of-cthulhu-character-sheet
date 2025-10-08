@@ -1,0 +1,51 @@
+/* Combat card specific styles */
+
+/* Ensure consistent spacing and layout */
+.character-sheet {
+  @apply bg-white rounded-lg shadow-md p-6;
+}
+
+/* Weapon card hover effect */
+.weapon-card:hover {
+  @apply shadow-md;
+}
+
+/* Grayed out weapons (no skill) */
+.weapon-no-skill {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+/* Custom weapon form styling */
+input[type="text"],
+select {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+/* Button disabled state */
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Category tabs */
+.category-tab {
+  @apply transition-colors duration-200;
+}
+
+/* Scrollable weapon list */
+.weapon-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.weapon-list-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.weapon-list-scroll::-webkit-scrollbar-track {
+  background: #f7fafc;
+}
+
+.weapon-list-scroll::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 3px;
+}

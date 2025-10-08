@@ -22,13 +22,16 @@ export interface Skill {
 }
 
 export interface Weapon {
-  name: string;
-  damage: string;
-  range: string;
-  attacksPerRound: number;
-  ammo: number;
-  malfunction: number;
-  skillUsed: string;
+  id: string; // Unique identifier for translation or custom weapon
+  name?: string; // For custom weapons only
+  skillUsed: string; // Skill ID (e.g., 'fightingBrawl', 'firearmsHandgun')
+  damage: string; // Damage formula (e.g., '1D6', '1D10+2')
+  range: string; // Range (e.g., 'Touch', '15 yards', '-')
+  rate: string; // Rate of fire (e.g., '1', '1 (3)', '1 or 2')
+  capacity: string; // Ammunition capacity (e.g., '6', '20/30', '-')
+  malfunction: string; // Malfunction number (e.g., '100', '96', '-')
+  cost?: string; // Informational only (e.g., '$40', 'N/A')
+  isCustom?: boolean; // True if user-created weapon
 }
 
 export interface SanityLoss {

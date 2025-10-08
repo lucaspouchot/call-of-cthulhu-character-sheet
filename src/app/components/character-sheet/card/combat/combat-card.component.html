@@ -1,0 +1,372 @@
+<div class="character-sheet">
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="gothic-header text-lg">{{ 'character.combat.title' | dynamicTranslate }}</h3>
+      <button *ngIf="!isInEditMode()" (click)="toggleEditMode()" 
+              class="text-sm text-blue-600 hover:text-blue-800">
+        {{ 'ui.actions.edit' | dynamicTranslate }}
+      </button>
+    </div>
+    <div *ngIf="isInEditMode()" class="flex flex-col sm:flex-row gap-2 justify-center">
+      <button (click)="saveCharacterData()" class="flex-1 sm:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.save' | dynamicTranslate }}
+      </button>
+      <button (click)="cancelEdit()" class="flex-1 sm:flex-none px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm sm:w-1/2">
+        {{ 'ui.actions.cancel' | dynamicTranslate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Combat Stats Summary -->
+  <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+    <div class="text-center p-2 bg-gray-50 rounded">
+      <div class="font-semibold text-xs text-gray-600">{{ 'character.combat.build' | dynamicTranslate }}</div>
+      <div class="text-lg font-bold">{{ getBuild() }}</div>
+    </div>
+    <div class="text-center p-2 bg-gray-50 rounded">
+      <div class="font-semibold text-xs text-gray-600">{{ 'character.combat.damageBonus' | dynamicTranslate }}</div>
+      <div class="text-lg font-bold">{{ getDamageBonus() }}</div>
+    </div>
+  </div>
+
+  <!-- Dodge with success rates -->
+  <div class="mb-4 p-3 bg-gray-50 rounded">
+    <div class="font-semibold text-xs text-gray-600 mb-2">{{ 'character.combat.dodge' | dynamicTranslate }}</div>
+    <div class="grid grid-cols-3 gap-2 text-xs">
+      <div class="text-center p-1 bg-white rounded">
+        <div class="text-gray-500">{{ 'character.combat.regular' | dynamicTranslate }}</div>
+        <div class="font-bold">{{ getDodgeRates().regular }}%</div>
+      </div>
+      <div class="text-center p-1 bg-white rounded">
+        <div class="text-gray-500">{{ 'character.combat.hard' | dynamicTranslate }}</div>
+        <div class="font-bold">{{ getDodgeRates().hard }}%</div>
+      </div>
+      <div class="text-center p-1 bg-white rounded">
+        <div class="text-gray-500">{{ 'character.combat.extreme' | dynamicTranslate }}</div>
+        <div class="font-bold">{{ getDodgeRates().extreme }}%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weapons List -->
+  <div class="space-y-3">
+    <div *ngFor="let weapon of getWeapons(); let i = index" 
+         class="border rounded p-3"
+         [class.bg-gray-100]="!hasSkill(weapon) && weapon.id !== 'unarmed'"
+         [class.opacity-60]="!hasSkill(weapon) && weapon.id !== 'unarmed'">
+      
+      <div class="flex justify-between items-start mb-2">
+        <div class="flex-1">
+          <!-- Weapon Name -->
+          <div class="font-semibold flex items-center gap-2">
+            <span *ngIf="!isCustomWeapon(weapon)">{{ 'weapons.' + weapon.id | dynamicTranslate }}</span>
+            <span *ngIf="isCustomWeapon(weapon)">{{ getWeaponName(weapon) }}</span>
+            <span *ngIf="!hasSkill(weapon) && weapon.id !== 'unarmed'" 
+                  class="text-xs text-red-600" 
+                  title="{{ 'character.combat.noSkill' | dynamicTranslate }}">
+              ⚠️
+            </span>
+          </div>
+          
+          <!-- Skill Used -->
+          <div class="text-xs text-gray-600">
+            {{ 'skills.' + weapon.skillUsed | dynamicTranslate }}
+          </div>
+        </div>
+
+        <!-- Remove Button (edit mode only, not for unarmed) -->
+        <button *ngIf="isInEditMode() && weapon.id !== 'unarmed'" 
+                (click)="removeWeapon(i - 1)"
+                class="text-red-600 hover:text-red-800 text-sm">
+          {{ 'ui.actions.remove' | dynamicTranslate }}
+        </button>
+      </div>
+
+      <!-- Success Rates -->
+      <div class="grid grid-cols-3 gap-2 mb-2 text-xs">
+        <div class="text-center p-1 bg-white rounded">
+          <div class="text-gray-500">{{ 'character.combat.regular' | dynamicTranslate }}</div>
+          <div class="font-bold">{{ getSuccessRates(weapon).regular }}%</div>
+        </div>
+        <div class="text-center p-1 bg-white rounded">
+          <div class="text-gray-500">{{ 'character.combat.hard' | dynamicTranslate }}</div>
+          <div class="font-bold">{{ getSuccessRates(weapon).hard }}%</div>
+        </div>
+        <div class="text-center p-1 bg-white rounded">
+          <div class="text-gray-500">{{ 'character.combat.extreme' | dynamicTranslate }}</div>
+          <div class="font-bold">{{ getSuccessRates(weapon).extreme }}%</div>
+        </div>
+      </div>
+
+      <!-- Weapon Stats -->
+      <div class="grid grid-cols-5 gap-2 text-xs" *ngIf="!hasMultipleRanges(weapon)">
+        <div>
+          <div class="text-gray-500">{{ 'character.combat.damage' | dynamicTranslate }}</div>
+          <div class="font-semibold">{{ getDisplayDamage(weapon.damage) }}</div>
+        </div>
+        <div>
+          <div class="text-gray-500">{{ 'character.combat.range' | dynamicTranslate }}</div>
+          <div class="font-semibold">{{ getDisplayDamage(weapon.range) }}</div>
+        </div>
+        <div>
+          <div class="text-gray-500">{{ 'character.combat.rate' | dynamicTranslate }}</div>
+          <div class="font-semibold">{{ weapon.rate }}</div>
+        </div>
+        <div>
+          <div class="text-gray-500">{{ 'character.combat.capacity' | dynamicTranslate }}</div>
+          <div class="font-semibold">{{ weapon.capacity }}</div>
+        </div>
+        <div>
+          <div class="text-gray-500">{{ 'character.combat.malfunction' | dynamicTranslate }}</div>
+          <div class="font-semibold">{{ weapon.malfunction }}</div>
+        </div>
+      </div>
+
+      <!-- Weapon Stats for Multiple Ranges (e.g., Shotguns) -->
+      <div *ngIf="hasMultipleRanges(weapon)" class="text-xs">
+        <div class="grid grid-cols-5 gap-2 mb-2">
+          <div class="col-span-2">
+            <div class="text-gray-500 font-semibold mb-1">{{ 'character.combat.damageRange' | dynamicTranslate }}</div>
+            <div *ngFor="let rangeData of getMultipleRangeData(weapon)" class="flex justify-between py-0.5 border-b border-gray-200 last:border-0">
+              <span class="font-semibold">{{ rangeData.damage }}</span>
+              <span class="text-gray-600 pr-4">{{ rangeData.range }}</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-gray-500">{{ 'character.combat.rate' | dynamicTranslate }}</div>
+            <div class="font-semibold">{{ weapon.rate }}</div>
+          </div>
+          <div>
+            <div class="text-gray-500">{{ 'character.combat.capacity' | dynamicTranslate }}</div>
+            <div class="font-semibold">{{ weapon.capacity }}</div>
+          </div>
+          <div>
+            <div class="text-gray-500">{{ 'character.combat.malfunction' | dynamicTranslate }}</div>
+            <div class="font-semibold">{{ weapon.malfunction }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Weapon Section (Edit Mode) -->
+  <div *ngIf="isInEditMode()" class="mt-4 pt-4 border-t">
+    <button 
+      (click)="toggleWeaponSelector()"
+      class="w-full skill-check-button mb-3">
+      {{ showWeaponSelector ? ('ui.actions.cancel' | dynamicTranslate) : ('character.combat.addWeapon' | dynamicTranslate) }}
+    </button>
+
+    <!-- Weapon Selector -->
+    <div *ngIf="showWeaponSelector" class="space-y-3">
+      
+      <!-- Category Tabs -->
+      <div class="flex gap-2 flex-wrap">
+        <button *ngFor="let category of categoryKeys"
+                (click)="selectedCategory = category"
+                class="px-3 py-1 rounded text-sm"
+                [class.bg-blue-600]="selectedCategory === category"
+                [class.text-white]="selectedCategory === category"
+                [class.bg-gray-200]="selectedCategory !== category">
+          {{ 'character.combat.category.' + category | dynamicTranslate }}
+        </button>
+      </div>
+
+      <!-- Predefined Weapons List -->
+      <div class="max-h-60 overflow-y-auto space-y-2 border rounded p-2">
+        <div *ngFor="let weapon of weaponCategories[selectedCategory]"
+             class="p-2 bg-white rounded border hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+             (click)="addWeapon(weapon)">
+          <div class="flex-1">
+            <div class="font-semibold text-sm">{{ 'weapons.' + weapon.id | dynamicTranslate }}</div>
+            <div class="text-xs text-gray-600">
+              {{ weapon.damage }} • {{ weapon.range }} • {{ 'skills.' + weapon.skillUsed | dynamicTranslate }}
+            </div>
+          </div>
+          <div class="text-xs text-gray-500" *ngIf="weapon.cost">
+            {{ weapon.cost }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Weapon Form -->
+      <div class="border-t pt-3 mt-3">
+        <h4 class="font-semibold mb-2 text-sm">{{ 'character.combat.customWeapon' | dynamicTranslate }}</h4>
+        <div class="space-y-2">
+          <!-- Weapon Name -->
+          <div>
+            <input 
+              type="text" 
+              [(ngModel)]="newCustomWeapon.name"
+              placeholder="{{ 'character.combat.weaponName' | dynamicTranslate }}"
+              class="w-full px-2 py-1 border rounded text-sm">
+          </div>
+          
+          <!-- Skill -->
+          <div>
+            <select 
+              [(ngModel)]="newCustomWeapon.skillUsed"
+              class="w-full px-2 py-1 border rounded text-sm">
+              <option *ngFor="let skillId of getAvailableSkills()" [value]="skillId">
+                {{ 'skills.' + skillId | dynamicTranslate }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Damage with Formula Editor -->
+          <div>
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                [(ngModel)]="newCustomWeapon.damage"
+                placeholder="1D6+DB"
+                class="flex-1 px-2 py-1 border rounded text-sm"
+                [readonly]="showDamageFormulaEditor">
+              <button 
+                type="button"
+                (click)="toggleDamageFormulaEditor()"
+                class="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">
+                {{ showDamageFormulaEditor ? '✓' : '🔧' }}
+              </button>
+            </div>
+            
+            <!-- Damage Formula Editor -->
+            <div *ngIf="showDamageFormulaEditor" class="mt-2 p-2 border rounded bg-gray-50">
+              <div class="text-xs font-medium mb-2">{{ 'character.combat.formulaEditor' | dynamicTranslate }}</div>
+              
+              <!-- Formula Components -->
+              <div class="space-y-1 mb-2">
+                <div *ngFor="let component of damageFormula; let i = index" 
+                     class="flex items-center gap-2 bg-white p-1 rounded">
+                  
+                  <!-- Operator (not for first element) -->
+                  <select *ngIf="i > 0" 
+                          [(ngModel)]="component.operator"
+                          (ngModelChange)="updateDamageFromFormula()"
+                          class="px-1 py-0.5 border rounded text-xs w-12">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                  </select>
+                  
+                  <!-- Component Type -->
+                  <span class="text-xs font-medium text-gray-600 flex-1">
+                    {{ getFormulaComponentLabel(component.type) }}
+                  </span>
+                  
+                  <!-- Value input for dice and fixed -->
+                  <input *ngIf="component.type === 'dice'" 
+                         type="text" 
+                         [(ngModel)]="component.value"
+                         (ngModelChange)="updateDamageFromFormula()"
+                         placeholder="1D6"
+                         class="px-1 py-0.5 border rounded text-xs w-16">
+                  
+                  <input *ngIf="component.type === 'fixed'" 
+                         type="number" 
+                         [(ngModel)]="component.value"
+                         (ngModelChange)="updateDamageFromFormula()"
+                         class="px-1 py-0.5 border rounded text-xs w-16">
+                  
+                  <!-- Remove button -->
+                  <button type="button"
+                          (click)="removeDamageComponent(i)"
+                          class="text-red-600 hover:text-red-800 text-xs px-1">
+                    ✕
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Add Component Buttons -->
+              <div class="flex flex-wrap gap-1">
+                <button type="button"
+                        (click)="addDamageComponent('dice', '+')"
+                        class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                  + {{ 'character.combat.dice' | dynamicTranslate }}
+                </button>
+                <button type="button"
+                        (click)="addDamageComponent('fixed', '+')"
+                        class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                  + {{ 'character.combat.fixed' | dynamicTranslate }}
+                </button>
+                <button type="button"
+                        (click)="addDamageComponent('db', '+')"
+                        class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                  + {{ 'character.combat.damageBonusShort' | dynamicTranslate }}
+                </button>
+                <button type="button"
+                        (click)="addDamageComponent('halfDb', '+')"
+                        class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                  + ½ {{ 'character.combat.damageBonusShort' | dynamicTranslate }}
+                </button>
+                <button type="button"
+                        (click)="addDamageComponent('build', '+')"
+                        class="px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                  + {{ 'character.combat.build' | dynamicTranslate }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Range -->
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1">
+              {{ 'character.combat.range' | dynamicTranslate }}
+            </label>
+            <select 
+              [(ngModel)]="newCustomWeapon.range"
+              class="w-full px-2 py-1 border rounded text-sm">
+              <option *ngFor="let rangeOpt of getRangeOptions()" [value]="rangeOpt">
+                {{ rangeOpt }}
+              </option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <!-- Rate -->
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">
+                {{ 'character.combat.rate' | dynamicTranslate }}
+              </label>
+              <input 
+                type="text" 
+                [(ngModel)]="newCustomWeapon.rate"
+                placeholder="1"
+                class="w-full px-2 py-1 border rounded text-sm">
+            </div>
+            
+            <!-- Capacity -->
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">
+                {{ 'character.combat.capacity' | dynamicTranslate }}
+              </label>
+              <input 
+                type="text" 
+                [(ngModel)]="newCustomWeapon.capacity"
+                placeholder="-"
+                class="w-full px-2 py-1 border rounded text-sm">
+            </div>
+            
+            <!-- Malfunction -->
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">
+                {{ 'character.combat.malfunction' | dynamicTranslate }}
+              </label>
+              <input 
+                type="text" 
+                [(ngModel)]="newCustomWeapon.malfunction"
+                placeholder="-"
+                class="w-full px-2 py-1 border rounded text-sm">
+            </div>
+          </div>
+
+          <button 
+            (click)="addCustomWeapon()"
+            class="w-full skill-check-button"
+            [disabled]="!newCustomWeapon.name">
+            {{ 'character.combat.addCustomWeapon' | dynamicTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

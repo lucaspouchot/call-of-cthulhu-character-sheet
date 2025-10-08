@@ -13,6 +13,7 @@ import { LanguageSwitcherComponent } from '../language-switcher/language-switche
 import { DynamicTranslatePipe } from '../../pipes/dynamic-translate.pipe';
 import { CharacteristicCardComponent } from './card/characteristic/characteristic-card.component';
 import { HealthCardComponent } from './card/health/health-card.component';
+import { CombatCardComponent } from './card/combat/combat-card.component';
 import { MovementCardComponent } from './card/movement/movement-card.component';
 import { SkillsCardComponent } from './card/skills/skills-card.component';
 import { BasicInfoCardComponent } from './card/basic-info/basic-info-card.component';
@@ -29,6 +30,7 @@ import { BackgroundCardComponent } from './card/background/background-card.compo
     DynamicTranslatePipe,
     CharacteristicCardComponent,
     HealthCardComponent,
+    CombatCardComponent,
     MovementCardComponent,
     SkillsCardComponent,
     BasicInfoCardComponent,

@@ -43,6 +43,13 @@
           (rollSanityCheck)="onRollSanityCheck()">
         </app-health-card>
 
+        <!-- Combat -->
+        <app-combat-card 
+          [character]="character"
+          (characterChange)="onCharacterChange($event)"
+          (saveCharacter)="saveCharacter()">
+        </app-combat-card>
+
         <!-- Movement -->
         <app-movement-card 
           [character]="character"

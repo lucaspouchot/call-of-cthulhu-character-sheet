@@ -88,6 +88,13 @@
           (saveCharacter)="saveCharacter()">
         </app-profile-card>
 
+        <!-- Relationships -->
+        <app-relationships-card 
+          [character]="character"
+          (characterChange)="onCharacterChange($event)"
+          (saveCharacter)="saveCharacter()">
+        </app-relationships-card>
+
         <!-- Fortune -->
         <app-fortune-card 
           [character]="character"

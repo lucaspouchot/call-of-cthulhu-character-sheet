@@ -21,6 +21,7 @@ import { FortuneCardComponent } from './card/fortune/fortune-card.component';
 import { EquipmentCardComponent } from './card/equipment/equipment-card.component';
 import { NotesCardComponent } from './card/notes/notes-card.component';
 import { ProfileCardComponent } from './card/profile/profile-card.component';
+import { RelationshipsCardComponent } from './card/relationships/relationships-card.component';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { DiceHistoryComponent } from '../shared/dice-history/dice-history.component';
 import { DiceResultComponent } from '../shared/dice-result/dice-result.component';
@@ -42,6 +43,7 @@ import { DiceResultComponent } from '../shared/dice-result/dice-result.component
     EquipmentCardComponent,
     NotesCardComponent,
     ProfileCardComponent,
+    RelationshipsCardComponent,
     ModalComponent,
     DiceHistoryComponent,
     DiceResultComponent

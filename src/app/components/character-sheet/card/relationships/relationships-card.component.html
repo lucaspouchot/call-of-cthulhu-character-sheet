@@ -1,0 +1,437 @@
+<div class="card relationships-card">
+  <div class="card-header">
+    <h3 class="card-title">Relations entre personnages</h3>
+    <div class="card-actions">
+      @if (!isInEditMode()) {
+        <button (click)="toggleEditMode()" class="btn-edit" title="Modifier">
+          <span class="icon">✏️</span>
+        </button>
+      } @else {
+        <button (click)="saveChanges()" class="btn-save" title="Sauvegarder">
+          <span class="icon">💾</span>
+        </button>
+        <button (click)="cancelChanges()" class="btn-cancel" title="Annuler">
+          <span class="icon">❌</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="card-content">
+    @if (isInEditMode()) {
+      <div class="toolbar">
+        <button (click)="openAddNodeForm()" class="btn-primary">
+          <span class="icon">👤➕</span> Ajouter un personnage
+        </button>
+        <button (click)="openAddEdgeForm()" class="btn-primary">
+          <span class="icon">🔗➕</span> Ajouter une relation
+        </button>
+        <button (click)="centerGraph()" class="btn-secondary">
+          <span class="icon">🎯</span> Recentrer
+        </button>
+        <select (change)="changeLayout($any($event.target).value)" [value]="graphConfig.layout" class="layout-select">
+          <option value="colaForceDirected">Force dirigée (Cola)</option>
+          <option value="d3ForceDirected">Force dirigée (D3)</option>
+          <option value="dagre">Hiérarchique</option>
+          <option value="dagreCluster">Clusters</option>
+        </select>
+      </div>
+    }
+
+    <!-- Graphe -->
+    <div class="graph-container">
+      @if (nodes.length > 0) {
+        <!-- Message informatif si seul le personnage actuel est présent -->
+        @if (nodes.length === 1 && isInEditMode()) {
+          <div class="info-banner">
+            <span class="icon">ℹ️</span>
+            <span>Ajoutez d'autres personnages pour créer des relations</span>
+          </div>
+        }
+        
+        <ngx-graph
+          class="relationship-graph"
+          [nodes]="nodes"
+          [links]="links"
+          [layout]="graphConfig.layout!"
+          [enableZoom]="graphConfig.zoomEnabled!"
+          [panOnZoom]="graphConfig.panEnabled!"
+          [animate]="graphConfig.animate!"
+          (select)="onNodeSelect($event)"
+        >
+          <!-- Template pour les nœuds -->
+          <ng-template #nodeTemplate let-node>
+            <svg:g class="node-wrapper">
+              <svg:circle
+                [attr.r]="30"
+                [attr.fill]="node.data.color"
+                [attr.stroke]="node.data.type === 'current' ? '#fbbf24' : '#374151'"
+                [attr.stroke-width]="node.data.type === 'current' ? 3 : 2"
+                class="node-circle"
+              />
+              <svg:text
+                [attr.fill]="'white'"
+                [attr.text-anchor]="'middle'"
+                [attr.dominant-baseline]="'middle'"
+                class="node-label"
+                font-size="12"
+              >
+                {{ node.label.substring(0, 10) }}{{ node.label.length > 10 ? '...' : '' }}
+              </svg:text>
+            </svg:g>
+          </ng-template>
+
+          <!-- Template pour les liens -->
+          <ng-template #linkTemplate let-link>
+            <svg:g class="edge">
+              <svg:path
+                class="edge-path"
+                [attr.stroke]="link.data.color"
+                [attr.stroke-width]="2"
+                [attr.marker-end]="link.data.isDirected ? 'url(#arrow)' : ''"
+              />
+              @if (graphConfig.showLabels && link.label) {
+                <svg:text
+                  class="edge-label"
+                  text-anchor="middle"
+                  font-size="10"
+                  [attr.fill]="'#374151'"
+                >
+                  {{ link.label }}
+                </svg:text>
+              }
+            </svg:g>
+          </ng-template>
+
+          <!-- Définition de la flèche pour les relations directionnelles -->
+          <svg:defs>
+            <svg:marker
+              id="arrow"
+              viewBox="0 0 10 10"
+              refX="8"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto"
+            >
+              <svg:path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" />
+            </svg:marker>
+          </svg:defs>
+        </ngx-graph>
+      } @else {
+        <div class="empty-state">
+          <p>Aucune relation définie</p>
+          @if (isInEditMode()) {
+            <button (click)="openAddNodeForm()" class="btn-primary">
+              Ajouter votre premier personnage
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Légende -->
+    <div class="legend">
+      <h4>Légende des nœuds</h4>
+      <div class="legend-items">
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #3b82f6;"></span>
+          <span>Votre personnage</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #10b981;"></span>
+          <span>Personnage joueur</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color: #6b7280;"></span>
+          <span>PNJ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal : Ajouter un nœud -->
+    @if (showAddNodeForm) {
+      <div class="modal-overlay" (click)="cancelAddNode()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Ajouter un personnage</h3>
+            <button (click)="cancelAddNode()" class="btn-close">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="nodeName">Nom *</label>
+              <input
+                id="nodeName"
+                type="text"
+                [(ngModel)]="newNode.label"
+                placeholder="Nom du personnage"
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="nodeType">Type *</label>
+              <select id="nodeType" [(ngModel)]="newNode.type" class="form-input">
+                <option [value]="CharacterNodeType.Player">Personnage joueur</option>
+                <option [value]="CharacterNodeType.NPC">PNJ</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="nodeOccupation">Occupation</label>
+              <input
+                id="nodeOccupation"
+                type="text"
+                [(ngModel)]="newNode.occupation"
+                placeholder="Occupation/Profession"
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="nodeDescription">Description</label>
+              <textarea
+                id="nodeDescription"
+                [(ngModel)]="newNode.description"
+                placeholder="Description du personnage"
+                class="form-input"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newNode.isAlive" />
+                En vie
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="cancelAddNode()" class="btn-secondary">Annuler</button>
+            <button (click)="addNode()" class="btn-primary" [disabled]="!newNode.label || !newNode.type">
+              Ajouter
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Modal : Ajouter une relation -->
+    @if (showAddEdgeForm) {
+      <div class="modal-overlay" (click)="cancelAddEdge()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Ajouter une relation</h3>
+            <button (click)="cancelAddEdge()" class="btn-close">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="edgeSource">De *</label>
+              <select id="edgeSource" [(ngModel)]="newEdge.source" class="form-input">
+                <option value="">-- Sélectionner --</option>
+                @for (node of relationshipGraph.nodes; track node.id) {
+                  <option [value]="node.id">{{ node.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="edgeTarget">Vers *</label>
+              <select id="edgeTarget" [(ngModel)]="newEdge.target" class="form-input">
+                <option value="">-- Sélectionner --</option>
+                @for (node of relationshipGraph.nodes; track node.id) {
+                  <option [value]="node.id">{{ node.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="edgeType">Type de relation *</label>
+              <select id="edgeType" [(ngModel)]="newEdge.type" class="form-input">
+                @for (type of relationshipTypes; track type) {
+                  <option [value]="type">{{ getRelationshipTypeLabel(type) }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="edgeLabel">Label</label>
+              <input
+                id="edgeLabel"
+                type="text"
+                [(ngModel)]="newEdge.label"
+                placeholder="ex: Meilleur ami, Frère, etc."
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="edgeDescription">Description</label>
+              <textarea
+                id="edgeDescription"
+                [(ngModel)]="newEdge.description"
+                placeholder="Description de la relation"
+                class="form-input"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="edgeStrength">Force de la relation (1-10): {{ newEdge.strength || 5 }}</label>
+              <input
+                id="edgeStrength"
+                type="range"
+                min="1"
+                max="10"
+                [(ngModel)]="newEdge.strength"
+                class="form-range"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newEdge.isDirected" />
+                Relation directionnelle (avec flèche)
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="cancelAddEdge()" class="btn-secondary">Annuler</button>
+            <button
+              (click)="addEdge()"
+              class="btn-primary"
+              [disabled]="!newEdge.source || !newEdge.target || !newEdge.type"
+            >
+              Ajouter
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Modal : Éditer un nœud -->
+    @if (showEditNodeForm && selectedNode) {
+      <div class="modal-overlay" (click)="closeEditNodeForm()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Éditer le personnage</h3>
+            <button (click)="closeEditNodeForm()" class="btn-close">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editNodeName">Nom</label>
+              <input
+                id="editNodeName"
+                type="text"
+                [(ngModel)]="selectedNode.label"
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editNodeOccupation">Occupation</label>
+              <input
+                id="editNodeOccupation"
+                type="text"
+                [(ngModel)]="selectedNode.occupation"
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editNodeDescription">Description</label>
+              <textarea
+                id="editNodeDescription"
+                [(ngModel)]="selectedNode.description"
+                class="form-input"
+                rows="3"
+              ></textarea>
+            </div>
+
+            @if (selectedNode.type !== CharacterNodeType.Current) {
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" [(ngModel)]="selectedNode.isAlive" />
+                  En vie
+                </label>
+              </div>
+            }
+          </div>
+          <div class="modal-footer">
+            @if (selectedNode.type !== CharacterNodeType.Current) {
+              <button (click)="deleteNode()" class="btn-danger">Supprimer</button>
+            }
+            <button (click)="closeEditNodeForm()" class="btn-secondary">Annuler</button>
+            <button (click)="updateNode()" class="btn-primary">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Modal : Éditer une relation -->
+    @if (showEditEdgeForm && selectedEdge) {
+      <div class="modal-overlay" (click)="closeEditEdgeForm()">
+        <div class="modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Éditer la relation</h3>
+            <button (click)="closeEditEdgeForm()" class="btn-close">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editEdgeType">Type de relation</label>
+              <select id="editEdgeType" [(ngModel)]="selectedEdge.type" class="form-input">
+                @for (type of relationshipTypes; track type) {
+                  <option [value]="type">{{ getRelationshipTypeLabel(type) }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="editEdgeLabel">Label</label>
+              <input
+                id="editEdgeLabel"
+                type="text"
+                [(ngModel)]="selectedEdge.label"
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editEdgeDescription">Description</label>
+              <textarea
+                id="editEdgeDescription"
+                [(ngModel)]="selectedEdge.description"
+                class="form-input"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="editEdgeStrength">Force de la relation (1-10): {{ selectedEdge.strength || 5 }}</label>
+              <input
+                id="editEdgeStrength"
+                type="range"
+                min="1"
+                max="10"
+                [(ngModel)]="selectedEdge.strength"
+                class="form-range"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="selectedEdge.isDirected" />
+                Relation directionnelle (avec flèche)
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="deleteEdge()" class="btn-danger">Supprimer</button>
+            <button (click)="closeEditEdgeForm()" class="btn-secondary">Annuler</button>
+            <button (click)="updateEdge()" class="btn-primary">Sauvegarder</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -63,14 +63,50 @@ export class CharacterService {
           scarsInjuries: char.scarsInjuries || '',
           phobiasManias: char.phobiasManias || '',
           occultTomes: char.occultTomes || '',
-          entityEncounters: char.entityEncounters || ''
+          entityEncounters: char.entityEncounters || '',
+          // Initialize relationships if not present (migration for old characters)
+          relationships: this.initializeRelationships(char)
         }));
         this.charactersSubject.next(characters);
+
+        // Save back to localStorage if any relationships were initialized
+        const needsSave = characters.some((char: any, index: number) => {
+          const original = JSON.parse(stored)[index];
+          return !original.relationships && char.relationships;
+        });
+        if (needsSave) {
+          this.saveCharacters(characters);
+        }
       }
     } catch (error) {
       console.error('Error loading characters:', error);
       this.charactersSubject.next([]);
     }
+  }
+
+  /**
+   * Initialize relationships for a character if not present
+   * Creates a single node representing the current player
+   */
+  private initializeRelationships(char: any): any {
+    if (char.relationships && char.relationships.nodes && char.relationships.nodes.length > 0) {
+      // Character already has relationships
+      return char.relationships;
+    }
+
+    // Create initial relationship graph with just the player node
+    return {
+      nodes: [{
+        id: char.id,
+        label: char.name,
+        type: 'current',
+        description: 'Votre personnage',
+        characterId: char.id,
+        occupation: char.occupation,
+        isAlive: true
+      }],
+      edges: []
+    };
   }
 
   private saveCharacters(characters: CharacterSheet[]): void {
@@ -291,6 +327,20 @@ export class CharacterService {
       phobiasManias: '',
       occultTomes: '',
       entityEncounters: '',
+
+      // Initialize relationships with the player node
+      relationships: {
+        nodes: [{
+          id: id,
+          label: characterData.name || 'New Character',
+          type: 'current',
+          description: 'Votre personnage',
+          characterId: id,
+          occupation: characterData.occupation || '',
+          isAlive: true
+        }],
+        edges: []
+      },
 
       createdAt: now,
       updatedAt: now,

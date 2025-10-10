@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, APP_INITIALIZER } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { TranslationService } from './services/translation.service';
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(),
+    provideAnimations(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,

@@ -264,6 +264,30 @@ export interface CharacterSheet {
   occultTomes: string;
   entityEncounters: string;
 
+  // Relationships
+  relationships?: {
+    nodes: Array<{
+      id: string;
+      label: string;
+      type: string;
+      description?: string;
+      characterId?: string;
+      occupation?: string;
+      isAlive?: boolean;
+    }>;
+    edges: Array<{
+      id: string;
+      source: string;
+      target: string;
+      label?: string;
+      type: string;
+      description?: string;
+      strength?: number;
+      isDirected?: boolean;
+      customTypeName?: string;
+    }>;
+  };
+
   // Meta
   createdAt: Date;
   updatedAt: Date;

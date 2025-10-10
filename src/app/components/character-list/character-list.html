@@ -12,10 +12,17 @@
       <h2 class="text-2xl text-cthulhu-dark mb-4">{{ 'character.management.title' | dynamicTranslate }}</h2>
       <p class="text-gray-600 mb-6">{{ 'character.management.subtitle' | dynamicTranslate }}</p>
       
-      <button (click)="createNewCharacter()" 
-              class="skill-check-button text-lg px-8 py-3">
-        {{ 'character.create.button' | dynamicTranslate }}
-      </button>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <button (click)="createNewCharacter()" 
+                class="skill-check-button text-lg px-8 py-3">
+          {{ 'character.create.button' | dynamicTranslate }}
+        </button>
+        
+        <button (click)="openImportModal()" 
+                class="bg-cthulhu-dark hover:bg-black text-parchment text-lg px-8 py-3 rounded transition-colors">
+          📥 {{ 'character.import.button' | dynamicTranslate }}
+        </button>
+      </div>
     </div>
 
     <!-- Character Grid -->
@@ -29,10 +36,18 @@
             <h3 class="text-xl font-bold text-cthulhu-dark">{{ character.name }}</h3>
             <p class="text-gray-600">{{ getOccupationName(character.occupation) }}</p>
           </div>
-          <button (click)="deleteCharacter(character, $event)" 
-                  class="text-red-600 hover:text-red-800 text-xl">
-            ×
-          </button>
+          <div class="flex gap-2">
+            <button (click)="exportCharacter(character, $event)" 
+                    class="text-blue-600 hover:text-blue-800 text-xl"
+                    [title]="'character.export.button' | dynamicTranslate">
+              ⬇
+            </button>
+            <button (click)="deleteCharacter(character, $event)" 
+                    class="text-red-600 hover:text-red-800 text-xl"
+                    [title]="'ui.actions.delete' | dynamicTranslate">
+              ×
+            </button>
+          </div>
         </div>
 
         <div class="space-y-2 text-sm">
@@ -75,10 +90,6 @@
       <div class="text-6xl mb-4">👤</div>
       <h3 class="text-xl font-semibold text-cthulhu-dark mb-2">{{ 'character.empty.title' | dynamicTranslate }}</h3>
       <p class="text-gray-600 mb-6">{{ 'character.empty.subtitle' | dynamicTranslate }}</p>
-      <button (click)="createNewCharacter()" 
-              class="skill-check-button">
-        {{ 'character.create.first' | dynamicTranslate }}
-      </button>
     </div>
 
     <!-- Footer -->
@@ -100,5 +111,13 @@
       [itemType]="'character'"
       (confirmationValidChange)="onDeleteConfirmationChange($event)">
     </app-delete-confirmation>
+  </app-modal>
+
+  <!-- Import Modal -->
+  <app-modal [isOpen]="showImportModal"
+             [title]="'character.import.title' | dynamicTranslate"
+             [type]="'dialog'"
+             (close)="closeImportModal()">
+    <app-character-import (importComplete)="onImportComplete()"></app-character-import>
   </app-modal>
 </div>

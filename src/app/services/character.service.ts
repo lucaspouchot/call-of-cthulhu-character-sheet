@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CharacterSheet, CharacterSheetCreate, Attribute, Sex, TemporaryModifier, SkillPointAllocation } from '../models/character.model';
 import { DEFAULT_SKILLS } from '../models/skills.model';
 import { AgeModifierService } from './age-modifier.service';
+import { CHARACTER_SCHEMA_VERSION } from '../models/character-schema';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class CharacterService {
       if (stored) {
         const characters = JSON.parse(stored).map((char: any) => ({
           ...char,
+          version: char.version || 1, // Default to version 1 if not present
           createdAt: new Date(char.createdAt),
           updatedAt: new Date(char.updatedAt),
           notes: char.notes || [], // Add notes array for backwards compatibility
@@ -212,6 +214,7 @@ export class CharacterService {
 
     const newCharacter: CharacterSheet = {
       id,
+      version: CHARACTER_SCHEMA_VERSION,
       name: characterData.name || 'New Character',
       player: characterData.player || '',
       occupation: characterData.occupation || '',

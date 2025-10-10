@@ -156,6 +156,9 @@ export interface StepValidation {
 }
 
 export interface CharacterSheet {
+  // Version for migration management
+  version: number; // Current version: 1
+
   // Basic Information
   id: string;
   name: string;

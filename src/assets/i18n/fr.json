@@ -28,6 +28,8 @@
       "done": "Terminé",
       "close": "Fermer",
       "ok": "OK",
+      "copy": "Copier",
+      "download": "Télécharger",
       "dragToReorder": "Glisser pour réordonner"
     },
     "validation": {
@@ -52,6 +54,42 @@
       "first": "Créer le Premier Investigateur"
     },
     "createdAt": "Créé le",
+    "lastModified": "Dernière modification",
+    "import": {
+      "button": "Importer un Personnage",
+      "title": "Importer un Personnage depuis YAML",
+      "fromFile": "Depuis un Fichier",
+      "fromText": "Depuis du Texte",
+      "selectFile": "Sélectionner un fichier YAML",
+      "pasteYaml": "Coller le Contenu YAML",
+      "importButton": "Importer",
+      "processing": "Traitement du fichier...",
+      "success": "Import Réussi",
+      "successMessage": "Personnage importé avec succès !",
+      "error": "Échec de l'Import",
+      "warnings": "Avertissements",
+      "conflict": {
+        "title": "Le Personnage Existe Déjà",
+        "message": "Un personnage avec cet ID existe déjà dans votre collection.",
+        "existing": "Personnage Existant",
+        "imported": "Personnage Importé",
+        "question": "Voulez-vous remplacer le personnage existant par celui importé ?"
+      }
+    },
+    "export": {
+      "button": "Exporter"
+    },
+    "yaml": {
+      "title": "Éditeur YAML",
+      "editor": "Éditeur YAML",
+      "edit": "Éditer YAML",
+      "view": "Voir YAML",
+      "copy": "Copier dans le Presse-papiers",
+      "download": "Télécharger YAML",
+      "valid": "Le YAML est valide",
+      "validationErrors": "Erreurs de Validation",
+      "help": "Vous pouvez voir et copier la représentation YAML de ce personnage. Importez-le plus tard ou partagez-le avec d'autres."
+    },
     "empty": {
       "title": "Aucun Investigateur",
       "subtitle": "Créez votre premier investigateur pour commencer à explorer l'inconnu..."

@@ -28,6 +28,8 @@
       "done": "Done",
       "close": "Close",
       "ok": "OK",
+      "copy": "Copy",
+      "download": "Download",
       "dragToReorder": "Drag to reorder"
     },
     "validation": {
@@ -52,6 +54,42 @@
       "first": "Create First Investigator"
     },
     "createdAt": "Created At",
+    "lastModified": "Last Modified",
+    "import": {
+      "button": "Import Character",
+      "title": "Import Character from YAML",
+      "fromFile": "From File",
+      "fromText": "From Text",
+      "selectFile": "Select YAML File",
+      "pasteYaml": "Paste YAML Content",
+      "importButton": "Import",
+      "processing": "Processing file...",
+      "success": "Import Successful",
+      "successMessage": "Character imported successfully!",
+      "error": "Import Failed",
+      "warnings": "Warnings",
+      "conflict": {
+        "title": "Character Already Exists",
+        "message": "A character with this ID already exists in your collection.",
+        "existing": "Existing Character",
+        "imported": "Imported Character",
+        "question": "Do you want to replace the existing character with the imported one?"
+      }
+    },
+    "export": {
+      "button": "Export"
+    },
+    "yaml": {
+      "title": "YAML Editor",
+      "editor": "YAML Editor",
+      "edit": "Edit YAML",
+      "view": "View YAML",
+      "copy": "Copy to Clipboard",
+      "download": "Download YAML",
+      "valid": "YAML is valid",
+      "validationErrors": "Validation Errors",
+      "help": "You can view and copy the YAML representation of this character. Import it later or share it with others."
+    },
     "empty": {
       "title": "No Investigators Yet",
       "subtitle": "Create your first investigator to begin exploring the unknown..."
